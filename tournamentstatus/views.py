@@ -16,8 +16,8 @@ def testpage(request):
 def rules(request):
 	return render(request, "rules.html", {})
 
-def player(request):
-	return render(request, "player.html", {})
+def players(request):
+	return render(request, "players.html", {})
 
 def schedule(request):
 	return render(request, "schedule.html", {})

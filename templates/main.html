@@ -1,1 +1,44 @@
 {% extends "base.html" %}
+{% block main %}
+    <div class="inner title">
+        <div class="notice">
+            <h2><span class="upcoming"><span class="highlight">Upcoming:</span> <a href="schedule/drafting.html">Drafting</a></span><br />
+            <span class="date">Jan 19, GMT 20</span></h2>
+        </div>
+        <nav class="left-menu">
+            <a href="{% url 'tournamentstatus.view.rules'}" role="button">Rules</a>
+            <a href="{% url 'tournamentstatus.view.schedule'}" role="button">Schedule</a>
+            <a href="{% url 'tournamentstatus.view.players'}" role="button">Players</a>
+        </nav>
+        <nav class="right-menu">
+            <a href="https://twitch.tv/Rhahi" role="button">Twitch</a>
+        </nav>
+    </div>
+    <div class="inner article">
+        <article>
+            <h3>Synopsis</h3>
+            <p>With the recent success of Io development, numerous governments and conglomerates are
+            announcing massive investments to build at much bigger scale than ever before.
+            There is big money out there; everybody wants their share of the pie.</p>
+            <p>Several companies have decided to work together to be able to compete against the giants.
+            However, you're not the one who came up with the same idea.
+            Now, we're facing similar-sized groups of allied companies, and you have to surpass before proceeding to the bigger market.
+            With hostile takeovers happening all over the place, not everybody will be able to secure their position in the upcoming business war.</p>
+            <p>Will you be able to secure your company's future and become the leading spacefaring company?
+            The good news is, whether you fail or not, a massive amount of retirement payment is guaranteed.</p>
+            
+            <h3>What is this tournament about?</h3>
+            <p>This tournament aims to provide learning opportunity for new players, encourage good plays,and a place for people to meet, practice, and play together.
+            Each day, special rules will be applied for certain plays.
+            In the <a href="schedule/day1.html">first day</a>, for example, the player who has gained the most amount of money from double-priced markets in the early game will be awarded some <a href="rules.html">additional point</a>.
+            These are designed to encourage good strategy or underutilized plays.</p>
+
+            <p>This is a team tournament. Players will be divided into 4 teams, and the team that earned the highest score gets the gold medal.
+            Main match format is 4-player-FFA, but 1v1 games can also be included.
+            This can give team experience where you can meet other community members, practice together, and cheer for your teammates.</p>
+            
+            <p>Players can pair up with one friend to sign up together. For those who are not used to DLC locations, they can choose to veto Ceres or Io.
+            They won't get matched in one of those locations if they do. While the number of 1v1 matches will be minimal, players can veto 1v1 format as well for the same reason.</p>
+        </article>
+    </div>
+{% endblock %}

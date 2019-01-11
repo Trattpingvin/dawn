@@ -13,4 +13,5 @@ def mainpage(request):
 def testpage(request):
 	return render(request, "test.html", {})
 
-
+def rules(request):
+	return render(request, "rules.html", {})

@@ -1,0 +1,7 @@
+@font-face {
+    /* This is a temporary font.
+       All Squarefont items will be replaced by images.*/
+    font-family: squarefont;
+    src: url("assets/fonts/Square.ttf");
+    font-style:normal;
+}

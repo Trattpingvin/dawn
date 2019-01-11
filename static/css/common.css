@@ -1,6 +1,6 @@
 html, body {
     margin: 0;
-    background: url("assets/img/starfield.png") no-repeat;
+    background: url("../img/starfield.png") no-repeat;
     background-color: #0D0D0D;
     background-attachment: fixed;
 }

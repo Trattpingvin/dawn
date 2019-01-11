@@ -8,13 +8,13 @@ main div.title {
     height: 800px;
     display: flex;
     position: relative;
-    background: url("assets/img/mars.jpg") no-repeat;
+    background: url("../img/mars.jpg") no-repeat;
     background-size: cover;
 }
 
 main div.sub {
     height: 200px;
-    background: url("assets/img/mars.jpg") no-repeat;
+    background: url("../img/mars.jpg") no-repeat;
     background-size: cover;
     background-position: center;
 }

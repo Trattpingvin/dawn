@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <link href="{% static 'css/common.css' %}" rel="stylesheet">
+        <link href="{% static 'css/main.css' %}" rel="stylesheet">
+        <link href="{% static 'css/pages.css' %}" rel="stylesheet">
+        <link href="{% static 'css/fontdef.css' %}" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat|Titillium+Web" rel="stylesheet"> 
+        <!-- TODO: change font -->
+        <link href="http://allfont.net/allfont.css?fonts=agency-fb" rel="stylesheet" type="text/css">
+        <title>{% block title %}The Martian Enterprise Tournament{% endblock title %}</title>
+    </head>
+    <body>
+        <header>
+            <h1>The Martian Enterprise Tournament</h1>
+        </header>
+        <main>
+            {% block main %}
+            {% endblock main %}
+        </main>
+        <footer>
+            <h4>Website designed by <a href="https://github.com/Rhahi">Rhahi</a> and <a href="https://github.com/Trattpingvin/">Trattpingvin</a></h4>
+        </footer>
+    </body>
+</html>

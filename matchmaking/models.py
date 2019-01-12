@@ -35,21 +35,25 @@ class Player(models.Model):
 class Match(models.Model):
 	LOCATIONS = [("M","Mars"), ("C", "Ceres"), ("I", "Io")]
 	location = models.CharField(choices=LOCATIONS, max_length = 6)
-	#result = models.ForeignKey(
+	winner = models.ForeignKey(Player, null=True, on_delete=models.CASCADE)
 	class Meta:
 		abstract=True
 
-class FFaMatch(models.Model):
+class OvOMatch(Match):
+	player1 = models.ForeignKey(Player, related_name="p1", on_delete=models.CASCADE)
+	player2 = models.ForeignKey(Player, related_name="p2", on_delete=models.CASCADE)
+
+class FFaMatch(Match):
 	player1 = models.ForeignKey(Player, related_name="player1", on_delete=models.CASCADE)
 	player2 = models.ForeignKey(Player, related_name="player2", on_delete=models.CASCADE)
 	player3 = models.ForeignKey(Player, related_name="player3", on_delete=models.CASCADE)
 	player4 = models.ForeignKey(Player, related_name="player4", on_delete=models.CASCADE)
-	LOCATIONS = [("M","Mars"), ("C", "Ceres"), ("I", "Io")]
-	location = models.CharField(choices=LOCATIONS, max_length = 6)
 
 class Award(models.Model):
 	player = models.ForeignKey(Player, on_delete=models.CASCADE)
 	match = models.ForeignKey(FFaMatch, on_delete=models.CASCADE)
-	AWARDS = [("A", "award name"), ("B", "award name 2")]
-	award = models.CharField(choices=AWARDS, max_length = 60)
+	AWARDS = [("A", "Keen eyes on their stuff"), ("B", "Outstanding Performances"),
+	("C", "Race for the initial markets"), ("D", "Eggs in multiple baskets"),
+	("E", "Commercial Meteorology Experiment"), ("F", "Mind Games")]
+	award = models.CharField(choices=AWARDS, max_length = 255)
 

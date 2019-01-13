@@ -8,17 +8,16 @@ main div.title {
     position: relative;
 }
 
-main div.mars {background: url("../img/mars.jpg") center no-repeat; background-size: cover;}
+main div.mars  {background: url("../img/mars.jpg") center no-repeat; background-size: cover;}
 main div.mars2 {background: url("../img/mars2.jpg") center no-repeat; background-size: cover;}
-main div.day1 {background: url("../img/day1.jpg") center no-repeat; background-size: cover;}
-main div.day2 {background: url("../img/day2.jpg") center no-repeat; background-size: cover;}
-main div.day3 {background: url("../img/day3.jpg") center no-repeat; background-size: cover;}
-main div.day4 {background: url("../img/day4.jpg") center no-repeat; background-size: cover;}
+main div.day1  {background: url("../img/day1.jpg") center no-repeat; background-size: cover;}
+main div.day2  {background: url("../img/day2.jpg") center no-repeat; background-size: cover;}
+main div.day3  {background: url("../img/day3.jpg") center no-repeat; background-size: cover;}
+main div.day4  {background: url("../img/day4.jpg") center no-repeat; background-size: cover;}
 main div.robot {background: url("../img/robot.jpg") center no-repeat; background-size: cover;}
 main div.platform {background: url("../img/platform2.jpg") center no-repeat; background-size: cover;}
 
-main div.big {height: 706px;}
-
+main div.big   {height: 706px;}
 main div.small {height: 200px;}
 /* main page - notice text */
 
@@ -33,13 +32,13 @@ nav.linear-menu {
     flex-direction: row;
 }
 nav.left-menu {
-    left: -50px;
     bottom: 100px;
+    left: -50px;
     position: absolute;
 }
 nav.right-menu {
-    right: -50px;
     bottom: 100px;
+    right: -50px;
     position: absolute;
 }
 nav.top-right-menu {

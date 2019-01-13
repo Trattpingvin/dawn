@@ -21,7 +21,7 @@ header h1 {
 
 h1 {font-size: 60px; font-family: 'squarefont'; margin:0;}
 h2 {font-size: 40px; font-family: 'squarefont'; margin:0;}
-h3 {font-size: 40px; font-family: 'Agency FB', 'Franklin Gothic Medium', sans-serif; margin: 10px 10px 5px 0px;}
+h3 {font-size: 30px; font-family: 'Staatliches', 'Franklin Gothic Medium', sans-serif; margin: 10px 10px 5px 0px;}
 h4 {font-size: 20px; font-family: 'Titillium Web', sans-serif; margin:0;}
 h5 {font-family: 'Montserrat', sans-serif;}
 a  {color:inherit; text-decoration: none; transition-duration:0.3s;}
@@ -29,6 +29,7 @@ a:hover {transition-duration: 0.3s;}
 li {font-size: 16px; margin-bottom: 5px;}
 p {margin-top: 0.2em;}
 a[role=button] {transition-duration:0.1s;}
+.self, .self:hover {background-color: #4C3224;} /* no-hover-effect hack for current page's button */
 
 .inner {
     width: 1000px;
@@ -38,8 +39,13 @@ a[role=button] {transition-duration:0.1s;}
     color:black;
 }
 
-.self, .self:hover {
-    background-color: #4C3224;
+hr {
+    border: none;
+    border-top: 3px double #4C3224;
+    color: #4C3224;
+    overflow: visible;
+    text-align: center;
+    height: 5px;
 }
 
 /* Footer Related */
@@ -65,25 +71,3 @@ footer h4 a {
 footer h4 a:hover {
     color:white;
 }
-
-hr {
-    border: none;
-    border-top: 3px double #4C3224;
-    color: #4C3224;
-    overflow: visible;
-    text-align: center;
-    height: 5px;
-}
-
-svg{
-    font: bold 50px 'Agency FB';
-    width: 100%;
-    height: 100px;
-  }
-  
-text {
-    fill: white;
-    stroke: black;
-    stroke-width:1px;
-    stroke-linejoin: round;
-  }

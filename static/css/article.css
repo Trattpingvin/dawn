@@ -21,3 +21,64 @@ main div.article {
     margin-top: 50px;
     background-color: #C07A54;
 }
+
+/* schedule list style */
+
+ul.schedule {
+    list-style:none;
+    padding-left:0;
+}
+
+ul.schedule li {
+    height: 50px;
+    display:flex;
+}
+
+ul.schedule li span {
+    margin: 0px 0 0px 5px;
+}
+
+ul.schedule li:nth-child(even) {
+    background-color:rgba(255,255,255,0.05);
+}
+
+ul.schedule li:nth-child(odd) {
+    background-color:rgba(255,255,255,0.10);
+}
+
+ul.schedule li:nth-child(even):hover {
+    background-color:rgba(255,255,255,0.15);
+}
+
+ul.schedule li:nth-child(odd):hover {
+    background-color:rgba(255,255,255,0.2);
+}
+
+ul.schedule li span.name {
+    font-family: Staatliches;
+    font-size: 40px;
+    width: 200px;
+    padding-left: 5px;
+    line-height: 50px;
+}
+
+ul.schedule li span.day {
+    width: 300px;
+    font-family: Staatliches;
+    line-height: 50px;
+}
+
+ul.schedule li span.day span.day-date {
+    font-size: 30px;
+    float:left;
+}
+
+ul.schedule li span.day span.day-time {
+    font-size: 20px;
+    float:right;
+    padding-right: 5px;
+}
+
+ul.schedule li span.matches{
+    width: 600px;
+}

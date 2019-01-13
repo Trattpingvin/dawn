@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %} Matchmaking {% endblock %}
+
+
+
+{% block main %}
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".match").click(function(event) {
+        $.get("{% url 'inspectmatch' %}"+event.target.id, function(data) {
+        	if(data == "OK") {
+        		window.location.href = "{% url 'showmatch' %}";
+        	}
+          else
+          {
+            alert(data);
+          }
+        });
+    });
+});
+</script>
+
+{% for match in matchlist %}
+    {% cycle 'row1' 'row2' as rowcolors silent %}
+    <div class="{{ rowcolors }} match" id="{{ match.id }}">{{ match.player1.name }} {{ match.player2.name }} {{ match.player3.name }} {{ match.player4.name }} </div>
+{% endfor %}
+
+{% endblock main %}

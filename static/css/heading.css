@@ -5,20 +5,19 @@ main {
 }
 
 main div.title {
-    height: 800px;
-    display: flex;
     position: relative;
     background: url("../img/mars.jpg") no-repeat;
-    background-size: cover;
-}
-
-main div.sub {
-    height: 200px;
-    background: url("../img/mars.jpg") no-repeat;
-    background-size: cover;
     background-position: center;
+    background-size: cover;
 }
 
+main div.big {
+    height: 700px;
+}
+
+main div.small {
+    height:200px;
+}
 /* main page - notice text */
 
 main div.notice {padding: 10px;}
@@ -28,15 +27,21 @@ main div.notice a {text-shadow:0px 0px 4px white;}
 main div.notice a:hover {color:rgb(0, 30, 128); text-shadow:0px 0px 4px rgba(255, 255, 255, 0.5);}
 
 /* main page - menu */
-
-nav {
-    display: block;
-    position: absolute;
-    margin-bottom: 100px;
-    align-self: flex-end;
+nav.linear-menu {
+    display:flex;
+    flex-direction: row;
 }
-nav.left-menu {left: -50px;}
-nav.right-menu {right: -50px;}
+
+nav.left-menu {
+    left: -50px;
+    bottom: 100px;
+    position: absolute;
+}
+nav.right-menu {
+    right: -50px;
+    bottom: 100px;
+    position: absolute;
+}
 nav.right-menu a {border-color: rgb(46, 33, 77); background-color:#4B367C;}
 nav.right-menu a:hover {background-color: rgb(59, 42, 97);}
 nav a {
@@ -44,7 +49,7 @@ nav a {
     display: block;
     width: 190px;
     height: 50px;
-    margin: 40px 0 0 0;
+    margin: 40px 10px 0 10px;
     border: solid 5px #4C3224;
     padding: auto;
 
@@ -58,7 +63,3 @@ nav a:hover{
     background-color: #100600;
 }
 
-main div.article {
-    margin-top: 50px;
-    background-color: #C07A54;
-}

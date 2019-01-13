@@ -21,3 +21,18 @@ def players(request):
 
 def schedule(request):
 	return render(request, "schedule.html", {})
+
+def day1(request):
+	return render(request, "day1.html", {})
+
+def day2(request):
+	return render(request, "day2.html", {})
+
+def day3(request):
+	return render(request, "day3.html", {})
+
+def day4(request):
+	return render(request, "day4.html", {})
+
+def workshop(request):
+	return render(request, "workshop.html", {})

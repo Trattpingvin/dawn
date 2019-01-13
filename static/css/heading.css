@@ -6,23 +6,24 @@ main {
 
 main div.title {
     position: relative;
-    background: url("../img/mars.jpg") no-repeat;
-    background-position: center;
-    background-size: cover;
 }
 
-main div.big {
-    height: 700px;
-}
+main div.mars {background: url("../img/mars.jpg") center no-repeat; background-size: cover;}
+main div.mars2 {background: url("../img/mars2.jpg") center no-repeat; background-size: cover;}
+main div.day1 {background: url("../img/day1.jpg") center no-repeat; background-size: cover;}
+main div.day2 {background: url("../img/day2.jpg") center no-repeat; background-size: cover;}
+main div.day3 {background: url("../img/day3.jpg") center no-repeat; background-size: cover;}
+main div.day4 {background: url("../img/day4.jpg") center no-repeat; background-size: cover;}
+main div.robot {background: url("../img/robot.jpg") center no-repeat; background-size: cover;}
+main div.platform {background: url("../img/platform2.jpg") center no-repeat; background-size: cover;}
 
-main div.small {
-    height:200px;
-}
+main div.big {height: 706px;}
+
+main div.small {height: 200px;}
 /* main page - notice text */
 
 main div.notice {padding: 10px;}
 main div.notice span.highlight {color:#790805;}
-main div.notice span.upcoming {font-size:50px;}
 main div.notice a {text-shadow:0px 0px 4px white;}
 main div.notice a:hover {color:rgb(0, 30, 128); text-shadow:0px 0px 4px rgba(255, 255, 255, 0.5);}
 
@@ -31,7 +32,6 @@ nav.linear-menu {
     display:flex;
     flex-direction: row;
 }
-
 nav.left-menu {
     left: -50px;
     bottom: 100px;
@@ -42,6 +42,17 @@ nav.right-menu {
     bottom: 100px;
     position: absolute;
 }
+nav.top-right-menu {
+    top: 0px;
+    right: -50px;
+    position: absolute;
+}
+nav.top-left-menu {
+    top: 0px;
+    left: -50px;
+    position: absolute;
+}
+
 nav.right-menu a {border-color: rgb(46, 33, 77); background-color:#4B367C;}
 nav.right-menu a:hover {background-color: rgb(59, 42, 97);}
 nav a {
@@ -62,4 +73,3 @@ nav a {
 nav a:hover{
     background-color: #100600;
 }
-

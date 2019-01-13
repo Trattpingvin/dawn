@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block main %}
+    <div class="inner title small robot">
+        <div class="notice">
+            <h1><span class="highlight">Players</span></h1>
+        </div>
+        <nav class="linear-menu">
+            <a href="{% url 'rules' %}" role="button">Rules</a>
+            <a href="{% url 'schedule' %}" role="button">Schedule</a>
+            <a href="{% url 'players' %}" role="button" class="self">Players</a>
+        </nav>
+    </div>
+    <div class="inner article">
+        <article>
+            <h3>501: Not Implemented!</h3>
+            This page is under construction, please visit us later.
+        </article>
+    </div>
+{% endblock %}

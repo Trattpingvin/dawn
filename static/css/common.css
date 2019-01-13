@@ -3,6 +3,7 @@ html, body {
     background: url("../img/starfield.png") no-repeat;
     background-color: #0D0D0D;
     background-attachment: fixed;
+    color: white;
 }
 
 header {
@@ -18,7 +19,7 @@ header h1 {
     color:white;
 }
 
-h1 {font-size: 60px; font-family: 'squarefont';}
+h1 {font-size: 60px; font-family: 'squarefont'; margin:0;}
 h2 {font-size: 40px; font-family: 'squarefont'; margin:0;}
 h3 {font-size: 40px; font-family: 'Agency FB', 'Franklin Gothic Medium', sans-serif; margin: 10px 10px 5px 0px;}
 h4 {font-size: 20px; font-family: 'Titillium Web', sans-serif; margin:0;}
@@ -34,6 +35,7 @@ a[role=button] {transition-duration:0.1s;}
     border: solid 5px #4C3224;
     margin-left: auto;
     margin-right: auto;
+    color:black;
 }
 
 .self, .self:hover {
@@ -63,3 +65,25 @@ footer h4 a {
 footer h4 a:hover {
     color:white;
 }
+
+hr {
+    border: none;
+    border-top: 3px double #4C3224;
+    color: #4C3224;
+    overflow: visible;
+    text-align: center;
+    height: 5px;
+}
+
+svg{
+    font: bold 50px 'Agency FB';
+    width: 100%;
+    height: 100px;
+  }
+  
+text {
+    fill: white;
+    stroke: black;
+    stroke-width:1px;
+    stroke-linejoin: round;
+  }

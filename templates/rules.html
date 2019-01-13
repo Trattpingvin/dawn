@@ -1,59 +1,74 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link href="common.css" rel="stylesheet">
-        <link href="main.css" rel="stylesheet">
-        <link href="pages.css" rel="stylesheet">
-        <link href="fontdef.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat|Titillium+Web" rel="stylesheet"> 
-        <link href="http://allfont.net/allfont.css?fonts=agency-fb" rel="stylesheet" type="text/css">
-        <title>The Martian Enterprise Tournament</title>
-    </head>
-    <body>
-        <header>
-            <h1>The Martian Enterprise Tournament</h1>
-        </header>
-        <main>
-            <div class="inner sub">
-                <div class="notice">
-                    <h2><span class="upcoming"><span class="highlight">Rules</span></span></h2>
-                </div>
-                <nav class="linear-menu">
-                    <a href="rules.html" role="button">Rules</a>
-                    <a href="schedule.html" role="button">Schedule</a>
-                    <a href="players.html" role="button">Players</a>
-                </nav>
-            </div>
-            <div class="inner article">
-                <article>
-                    <h3>Synopsis</h3>
-                    <p>With the recent success of Io development, numerous governments and conglomerates are
-                    announcing massive investments to build at much bigger scale than ever before.
-                    There is big money out there; everybody wants their share of the pie.</p>
-                    <p>Several companies have decided to work together to be able to compete against the giants.
-                    However, you're not the one who came up with the same idea.
-                    Now, we're facing similar-sized groups of allied companies, and you have to surpass before proceeding to the bigger market.
-                    With hostile takeovers happening all over the place, not everybody will be able to secure their position in the upcoming business war.</p>
-                    <p>Will you be able to secure your company's future and become the leading spacefaring company?
-                    The good news is, whether you fail or not, a massive amount of retirement payment is guaranteed.</p>
-                    
-                    <h3>What is this tournament about?</h3>
-                    <p>This tournament aims to provide learning opportunity for new players, encourage good plays,and a place for people to meet, practice, and play together.
-                    Each day, special rules will be applied for certain plays.
-                    In the <a href="schedule/day1.html">first day</a>, for example, the player who has gained the most amount of money from double-priced markets in the early game will be awarded some <a href="rules.html">additional point</a>.
-                    These are designed to encourage good strategy or underutilized plays.</p>
+{% extends "base.html" %}
+{% block main %}
+    <div class="inner title small">
+        <div class="notice">
+            <h2><span class="upcoming"><span class="highlight">Rules</span></span></h2>
+        </div>
+        <nav class="linear-menu">
+            <a href="{% url 'rules' %}" role="button" class="self">Rules</a>
+            <a href="{% url 'schedule' %}" role="button">Schedule</a>
+            <a href="{% url 'players' %}" role="button">Players</a>
+        </nav>
+    </div>
+    <div class="inner article">
+        <article>
+            <h2>About The Tournament</h2>
+            <h3>Tournament Time and Format</h3>
+            <p>The main matches will be held at weekends, GMT 19 (CET 20, EST 14), on Jan 26, Jan 27, Feb 2, and Feb 3. We expect to have 5-6 matches per game day, so it will last for 3 hours or more. The number of matches can be adjusted depending on available players. There will be at least one 1v1 match, but most of them will be FFA. All matches will be streamed at <a href="https://twitch.tv/rhahi">https://twitch.tv/rhahi</a></p>
 
-                    <p>This is a team tournament. Players will be divided into 4 teams, and the team that earned the highest score gets the gold medal.
-                    Main match format is 4-player-FFA, but 1v1 games can also be included.
-                    This can give team experience where you can meet other community members, practice together, and cheer for your teammates.</p>
-                    
-                    <p>Players can pair up with one friend to sign up together. For those who are not used to DLC locations, they can choose to veto Ceres or Io.
-                    They won't get matched in one of those locations if they do. While the number of 1v1 matches will be minimal, players can veto 1v1 format as well for the same reason.</p>
-                </article>
-            </div>
-        </main>
-        <footer>
-            <h4>Website designed by <a href="https://github.com/Rhahi">Rhahi</a> and <a href="https://github.com/Trattpingvin/">Trattpingvin</a></h4>
-        </footer>
-    </body>
-</html>
+            <h3>Forming Teams</h3>
+            <p>We will announce a vote for captains if we have more than 4 people who signed up as captains. We would like to do a live stream with captains choosing players, but if there are not enough captains available for the day, we will get a priority list from each captain and draft according to the list.</p>
+
+            <p>Captains without prior tournament records will start first (A), and the captain with the best records being last (D). Ties will be broken by coinflip. They will choose players using snake-draft method: A-B-C-D-D-C-B-A and so on. If the captain chose a player who had a partner, they have to choose both and forfeit the next draft round. If the captain had a partner, they have to forfeit the first round.</p>
+
+            <h3>Forming Matches</h3>
+            <p>We will assign matches taking each player's availability, brackets, vetos, and previous opponents into account. The match lineups will be announced at <a href="{% url 'index' %}">http://rhahi.com/martian-enterprise</a>, and we will contact everyone who is on the match lineup as well.</p>
+
+            <h3>Brackets and Stars</h3>
+            <p>We will divide players into several brackets. You will move between these brackets as you win or lose.
+            Everyone starts with 2 stars. Winners get 2 stars, and losers lose 1 star. If you get more than 3 stars, it will be reset to 1 and you will get to a higher bracket. If you lose stars below zero, you will get to a lower bracket and stars will be reset to 3.</p>
+            
+            <h2>Workshops</h2>
+            <p>We recommend every team to play their own practice matches and discuss strategies. However, it can sometimes be difficult to get enough people to get practice going. So, we will host practice sessions on weekdays. Those matches will also be streamed and commentated. We hope our commentary helps you learn more about Offworld Trading Company!</p>
+            <p><a href="{% url 'workshop' %}">Workshop sessions</a> will be held at GMT 20 (CET 21, EST 15), on Jan 23, Jan 24, Jan 30, and Jan 31. They will last for 2 hours. Everyone is welcome to join, whether they've signed up for the tournament or not.</p>
+            
+            <h2>Additional Rules</h2>
+            <h3>Game Rules</h3>
+            <ul>
+                <li>Games are played using standard multiplayer rules (reveal map, masquerade, random prices, etc.) They are the same rules applied to ranked FFA games.</li>
+                <li>You cannot concede unless there are 2 players left. Selling out the 5th stock to let someone buy you out easily also counts as conceding.</li>
+                <li>You cannot use in game chat until the game is over, unless it's related to technical issues or you're saying hi. (saying 'good luck', 'gg', 'I can't see build menu' is fine, but saying 'buy Asimov', 'help me' is not allowed.)</li>
+                <li>Don't watch or listen to our streams if you're playing in that game.</li>
+                <li>Do not auction off your Offworld Market.</li>
+                <li>If a player gets disconnected before a player levels up to HQ2, we will do a rematch immediately with a different seed. If it happens again, we will continue with the disconnect.</li>
+                <li>Rule breaks will be dealt with on a case by case basis</li>
+            </ul>
+            <h3>Daily Rules</h3>
+            <p>Each day, special rule(s) will be applied to the match for the day.</p>
+            <ul>
+                <li><h4><a href="{% url 'day1' %}">Day 1:</a> Race For the Initial Markets</h4>
+                At least 2 green prices on the market at the start of game.<br />
+                Additional 0.2 points will be awarded to the player who earned the most money from those markets by sol 3.</li>
+                <li><h4><a href="{% url 'day2' %}">Day 2:</a> Eggs in Multiple Baskets</h4>
+                At least 2 AOE attacks are available on black market.<br />
+                Players who don't have more than 4 tiles connected together at the end of the game are awarded 0.2 points.</li>
+                <li><h4><a href="{% url 'day3' %}">Day 3:</a> Commercial Meterology Experiment</h4>
+                Magnetic storms are available on black market.<br />
+                The player who has used the most amount of it will get an additional 0.2 points.</li>
+                <li><h4><a href="{% url 'day4' %}">Day 4:</a> Mind Games</h4>
+                Mutiny is available on the black market.<br />
+                Additional 0.2 points will be awarded for players who bounce destructive black market item(s)* on mutiny-gooned buildings.<br />
+                The player who buys the most amount of black market items will also get an additional 0.2 points.<br />
+                *(network virus or circuit overload do not count.)</li>
+            </ul>
+            <p>Along with the daily rule changes, these 2 rules will be applied for all the games throughout the tournament:</p>
+            <ul>
+                <li><h4>All Days: Keen Eyes On Their Stuff</h4>
+                Players who use Network Virus on unprofitable buildings are awarded 0.2 points.</li>
+
+                <li><h4>All Days: Outstanding Performance</h4>
+                If you win against a player who is on higher bracket*, you will get additional 0.2 points. (*using the bracket information before this day's match.)</li>
+            </ul>
+        </article>
+    </div>
+{% endblock %}

@@ -11,3 +11,12 @@ def index(request):
 	player = dawn.Player("name")
 	return HttpResponse(str(player))
 	return HttpResponse("Hello. I am an offworld matchmaker.")
+
+def gen_ffa_matches(request):
+	pass
+
+def gen_1v1_matches(request):
+	pass
+
+def remove_match():
+	pass

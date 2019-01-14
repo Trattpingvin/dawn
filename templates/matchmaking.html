@@ -6,12 +6,22 @@
 
 {% block main %}
 
+<div id="genmatches"> GENERATE MATCHES </div>
+
+
 <script type="text/javascript">
 $(document).ready(function() {
+  $("#genmatches").click(function(event)
+  {
+    $.post("% url 'genffa' %}"), function(data)
+    {
+      alert(data)
+    };
+  });
     $(".match").click(function(event) {
-        $.get("{% url 'inspectmatch' %}"+event.target.id, function(data) {
+        $.post("{% url 'inspectmatch' %}"+event.target.id, function(data) {
         	if(data == "OK") {
-        		window.location.href = "{% url 'showmatch' %}";
+        		window.location.href = "{% url 'inspectmatch' %}";
         	}
           else
           {

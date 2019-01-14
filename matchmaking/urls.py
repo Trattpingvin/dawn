@@ -1,7 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.urls import path
 from . import views
 
-TemplateView.as_view(template_name="")
 urlpatterns = [
 	path('', login_required(views.MainView.as_view()), name='matchmaking-root'),
 	path('genffa', login_required(views.GenMatchesView.as_view()), name='genffa'),

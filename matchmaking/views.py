@@ -1,3 +1,4 @@
+from django.views import View
 from django.shortcuts import render
 from django.http import HttpResponse
 import sys
@@ -10,7 +11,7 @@ import dawnotc.matchmaking
 class MainView(ListView):
 	model = FFaMatch
 
-class GenMatchesView(View)
+class GenMatchesView(View):
 	def post():
 		amount = 5
 		all_players = Player.objects.all()
@@ -38,8 +39,8 @@ class MatchView(View):
 		return render(request, "matchmaking.html", {"matchlist":[dummy_match]})
 
 	def post():
-	if not match_id:
-		return HttpResponse("no match given")
-	result = FFaMatch.objects.filter(id=match_id)
-	if result: return HttpResponse(result[0])
-	else: return HttpResponse("Error")
+		if not match_id:
+			return HttpResponse("no match given")
+		result = FFaMatch.objects.filter(id=match_id)
+		if result: return HttpResponse(result[0])
+		else: return HttpResponse("Error")

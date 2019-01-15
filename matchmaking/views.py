@@ -48,15 +48,15 @@ class RemoveMatch(DeleteView):
     model = FFaMatch
 
 class MatchView(View):
-    def get(self, request, match_id):
-        dummy_t1 = Team(name="t1")
-        dummy_t2 = Team(name="t2")
-        dummy_t3 = Team(name="t3")
-        dummy_t4 = Team(name="t4")
-        dummy_p1 = Player(name="p1", team=dummy_t1, bracket=2, stars=2, preference=0, availability=15)
-        dummy_p2 = Player(name="p2", team=dummy_t2, bracket=2, stars=2, preference=0, availability=15)
-        dummy_p3 = Player(name="p3", team=dummy_t3, bracket=2, stars=2, preference=0, availability=15)
-        dummy_p4 = Player(name="p4", team=dummy_t4, bracket=2, stars=2, preference=0, availability=15)
+    def get(self, request, match_id=None):
+        dummy_t1 = Team(name="Alpacas")
+        dummy_t2 = Team(name="Beltalawda")
+        dummy_t3 = Team(name="Circus")
+        dummy_t4 = Team(name="Donkeys")
+        dummy_p1 = Player(name="Asimov", team=dummy_t1, bracket=2, stars=2, preference=0, availability=15)
+        dummy_p2 = Player(name="Bradbury", team=dummy_t2, bracket=2, stars=2, preference=0, availability=15)
+        dummy_p3 = Player(name="Clarke", team=dummy_t3, bracket=2, stars=2, preference=0, availability=15)
+        dummy_p4 = Player(name="Herbert", team=dummy_t4, bracket=2, stars=2, preference=0, availability=15)
         dummy_ffa_match = FFaMatch(player1=dummy_p1, player2=dummy_p2, player3=dummy_p3, player4=dummy_p4, location="M", winner=dummy_p2)
         dummy_1v1_match = OvOMatch(player1=dummy_p1, player2=dummy_p2, location="M", winner=dummy_p2)
         return render(request, "matchmaking/detail.html", {"object_list":[dummy_ffa_match, dummy_1v1_match]})

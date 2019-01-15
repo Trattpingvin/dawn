@@ -52,8 +52,10 @@ nav.top-left-menu {
     position: absolute;
 }
 
-nav.right-menu a {border-color: rgb(46, 33, 77); background-color:#4B367C;}
-nav.right-menu a:hover {background-color: rgb(59, 42, 97);}
+nav.right-menu a.discord {border-color: #292B2F; background-color:#7289DA;}
+nav.right-menu a.discord:hover {background-color: #6A7FCB;}
+nav.right-menu a.twitch {border-color: rgb(46, 33, 77); background-color:#4B367C;}
+nav.right-menu a.twitch:hover {background-color: rgb(59, 42, 97);}
 nav a {
     background-color: #2B160B; /* Visualizing for test*/
     display: block;

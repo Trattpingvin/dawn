@@ -18,9 +18,25 @@ article h2 {
     color: #790805;
 }
 main div.article {
-    margin-top: 50px;
+    margin-top: 30px;
     background-color: #C07A54;
 }
+
+/* Match lineups */
+div.match div.location {
+    font-size: 24px;
+    font-family: Staatliches;
+}
+
+div.match .participant {
+    font-size: 20px;
+    font-family: Titillium Web;
+    font-weight: bold;
+    color: black;
+}
+
+div.match .winner {color: gold;}
+div.match .not-winner {color: black;}
 
 /* schedule list style */
 
@@ -40,21 +56,15 @@ ul.schedule li span {
     margin: 0px 0 0px 5px;
 }
 
-ul.schedule li:nth-child(even) {
-    background-color:rgba(255,255,255,0.05);
-}
+ul.schedule li:nth-child(even) {background-color:rgba(255,255,255,0.05);}
+ul.schedule li:nth-child(odd) {background-color:rgba(255,255,255,0.10);}
+ul.schedule li:nth-child(even):hover {background-color:rgba(255,255,255,0.15);}
+ul.schedule li:nth-child(odd):hover {background-color:rgba(255,255,255,0.2);}
+.row1 {background-color:rgba(255,255,255,0.10);}
+.row2 {background-color:rgba(255,255,255,0.05);}
+.row1:hover {background-color:rgba(255,255,255,0.2);}
+.row2:hover {background-color:rgba(255,255,255,0.15);}
 
-ul.schedule li:nth-child(odd) {
-    background-color:rgba(255,255,255,0.10);
-}
-
-ul.schedule li:nth-child(even):hover {
-    background-color:rgba(255,255,255,0.15);
-}
-
-ul.schedule li:nth-child(odd):hover {
-    background-color:rgba(255,255,255,0.2);
-}
 
 ul.schedule li span.name {
     font-family: Staatliches;

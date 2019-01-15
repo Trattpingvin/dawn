@@ -15,20 +15,11 @@ $(document).ready(function() {
   {
     $.post("{% url 'genffa' %}"), function(data)
     {
-      alert(data)
+      alert(data+"enddata");
     };
   });
     $(".match").click(function(event) {
-        $.get("{% url 'inspectmatch' %}"+event.target.id, function(data) {
-        	if(data == "OK") {
-        		window.location.href = "{% url 'inspectmatch' %}";
-        	}
-          else
-          {
-            alert(data);
-          }
-        });
-    });
+       		window.location.replace = "{% url 'inspectmatch' %}";});
 });
 </script>
 

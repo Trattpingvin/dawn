@@ -31,7 +31,9 @@ ul.schedule {
 
 ul.schedule li {
     height: 50px;
+    line-height: 50px;
     display:flex;
+    font-family: Staatliches;
 }
 
 ul.schedule li span {
@@ -60,20 +62,16 @@ ul.schedule li span.name {
     width: 200px;
     padding-left: 5px;
     line-height: 50px;
+    color: #790805;
 }
 
-ul.schedule li span.day {
-    width: 400px;
-    font-family: Staatliches;
-    line-height: 50px;
-}
-
-ul.schedule li span.day span.day-date {
+ul.schedule li span.day-date {
     font-size: 30px;
     float:left;
+    width: 200px;
 }
 
-ul.schedule li span.day span.day-time {
+ul.schedule li span.day-time {
     font-size: 20px;
     float:right;
     padding-right: 5px;
@@ -81,4 +79,11 @@ ul.schedule li span.day span.day-time {
 
 ul.schedule li span.matches{
     width: 600px;
+}
+
+ul.schedule li a {
+    display:block;
+    width:100%;
+    color: inherit;
+    text-shadow: inherit;
 }

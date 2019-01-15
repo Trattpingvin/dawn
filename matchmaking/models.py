@@ -33,6 +33,7 @@ class Player(models.Model):
 	availability = models.IntegerField(validators = [validate_availability])
 
 class Match(models.Model):
+	day = models.IntegerField()
 	LOCATIONS = [("M","Mars"), ("C", "Ceres"), ("I", "Io")]
 	location = models.CharField(choices=LOCATIONS, max_length = 6)
 	winner = models.ForeignKey(Player, null=True, on_delete=models.CASCADE)

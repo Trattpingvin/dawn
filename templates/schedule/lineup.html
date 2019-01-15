@@ -1,0 +1,30 @@
+<div class="inner article lineup">
+    <h3>501: Not Implemented!</h3>
+    This page is under construction, please visit us later.
+    
+    {% for x in FFA %}
+    <div class="match">
+        {{ x.get_location_display }}
+        {% if x.player1 == x.winner %}
+            <div class="participant winner">{{ x.player1.name }}</div>
+            {% else %}
+            <div class="participant not-winner">{{ x.player1.name }}</div>
+        {% endif %}
+        {% if x.player2 == x.winner %}
+            <div class="participant winner">{{ x.player2.name }}</div>
+            {% else %}
+            <div class="participant not-winner">{{ x.player2.name }}</div>
+        {% endif %}
+        {% if x.player3 == x.winner %}
+            <div class="participant winner">{{ x.player3.name }}</div>
+            {% else %}
+            <div class="participant not-winner">{{ x.player3.name }}</div>
+        {% endif %}
+        {% if x.player4 == x.winner %}
+            <div class="participant winner">{{ x.player4.name }}</div>
+            {% else %}
+            <div class="participant not-winner">{{ x.player4.name }}</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from matchmaking.models import *
+from tournament.models import *
 
 
 admin.site.register(Player)

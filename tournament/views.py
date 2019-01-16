@@ -1,21 +1,34 @@
+
 from django.views import View
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-import sys
-from django.contrib.admin.views.decorators import staff_member_required
-from matchmaking.models import *
-from django.views.generic import ListView, DeleteView
+from django.views.generic import DeleteView
 import dawnotc.matchmaking as dm
 import dawnotc.classes as dc
+from django.views.generic import TemplateView
+from tournament.models import *
+# Create your views here.
+
+
+class DayView(TemplateView):
+    day = None
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["FFA"] = FFaMatch.objects.filter(day = self.day)
+        context["1v1"] = OvOMatch.objects.filter(day = self.day)
+
+        return context
 
 
 class MainView(View):
     def get(self, request):
         return render(request, 'matchmaking/matchmaking.html', {"object_list":FFaMatch.objects.all()})
 
+
 class GenMatchesView(View):
     def post(self, request):
-        #matchmaking method was designed with a different format in mind. let's convert to that format before
+        # matchmaking method was designed with a different format in mind. let's convert to that format before
         # using it
         day = 1
         amount = 2
@@ -23,19 +36,19 @@ class GenMatchesView(View):
         for p in Player.objects.all():
             dmp = dc.Player(p.name, p.bracket, 0, p.team.id)
             dmp.availability = p.availability
-            #TODO doesn't care about preference yet
-            #TODO get matches assigned and played
+            # TODO doesn't care about preference yet
+            # TODO get matches assigned and played
             dawnplayers[p.name] = dmp
         result = dm.generate_matches(dawnplayers, amount, day)
         for match in result:
             djangoplayers = []
             for p in match.players:
-                djangoplayers.append(Player.objects.filter(name=p.name))
+                djangoplayers.append(get_object_or_404(Player, name=p.name))
             m = FFaMatch(day=day, location="M")
-            m.player1 = list(djangoplayers[0])[0]
-            m.player2 = list(djangoplayers[1])[0]
-            m.player3 = list(djangoplayers[2])[0]
-            m.player4 = list(djangoplayers[3])[0]
+            m.player1 = djangoplayers[0]
+            m.player2 = djangoplayers[1]
+            m.player3 = djangoplayers[2]
+            m.player4 = djangoplayers[3]
             m.save()
 
         #return render(request, "matchmaking/matchmaking.html", {"object_list":result})
@@ -44,8 +57,10 @@ class GenMatchesView(View):
     def get(self, request):
         return HttpResponse("How did this happen?")
 
+
 class RemoveMatch(DeleteView):
     model = FFaMatch
+
 
 class MatchView(View):
     def get(self, request, match_id=None):

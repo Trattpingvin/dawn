@@ -69,11 +69,11 @@ div.match ul li {
     list-style-type: '- ';
 }
 
-div.match .winner {color: gold;}
-
-div.match div.location {
-    display:block;
-}
+.winner {font-weight:bold;}
+.team1 {color:black;}
+.team2 {color:black;}
+.team3 {color:black;}   
+.team4 {color:black;}
 
 /* schedule list style */
 

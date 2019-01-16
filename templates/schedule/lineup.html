@@ -16,27 +16,27 @@
                 <hr>
                 <ul>
                     {% if x.player1 == x.winner %}
-                    <li class="winner">{{ x.player1.name }}</li>
+                    <li class="winner team1">{{ x.player1.name }}</li>
                     {% else %}
-                    <li>{{ x.player1.name }}</li>
+                    <li class="team1">{{ x.player1.name }}</li>
                     {% endif %}
 
                     {% if x.player2 == x.winner %}
-                    <li class="winner">{{ x.player2.name }}</li>
+                    <li class="winner team2">{{ x.player2.name }}</li>
                     {% else %}
-                    <li>{{ x.player2.name }}</li>
+                    <li class="team2">{{ x.player2.name }}</li>
                     {% endif %}
 
                     {% if x.player3 == x.winner %}
-                    <li class="winner">{{ x.player3.name }}</li>
+                    <li class="winner team3">{{ x.player3.name }}</li>
                     {% else %}
-                    <li>{{ x.player3.name }}</li>
+                    <li class="team3">{{ x.player3.name }}</li>
                     {% endif %}
 
                     {% if x.player4 == x.winner %}
-                    <li class="winner">{{ x.player4.name }}</li>
+                    <li class="winner team4">{{ x.player4.name }}</li>
                     {% else %}
-                    <li>{{ x.player4.name }}</li>
+                    <li class="team4">{{ x.player4.name }}</li>
                     {% endif %}
                 </ul>
             </div>

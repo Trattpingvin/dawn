@@ -1,30 +1,50 @@
-<div class="inner article lineup">
-    <h3>501: Not Implemented!</h3>
-    This page is under construction, please visit us later.
-    
-    {% for x in FFA %}
-    <div class="match">
-        {{ x.get_location_display }}
-        {% if x.player1 == x.winner %}
-            <div class="participant winner">{{ x.player1.name }}</div>
-            {% else %}
-            <div class="participant not-winner">{{ x.player1.name }}</div>
-        {% endif %}
-        {% if x.player2 == x.winner %}
-            <div class="participant winner">{{ x.player2.name }}</div>
-            {% else %}
-            <div class="participant not-winner">{{ x.player2.name }}</div>
-        {% endif %}
-        {% if x.player3 == x.winner %}
-            <div class="participant winner">{{ x.player3.name }}</div>
-            {% else %}
-            <div class="participant not-winner">{{ x.player3.name }}</div>
-        {% endif %}
-        {% if x.player4 == x.winner %}
-            <div class="participant winner">{{ x.player4.name }}</div>
-            {% else %}
-            <div class="participant not-winner">{{ x.player4.name }}</div>
-        {% endif %}
-    </div>
-    {% endfor %}
+
+<div class="inner article">
+    <article>
+        <h3>Under Construction!</h3>
+        This page is under construction, please visit us later.<br />
+        <hr>
+        <h2>Match Lineups</h2>
+        <div class="lineup">
+            {% for x in FFA %}
+            
+            <div class="match">
+                <div class="match-title">
+                    <span class="match-num">Round {{ forloop.counter }}: </span>
+                    <span class="location">{{ x.get_location_display }}</span>
+                </div>
+                <hr>
+                <ul>
+                    {% if x.player1 == x.winner %}
+                    <li class="winner">{{ x.player1.name }}</li>
+                    {% else %}
+                    <li>{{ x.player1.name }}</li>
+                    {% endif %}
+
+                    {% if x.player2 == x.winner %}
+                    <li class="winner">{{ x.player2.name }}</li>
+                    {% else %}
+                    <li>{{ x.player2.name }}</li>
+                    {% endif %}
+
+                    {% if x.player3 == x.winner %}
+                    <li class="winner">{{ x.player3.name }}</li>
+                    {% else %}
+                    <li>{{ x.player3.name }}</li>
+                    {% endif %}
+
+                    {% if x.player4 == x.winner %}
+                    <li class="winner">{{ x.player4.name }}</li>
+                    {% else %}
+                    <li>{{ x.player4.name }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+        <p>
+            First round starts at <b>19 GMT</b>.<br />
+            Each matches are expected to last 20-30 minutes and following matches will start as soon as possible!
+        </p>
+    </article>
 </div>

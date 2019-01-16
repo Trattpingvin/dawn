@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block main %}
     <div class="inner title small robot">
+        <div class="notice">
+                <h1><span class="highlight">Drafting</span></h1>
+        </div>
         <nav class="top-right-menu">
             <a href="{% url 'schedule' %}" role="button">Schedule</a>
         </nav>
@@ -8,8 +11,25 @@
     </div>
     <div class="inner article">
         <article>
-            <h3>501: Not Implemented!</h3>
-            This page is under construction, please visit us later.
+            <h3>What is drafting?</h3>
+            Martian Enterprise Tournament is a team tournament, and drafting is the process we form a team.
+            Volunteered captains will choose the players they want for their team.
+            Drafting process will be streamed live, and captains can participate in drafting process live or via pre-written priority list.
+
+            <h3>I am a captain. How do I join drafting?</h3>
+            There are two ways to join drafting. First, you can join us live at the announced time.
+            You can join us in voice call or in twitch chat.
+            Alternatively, you can send us the list of players you want to pick in order and let us pick using the list.
+            This way, you won't be able to react to other captain's choices, but you don't have to be available for the drafting day.
+            You can find participating players' information at a glance in this <a href="https://docs.google.com/spreadsheets/d/1OeNn012pWXMDYSfHO91g8whs3aFgAqv3zKo8LSs9TSg">spreadsheet</a>.
+
+            <h3>How is captain elected?</h3>
+            Only volunteered players can be captains. If there are more than 4 captain signups, then they have to go through voting process.
+            However, if there are not enough of them, we may randomly choose from players who showed willingness to run as a captain but did not give us a firm intention.
+
+            <hr>
+            <h3>Drafting result</h3>
+            This section will be updated after drafting day!
         </article>
     </div>
 {% endblock %}

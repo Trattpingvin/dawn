@@ -23,20 +23,57 @@ main div.article {
 }
 
 /* Match lineups */
-div.match div.location {
+div.lineup {
+    display: flex;
+    flex-direction: row;
+}
+
+div.match div.match-title {
+    text-align:center;
+}
+
+div.match-title span.match-num {
+    font-size: 28px;
+    font-family: Staatliches;
+    color: #790805;
+}
+
+div.match-title span.location {
     font-size: 24px;
     font-family: Staatliches;
 }
 
-div.match .participant {
-    font-size: 20px;
-    font-family: Titillium Web;
-    font-weight: bold;
+div.match {
+    flex-grow: 1;
+    margin: 5px -4px 5px 0;
+    padding: 5px;
+    max-width: 200px;
+    overflow:hidden;
+    font-family: 'Titillium Web';
     color: black;
+
+    background-color: rgba(255,255,255,0.1);
+    border: 4px rgba(0,0,0,0.5);
+    border-style: solid dashed solid dashed;
+}
+div.match:hover {background-color: rgba(255, 255, 255, 0.15);}
+
+
+div.match ul {
+    padding: 0 0 0 15px;
+    margin: 0;
+}
+
+div.match ul li {
+    font-size: 18px;
+    list-style-type: '- ';
 }
 
 div.match .winner {color: gold;}
-div.match .not-winner {color: black;}
+
+div.match div.location {
+    display:block;
+}
 
 /* schedule list style */
 

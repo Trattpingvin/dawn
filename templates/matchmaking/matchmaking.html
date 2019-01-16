@@ -13,18 +13,20 @@
 $(document).ready(function() {
   $("#genmatches").click(function(event)
   {
-    $.post("{% url 'genffa' %}"), function(data)
+    $.post("{% url 'genffa' %}"), null, function(data)
     {
-      alert(data+"enddata");
+      console.log(data);
+      //window.location.replace = data;      
     };
   });
     $(".match").click(function(event) {
-       		window.location.replace = "{% url 'inspectmatch' %}";});
+       		window.location.replace = "{% url 'inspectmatch' %}"+event.data.id;});
 });
 </script>
 
 {% for match in object_list %}
     {% cycle 'row1' 'row2' as rowcolors silent %}
+    //TODO can we make a tag for this? also, add a remove button
     <div class="{{ rowcolors }} match" id="{{ match.id }}">{{ match.player1.name }} {{ match.player2.name }} {{ match.player3.name }} {{ match.player4.name }} </div>
 {% endfor %}
 

@@ -27,7 +27,7 @@ class MainView(View):
 
 
 class GenMatchesView(View):
-    def post(self, request):
+    def post(self, request, amount=2):
         # matchmaking method was designed with a different format in mind. let's convert to that format before
         # using it
 
@@ -35,7 +35,6 @@ class GenMatchesView(View):
 
         # TODO implement 1v1 matchmaking
         day = 1
-        amount = 2
         dawnplayers = {}
         db_players = Player.objects.all()
         if len(db_players)<4: raise Http404("Not enough players in the database to generate a match")
@@ -83,7 +82,7 @@ class MatchView(View):
         dummy_p1 = Player(name="Asimov", team=dummy_t1, bracket=2, stars=2, preference=7, availability=15)
         dummy_p2 = Player(name="Bradbury", team=dummy_t2, bracket=2, stars=2, preference=7, availability=15)
         dummy_p3 = Player(name="Clarke", team=dummy_t3, bracket=2, stars=2, preference=7, availability=15)
-        dummy_p4 = Player(name="Herbert", team=dummy_t4, bracket=2, stars=2, preference=7, availability=15)
+        dummy_p4 = Player(name="Heinlein", team=dummy_t4, bracket=2, stars=2, preference=7, availability=15)
         dummy_ffa_match = FFaMatch(player1=dummy_p1, player2=dummy_p2, player3=dummy_p3, player4=dummy_p4, location="M", winner=dummy_p2)
         dummy_1v1_match = OvOMatch(player1=dummy_p1, player2=dummy_p2, location="M", winner=dummy_p2)
         return render(request, "matchmaking/detail.html", {"object_list":[dummy_ffa_match, dummy_1v1_match]})

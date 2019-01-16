@@ -21,6 +21,7 @@ urlpatterns += [
 	path('matchmaking/', login_required(views.MainView.as_view()), name='matchmaking-root'),
     path('martian-enterprise/matchmaking/', login_required(views.MainView.as_view()), name='matchmaking-root'),
     path('martian-enterprise/matchmaking/genffa', login_required(views.GenMatchesView.as_view()), name='genffa'),
+    path('martian-enterprise/matchmaking/genffa/<int:amount>', login_required(views.GenMatchesView.as_view()), name='genffa'),
     path('martian-enterprise/matchmaking/gen1v1', login_required(views.GenMatchesView.as_view()), name='gen1v1'),
     path('martian-enterprise/matchmaking/removematch/<int:match_id>', login_required(views.RemoveMatch.as_view()), name='removematch'),
     path('martian-enterprise/matchmaking/removematch/', login_required(views.RemoveMatch.as_view()), name='removematch'),

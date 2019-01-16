@@ -55,7 +55,7 @@ class Match(models.Model):
     winner = models.ForeignKey(Player, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "Match on "+location+" on day "+day #list players too? feels like it would become too big
+        return "Match on "+self.get_location_display()+" on day "+day #list players too? feels like it would become too big. also not sure how this works with subclassing
 
     class Meta:
         abstract=True
@@ -85,5 +85,5 @@ class Award(models.Model):
     award = models.CharField(choices=AWARDS, max_length = 255)
 
     def __str__(self):
-        return self.player +": "+award 
+        return self.player +": "+self.get_award_display() 
 

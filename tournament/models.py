@@ -41,12 +41,26 @@ class Player(models.Model):
     def is_available(self, day):
         #day should be in range 1-4, determines if this player is available that day
         flags = [None, 0b1, 0b10, 0b100, 0b1000]
-        return bool(availability&flags[day])
+        return bool(self.availability & flags[day])
 
-    def get_matches(self):
-        qs = FFaMatch.objects.filter(has_player(self))
-        qs.union(OvOMatch.objects.filter(has_player(self)))
+    def get_matches(self): #i'm not sure i'm happy with this
+        qs = FFaMatch.objects.filter(
+            player1=self
+        ).union(FFaMatch.objects.filter(
+            player2=self
+        )).union(FFaMatch.objects.filter(
+            player3=self
+        )).union(FFaMatch.objects.filter(
+            player4=self
+        ))
+        qs.union(OvOMatch.objects.filter(
+            player1=self
+        ).union(OvOMatch.objects.filter(
+            player2=self
+        )))
+
         return qs
+
 
 class Match(models.Model):
     day = models.IntegerField()
@@ -55,17 +69,19 @@ class Match(models.Model):
     winner = models.ForeignKey(Player, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "Match on "+self.get_location_display()+" on day "+day #list players too? feels like it would become too big. also not sure how this works with subclassing
+        return "Match on "+self.get_location_display()+" on day "+str(self.day) #list players too? feels like it would become too big. also not sure how this works with subclassing
 
     class Meta:
         abstract=True
+
 
 class OvOMatch(Match):
     player1 = models.ForeignKey(Player, related_name="p1", on_delete=models.CASCADE)
     player2 = models.ForeignKey(Player, related_name="p2", on_delete=models.CASCADE)
 
     def has_player(self, p):
-        return player1==p or player2==p
+        return self.player1==p or self.player2==p
+
 
 class FFaMatch(Match):
     player1 = models.ForeignKey(Player, related_name="player1", on_delete=models.CASCADE)
@@ -74,7 +90,7 @@ class FFaMatch(Match):
     player4 = models.ForeignKey(Player, related_name="player4", on_delete=models.CASCADE)
 
     def has_player(self, p):
-        return player1==p or player2==p or player3==p or player4==p
+        return self.player1==p or self.player2==p or self.player3==p or self.player4==p
 
 class Award(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)

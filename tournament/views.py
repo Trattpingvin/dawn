@@ -1,7 +1,7 @@
 
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 from django.views.generic import DeleteView
 import dawnotc.matchmaking as dm
 import dawnotc.classes as dc
@@ -15,8 +15,8 @@ class DayView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["FFA"] = FFaMatch.objects.get_list_or_404(day = self.day)
-        context["1v1"] = OvOMatch.objects.get_list_or_404(day = self.day)
+        context["FFA"] = FFaMatch.objects.filter(day = self.day)
+        context["1v1"] = OvOMatch.objects.filter(day = self.day)
 
         return context
 
@@ -30,15 +30,12 @@ class GenMatchesView(View):
     def post(self, request, amount=2):
         # matchmaking method was designed with a different format in mind. let's convert to that format before
         # using it
-
-
-
         # TODO implement 1v1 matchmaking
         # TODO implement location choosing in matchmaking
         day = 1
         dawnplayers = {}
         db_players = Player.objects.all()
-        if len(db_players)<4: raise Http404("Not enough players in the database to generate a match")
+        if len(db_players)<4: return HttpResponse("Not enough players in the database to generate a match")
         for p in db_players:
             dmp = dc.Player(p.name, p.bracket, 0, p.team.id)
             dmp.availability = p.availability
@@ -63,8 +60,12 @@ class GenMatchesView(View):
             m.player4 = djangoplayers[3]
             m.save()
 
-        #return render(request, "matchmaking/matchmaking.html", {"object_list":result})
+        return HttpResponse("OK")
         return redirect('matchmaking-root')
+
+        #return render(request, "matchmaking/matchmaking.html", {"object_list":result})
+
+
 
     def get(self, request):
         return HttpResponse("How did this happen?")
@@ -76,17 +77,22 @@ class RemoveMatch(DeleteView):
 
 class MatchView(View):
     def get(self, request, match_id=None):
-        dummy_t1 = Team(name="Alpacas")
-        dummy_t2 = Team(name="Beltalawda")
-        dummy_t3 = Team(name="Circus")
-        dummy_t4 = Team(name="Donkeys")
-        dummy_p1 = Player(name="Asimov", team=dummy_t1, bracket=2, stars=2, preference=7, availability=15)
-        dummy_p2 = Player(name="Bradbury", team=dummy_t2, bracket=2, stars=2, preference=7, availability=15)
-        dummy_p3 = Player(name="Clarke", team=dummy_t3, bracket=2, stars=2, preference=7, availability=15)
-        dummy_p4 = Player(name="Heinlein", team=dummy_t4, bracket=2, stars=2, preference=7, availability=15)
-        dummy_ffa_match = FFaMatch(player1=dummy_p1, player2=dummy_p2, player3=dummy_p3, player4=dummy_p4, location="M", winner=dummy_p2)
-        dummy_1v1_match = OvOMatch(player1=dummy_p1, player2=dummy_p2, location="M", winner=dummy_p2)
-        return render(request, "matchmaking/detail.html", {"object_list":[dummy_ffa_match, dummy_1v1_match]})
+
+        if match_id:
+            ans = get_object_or_404(FFaMatch, id=match_id);
+        else:
+            dummy_t1 = Team(name="Alpacas")
+            dummy_t2 = Team(name="Beltalawda")
+            dummy_t3 = Team(name="Circus")
+            dummy_t4 = Team(name="Donkeys")
+            dummy_p1 = Player(name="Asimov", team=dummy_t1, bracket=2, stars=2, preference=7, availability=15)
+            dummy_p2 = Player(name="Bradbury", team=dummy_t2, bracket=2, stars=2, preference=7, availability=15)
+            dummy_p3 = Player(name="Clarke", team=dummy_t3, bracket=2, stars=2, preference=7, availability=15)
+            dummy_p4 = Player(name="Heinlein", team=dummy_t4, bracket=2, stars=2, preference=7, availability=15)
+            dummy_ffa_match = FFaMatch(player1=dummy_p1, player2=dummy_p2, player3=dummy_p3, player4=dummy_p4, location="M", winner=dummy_p2)
+            dummy_1v1_match = OvOMatch(player1=dummy_p1, player2=dummy_p2, location="M", winner=dummy_p2)
+            ans = dummy_ffa_match
+        return render(request, "matchmaking/detail.html", {"object_list": [ans]})
 
     def post(self, request):
         return HttpResponse("how did this happen?")

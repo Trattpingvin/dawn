@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 def validate_preference(val):
 #preference is 3 bit value. bit order 0x1 = mars, 0x10 = ceres, 0x100 = io
-#bit 1 means veto
+#bit 0 means veto
     if val<0 or val>7:
         raise ValidationError("%(val)s is not a valid preference", params={'value':val})
 
@@ -17,6 +17,9 @@ def validate_availability(val):
 
 class Team(models.Model):
     name = models.CharField(max_length = 128)
+
+    def __str__(self):
+        return self.name
 
 class Tournament(models.Model):
     team1 = models.ForeignKey(Team, related_name="team1", on_delete=models.CASCADE)
@@ -32,23 +35,62 @@ class Player(models.Model):
     preference = models.IntegerField(validators = [validate_preference])
     availability = models.IntegerField(validators = [validate_availability])
 
+    def __str__(self):
+        return self.name
+
+    def is_available(self, day):
+        #day should be in range 1-4, determines if this player is available that day
+        flags = [None, 0b1, 0b10, 0b100, 0b1000]
+        return bool(self.availability & flags[day])
+
+    def get_matches(self): #i'm not sure i'm happy with this
+        qs = FFaMatch.objects.filter(
+            player1=self
+        ).union(FFaMatch.objects.filter(
+            player2=self
+        )).union(FFaMatch.objects.filter(
+            player3=self
+        )).union(FFaMatch.objects.filter(
+            player4=self
+        ))
+        qs.union(OvOMatch.objects.filter(
+            player1=self
+        ).union(OvOMatch.objects.filter(
+            player2=self
+        )))
+
+        return qs
+
+
 class Match(models.Model):
     day = models.IntegerField()
     LOCATIONS = [("M","Mars"), ("C", "Ceres"), ("I", "Io")]
     location = models.CharField(choices=LOCATIONS, max_length = 6)
     winner = models.ForeignKey(Player, null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Match on "+self.get_location_display()+" on day "+str(self.day) #list players too? feels like it would become too big. also not sure how this works with subclassing
+
     class Meta:
         abstract=True
+
 
 class OvOMatch(Match):
     player1 = models.ForeignKey(Player, related_name="p1", on_delete=models.CASCADE)
     player2 = models.ForeignKey(Player, related_name="p2", on_delete=models.CASCADE)
+
+    def has_player(self, p):
+        return self.player1==p or self.player2==p
+
 
 class FFaMatch(Match):
     player1 = models.ForeignKey(Player, related_name="player1", on_delete=models.CASCADE)
     player2 = models.ForeignKey(Player, related_name="player2", on_delete=models.CASCADE)
     player3 = models.ForeignKey(Player, related_name="player3", on_delete=models.CASCADE)
     player4 = models.ForeignKey(Player, related_name="player4", on_delete=models.CASCADE)
+
+    def has_player(self, p):
+        return self.player1==p or self.player2==p or self.player3==p or self.player4==p
 
 class Award(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
@@ -57,4 +99,7 @@ class Award(models.Model):
     ("C", "Race for the initial markets"), ("D", "Eggs in multiple baskets"),
     ("E", "Commercial Meteorology Experiment"), ("F", "Mind Games")]
     award = models.CharField(choices=AWARDS, max_length = 255)
+
+    def __str__(self):
+        return self.player +": "+self.get_award_display() 
 

@@ -2,7 +2,7 @@
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
-from django.views.generic import DeleteView
+from django.views.generic import DeleteView, ListView
 import dawnotc.matchmaking as dm
 import dawnotc.classes as dc
 from django.views.generic import TemplateView
@@ -19,6 +19,20 @@ class DayView(TemplateView):
         context["1v1"] = OvOMatch.objects.filter(day = self.day)
 
         return context
+
+class PlayerView(View):
+    def get(self, request, player_id=None):
+        if player_id:
+            ans = get_object_or_404(Player, id=player_id)
+        else:
+            return HttpResponse("Player not chosen")
+
+        return render(request, "playerdetail.html", {"player": ans})
+
+class PlayersView(ListView):
+    template = "players.html"
+    model = Player
+    #not sure why i made this class. in case we need something extra I guess?
 
 
 class MainView(View):

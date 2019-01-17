@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 {% block main %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".player").click(function(event) {
+            let url = "{% url 'inspectplayer' %}"+event.target.id;
+            console.log(url);
+            $.get(url, function(data){
+                alert("success");
+                //update .player_detail with data
+                $("#"+event.target.id).innerText = data;
+            });
+        });
+    });
+</script>
     <div class="inner title small robot">
         <div class="notice">
             <h1><span class="highlight">Players</span></h1>
@@ -14,6 +27,12 @@
         <article>
             <h3>501: Not Implemented!</h3>
             This page is under construction, please visit us later.
+            <div id="player_all">
+            {% for player in object_list %}
+            <div class="player" id="{{player.id}}">{{player.name}}</div>
+            {% endfor %}
+        </div>
+        <div id="player_detail"></div>
         </article>
     </div>
 {% endblock %}

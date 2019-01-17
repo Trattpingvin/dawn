@@ -67,6 +67,7 @@ class Match(models.Model):
     LOCATIONS = [("M","Mars"), ("C", "Ceres"), ("I", "Io")]
     location = models.CharField(choices=LOCATIONS, max_length = 6)
     winner = models.ForeignKey(Player, null=True, on_delete=models.CASCADE)
+    notes = models.CharField(max_length = 1024, default="")
 
     def __str__(self):
         return "Match on "+self.get_location_display()+" on day "+str(self.day) #list players too? feels like it would become too big. also not sure how this works with subclassing

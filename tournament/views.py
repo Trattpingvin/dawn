@@ -72,6 +72,7 @@ class GenMatchesView(View):
             m.player2 = djangoplayers[1]
             m.player3 = djangoplayers[2]
             m.player4 = djangoplayers[3]
+            m.notes = "\n".join(match.notes)
             m.save()
 
         return HttpResponse("OK")

@@ -1,0 +1,4 @@
+Asimov 1 2 2 7 15
+Bradbury 2 2 2 7 15
+Clarke 3 2 2 7 15
+Heinlein 4 2 2 7 15

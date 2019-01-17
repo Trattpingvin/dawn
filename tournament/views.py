@@ -67,7 +67,7 @@ class GenMatchesView(View):
             djangoplayers = []
             for p in match.players:
                 djangoplayers.append(get_object_or_404(Player, name=p.name))
-            m = FFaMatch(day=day, location="M")
+            m = FFaMatch(day=day, location=match.location)
             m.player1 = djangoplayers[0]
             m.player2 = djangoplayers[1]
             m.player3 = djangoplayers[2]

@@ -22,9 +22,9 @@ class DayView(TemplateView):
 
 
 class PlayerView(View):
-    def get(self, request, player_id=None):
-        if player_id:
-            ans = get_object_or_404(Player, id=player_id)
+    def get(self, request, player_name=None):
+        if player_name:
+            ans = get_object_or_404(Player, name=player_name)
         else:
             return HttpResponse("Player not chosen")
 
@@ -32,7 +32,7 @@ class PlayerView(View):
 
 
 class PlayersView(ListView):
-    template = "players.html"
+    template_name = "players.html"
     model = Player
     #not sure why i made this class. in case we need something extra I guess?
 

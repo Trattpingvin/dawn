@@ -3,12 +3,11 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $(".player").click(function(event) {
-            let url = "{% url 'inspectplayer' %}"+event.target.id;
-            console.log(url);
+            let url = "{% url 'inspectplayer' %}/"+event.target.id;
             $.get(url, function(data){
-                alert("success");
+                alert(data);
                 //update .player_detail with data
-                $("#"+event.target.id).innerText = data;
+                $("#player_detail").innerText = data;
             });
         });
     });
@@ -29,7 +28,7 @@
             This page is under construction, please visit us later.
             <div id="player_all">
             {% for player in object_list %}
-            <div class="player" id="{{player.id}}">{{player.name}}</div>
+            <div class="player" id="{{ player.pk }}">{{ player.name }}</div>
             {% endfor %}
         </div>
         <div id="player_detail"></div>

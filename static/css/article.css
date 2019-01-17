@@ -30,6 +30,12 @@ div.lineup {
 
 div.match div.match-title {
     text-align:center;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+div.match hr {
+    margin: -3px 0 0 0;
 }
 
 div.match-title span.match-num {
@@ -46,34 +52,35 @@ div.match-title span.location {
 div.match {
     flex-grow: 1;
     margin: 5px -4px 5px 0;
-    padding: 5px;
+    
     max-width: 200px;
     overflow:hidden;
     font-family: 'Titillium Web';
     color: black;
 
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(54, 57, 63, 0.6);
     border: 4px rgba(0,0,0,0.5);
     border-style: solid dashed solid dashed;
 }
-div.match:hover {background-color: rgba(255, 255, 255, 0.15);}
+div.match:hover {background-color: rgba(54, 57, 63, 0.5);}
 
 
 div.match ul {
-    padding: 0 0 0 15px;
+    padding: 0 0 0 20px;
     margin: 0;
 }
 
 div.match ul li {
-    font-size: 18px;
+    font-size: 20px;
     list-style-type: '- ';
 }
 
 .winner {font-weight:bold;}
-.team1 {color:black;}
-.team2 {color:black;}
-.team3 {color:black;}   
-.team4 {color:black;}
+.team1 {color:#3498DB;}
+.team2 {color:#1F8B4C;}
+.team3 {color:#E67E22;}   
+.team4 {color:#9B59B6;}
+.team1, .team2, .team3, .team4 {text-shadow: 0px 0px 2px #36393F;}
 
 /* schedule list style */
 
@@ -97,10 +104,6 @@ ul.schedule li:nth-child(even) {background-color:rgba(255,255,255,0.05);}
 ul.schedule li:nth-child(odd) {background-color:rgba(255,255,255,0.10);}
 ul.schedule li:nth-child(even):hover {background-color:rgba(255,255,255,0.15);}
 ul.schedule li:nth-child(odd):hover {background-color:rgba(255,255,255,0.2);}
-.row1 {background-color:rgba(255,255,255,0.10);}
-.row2 {background-color:rgba(255,255,255,0.05);}
-.row1:hover {background-color:rgba(255,255,255,0.2);}
-.row2:hover {background-color:rgba(255,255,255,0.15);}
 
 
 ul.schedule li span.name {

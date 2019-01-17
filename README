@@ -1,1 +1,3 @@
 Django 2.1.4 project
+
+Needs https://github.com/Trattpingvin/DawnOTC in your path. (submodules are a pain - should maybe do this through PIP though? One day...)

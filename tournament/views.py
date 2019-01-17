@@ -20,6 +20,7 @@ class DayView(TemplateView):
 
         return context
 
+
 class PlayerView(View):
     def get(self, request, player_id=None):
         if player_id:
@@ -28,6 +29,7 @@ class PlayerView(View):
             return HttpResponse("Player not chosen")
 
         return render(request, "playerdetail.html", {"player": ans})
+
 
 class PlayersView(ListView):
     template = "players.html"

@@ -1,11 +1,9 @@
-from tournament.models import Player
+from tournament.models import Player, Team
 
 def populate_player_database(filename):
 	with open(filename) as f:
 		for line in f:
 
-			import pdb
-			pdb.set_trace()
 			stripline = line.strip()
 			splitline = stripline.split(' ')
 			p = Player(*splitline)
@@ -13,4 +11,5 @@ def populate_player_database(filename):
 
 def populate_team_database():
 	teams = ["Asteroid Alpacas", "Belters", "Circus", "Donkeys"]
-	# TODO finish this
+	for team in teams:
+		Team(name=team).save()

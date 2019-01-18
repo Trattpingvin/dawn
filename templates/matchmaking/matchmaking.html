@@ -33,13 +33,21 @@ $(document).ready(function() {
 
        		window.location.href = url;
     });
+    $(".btn-delete").click(function(event)
+      {
+        let url = "{% url 'inspectmatch' %}"+event.target.id;
+        $.get(url, function(data)
+          {
+            console.log("answer from get "+url)
+            console.log(data);
+          });
+      });
 });
 </script>
 
     <ul class="alternate" id="matches">
         {% for match in object_list %}
-        //TODO can we make an include for this? also, add a remove button
-        <li class="match" id="{{ match.id }}"> {{ match.player1.name }} {{ match.player2.name }} {{ match.player3.name }} {{ match.player4.name }} </li>
+        <li class="match" id="{{ match.id }}"> {{ match.player1.name }} {{ match.player2.name }} {{ match.player3.name }} {{ match.player4.name }} <button type="button" class="btn-delete" id="{{ match.id }}">Delete</button></li>
         {% endfor %}
     </ul>
 

@@ -81,12 +81,12 @@ div#player-all {
 div#player-detail {
     float: right;
     background-color: gold;
-    width: 45%;
+    width: 54%;
     min-height: 50px;
 }
 
-div#player-all ul {padding-left: 0;}
-
+div#player-all > ul {padding-left: 0;}
+div#player-all > ul > li.example {background-color: rgba(255, 255, 255, 0.5);}
 li.player {
     list-style: none;
     font-size: 18px;
@@ -95,30 +95,30 @@ li.player {
     padding: 3px;
 }
 
-li.player div.name-wrapper {
+li.player > div.name-wrapper {
     width: 200px;
     margin-right: 10px;
     overflow: hidden;
 }
-li.player div.name-wrapper div.discord-name {font-size: 14px;}
+li.player > div.name-wrapper > div.discord-name {font-size: 14px;}
 
-li.player div.score {
+li.player > div.score {
     margin-right: 10px;
     width: 50px;
 }
 
-li.player div.bracket {
+li.player > div.bracket {
     margin-right: 10px;
     width: 75px;
     text-align: center;
 }
 
-li.player div.stars {
+li.player > div.stars {
     width: 50px;
     text-align: center;
 }
 
-div.stars-text {
+li.player > div.stars-text {
     font-family: Titillium Web;
     font-size: 30px;
     max-height: 30px;

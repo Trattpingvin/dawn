@@ -30,8 +30,6 @@ li {font-size: 16px; margin-bottom: 5px;}
 p {margin-top: 0.2em;}
 a[role=button] {transition-duration:0.1s;}
 .self, .self:hover {background-color: #4C3224;} /* no-hover-effect hack for current page's button */
-.white {color:white;}
-.grey {color:grey;}
 .inner {
     width: 1000px;
     border: solid 5px #4C3224;

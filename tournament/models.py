@@ -29,7 +29,8 @@ class Tournament(models.Model):
 
 
 class Player(models.Model):
-    name = models.CharField(primary_key=True, max_length = 40)
+    name = models.CharField(primary_key=True, max_length=60)
+    discordname = models.CharField(max_length=60, null=True)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     bracket = models.IntegerField()
     stars = models.IntegerField()

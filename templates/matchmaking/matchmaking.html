@@ -35,7 +35,7 @@ $(document).ready(function() {
     });
     $(".btn-delete").click(function(event)
       {
-        let url = "{% url 'inspectmatch' %}"+event.target.id;
+        let url = "{% url 'removematch' %}"+event.target.id;
         $.get(url, function(data)
           {
             console.log("answer from get "+url)

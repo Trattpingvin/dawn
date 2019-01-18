@@ -65,7 +65,22 @@ class Player(models.Model):
     def get_num_matches(self):
         return len(self.get_matches())
 
+    # this code is untested
+    def get_wins(self):
+        qs = self.get_matches()
+        wins = 0
+        losses = 0
+        for m in qs:
+            if m.winner == self: wins += 1
+            else: losses += 1
+
+        assert(wins + losses == len(qs))
+        return wins, losses 
+
     def get_awards(self):
+        #it should return total score as first parameter,
+        #followed by awards details using name-value pair.
+        #for getting the rest, should use mylist|slice"1:"
         raise NotImplementedError()
 
 

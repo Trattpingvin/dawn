@@ -79,10 +79,8 @@ class Player(models.Model):
         return wins, losses 
 
     def get_awards(self):
-        #it should return total score as first parameter,
-        #followed by awards details using name-value pair.
-        #for getting the rest, should use mylist|slice"1:"
-        raise NotImplementedError()
+        return Award.objects.filter(player=self)
+        
 
 
 class Match(models.Model):
@@ -96,7 +94,7 @@ class Match(models.Model):
         return self.get_location_display()+", day "+str(self.day)+": "
 
     def get_awards(self):
-        raise NotImplementedError()
+        return Award.objects.filter(match=self)
 
     class Meta:
         abstract=True

@@ -3,7 +3,7 @@ from tournament.models import Player, Team
 def populate_player_database(filename):
 	with open(filename) as f:
 		for line in f:
-
+			# TODO change input format to CSV
 			stripline = line.strip()
 			splitline = stripline.split(' ')
 			p = Player(*splitline)

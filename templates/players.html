@@ -5,9 +5,10 @@
         $(".player").click(function(event) {
             let url = "{% url 'inspectplayer' %}/"+event.target.id;
             $.get(url, function(data){
-                alert(data);
+
                 //update .player_detail with data
-                $("#player_detail").innerText = data;
+                $("#player_detail").text(data);
+                
             });
         });
     });
@@ -31,7 +32,7 @@
             <div class="player" id="{{ player.pk }}">{{ player.name }}</div>
             {% endfor %}
         </div>
-        <div id="player_detail"></div>
+        <div id="player_detail" style="background-color: gold;">asdfsdf</div>
         </article>
     </div>
 {% endblock %}

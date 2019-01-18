@@ -79,6 +79,9 @@ class Match(models.Model):
     def __str__(self):
         return self.get_location_display()+", day "+str(self.day)+": "
 
+    def get_awards(self):
+        raise NotImplementedError()
+
     class Meta:
         abstract=True
 
@@ -91,7 +94,7 @@ class OvOMatch(Match):
         return self.player1 == p or self.player2 == p
 
     def __str__(self):
-        ans = super().__str__(self)
+        ans = super().__str__()
         ans += self.player1.name+", "+self.player2.name
         return ans
 
@@ -106,7 +109,7 @@ class FFaMatch(Match):
         return self.player1 == p or self.player2 == p or self.player3 == p or self.player4 == p
 
     def __str__(self):
-        ans = super().__str__(self)
+        ans = super().__str__()
         ans += self.player1.name+", "+self.player2.name+", "+self.player3.name+", "+self.player4.name
         return ans
 

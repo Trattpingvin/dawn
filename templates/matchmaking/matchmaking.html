@@ -36,11 +36,11 @@ $(document).ready(function() {
 });
 </script>
 
-    <ul class="schedule" id="matches">
-{% for match in object_list %}
-    //TODO can we make an include for this? also, add a remove button
-    <li class="match" id="{{ match.id }}"> {{ match.player1.name }} {{ match.player2.name }} {{ match.player3.name }} {{ match.player4.name }} </li>
-{% endfor %}
+    <ul class="alternate" id="matches">
+        {% for match in object_list %}
+        //TODO can we make an include for this? also, add a remove button
+        <li class="match" id="{{ match.id }}"> {{ match.player1.name }} {{ match.player2.name }} {{ match.player3.name }} {{ match.player4.name }} </li>
+        {% endfor %}
     </ul>
 
 {% endblock main %}

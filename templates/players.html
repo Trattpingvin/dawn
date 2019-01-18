@@ -26,12 +26,49 @@
         <article>
             <h3>501: Not Implemented!</h3>
             This page is under construction, please visit us later.
-            <div id="player_all">
-            {% for player in object_list %}
-            <div class="player" id="{{ player.pk }}">{{ player.name }}</div>
-            {% endfor %}
-        </div>
-        <div id="player_detail"></div>
+            <hr>
+            <div id="player-all">
+                <ul class="alternate">
+                    <li class="player example" style="background-color: rgba(255, 255, 255, 0.5);">
+                        <div class="name-wrapper">
+                            <div class="steam-name">Name</div>
+                            <div class="discord-name">(discord name)</div>
+                        </div>
+                        <div class="score">Score</div>
+                        <div class="bracket">Bracket</div>
+                        <div class="stars">Stars</div>
+                    </li>
+                    <!-- TODO: sort using team -->
+                    <!-- FIXME: sub elements blocking ID click effect -->
+                    {% for player in object_list %}
+                    <li class="player" id="{{ player.pk }}">
+                        <div class="name-wrapper">
+                            <div class="steam-name">{{ player.name }}</div>
+                            <!-- this section should be enabled after nickname becomes available
+                            {% if player.name2 %}
+                            <div class="discord-name">({{ player.name2}})</div>
+                            {% endif %}
+                            -->
+                        </div>
+                        <!-- TODO: how to get score? -->
+                        <div class="score"></div>
+                        <div class="bracket">{{ player.bracket}}</div>
+                        <div class="stars stars-text">
+                            <!-- hack -->
+                            {% with ''|center:3 as range %}
+                            <span class="full-stars">
+                                {% for _ in range %}{% if forloop.counter0 == player.stars %}</span><span class="empty-stars">{% endif %}*{% endfor %}
+                            {% endwith %}
+                            </span>
+                            <!-- endhack; had to remove newlines due to space between stars-->
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="player-detail">
+                
+            </div>
         </article>
     </div>
 {% endblock %}

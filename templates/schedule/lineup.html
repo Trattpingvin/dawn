@@ -7,10 +7,9 @@
         <h2>Match Lineups</h2>
         <div class="lineup">
             {% for x in FFA %}
-            
-            <div class="match">
+            <div class="match" id="{{ x.id }}">
                 <div class="match-title">
-                    <span class="match-num">Round {{ forloop.counter }}: </span>
+                    <span class="match-num">Round {{ forloop.counter }}:</span><br />
                     <span class="location">{{ x.get_location_display }}</span>
                 </div>
                 <hr>
@@ -41,6 +40,54 @@
                 </ul>
             </div>
             {% endfor %}
+        </div>
+        <!-- I will need some kind of javascript to make tab display work -->
+        <div class="lineup">
+            {% for x in FFA %}
+            <div class="match-arrow" id="{{ x.id }}"></div>
+            {% endfor %}
+        </div>
+        <div class="match-details">
+            <!--
+                Each round should have these information:
+                    round location 
+                    players > score awards winner-highlight
+            -->
+            <div class="match-title">
+                <span class="match-num">Round X</span><br />
+                <span class="location">CERES</span>
+            </div>
+            <div class="match-content">
+                <!-- for loop starts here -->
+                <div>
+                    <div class="match-player">
+                        <!-- I want to show team color too -->
+                        <span class="name team1">Player's Name</span>
+                        <span class="discord-name">(Quite Long Discord Name)</span>
+                        <span class="score right">SCORE_THIS_MATCH</span>
+                    </div>
+                    <div class="match-stats">
+                        <div class="match-stats-text">
+                            <div>Bracket:</div>
+                            <div>Star:</div>
+                        </div>
+                        <div class="match-stats-num">
+                            <!-- player's stat at the time and their stat changes -->
+                            <!-- ^ requires change in model. Maybe just use current stats? -->
+                            <div>BRACKET_NUM (DIFF)</div>
+                            <!-- fancy star using *** will require another hack -->
+                            <div>STAR_NUM (DIFF)</div>
+                        </div>
+                        <div class="match-stats-awards right">
+                            <!-- conditional for victory -->
+                            <div>Victorious: 1.0</div>
+                            <!-- for loop for awards -->
+                            <div>Quite Long Award Name Has Arrived: 0.2</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- for loop ends -->
+            </div>
         </div>
         <p>
             First round starts at <b>19 GMT</b>.<br />

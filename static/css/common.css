@@ -30,7 +30,8 @@ li {font-size: 16px; margin-bottom: 5px;}
 p {margin-top: 0.2em;}
 a[role=button] {transition-duration:0.1s;}
 .self, .self:hover {background-color: #4C3224;} /* no-hover-effect hack for current page's button */
-
+.white {color:white;}
+.grey {color:grey;}
 .inner {
     width: 1000px;
     border: solid 5px #4C3224;
@@ -47,6 +48,14 @@ hr {
     text-align: center;
     height: 5px;
 }
+
+/* list styling */
+ul {margin-top: 0;}
+ul.alternate li:nth-child(even) {background-color:rgba(255,255,255,0.05);}
+ul.alternate li:nth-child(odd) {background-color:rgba(255,255,255,0.10);}
+ul.alternate li:nth-child(even):hover {background-color:rgba(255,255,255,0.15);}
+ul.alternate li:nth-child(odd):hover {background-color:rgba(255,255,255,0.2);}
+
 
 /* Footer Related */
 footer {
@@ -71,3 +80,7 @@ footer h4 a {
 footer h4 a:hover {
     color:white;
 }
+
+/* alignment */
+.left {float:left;}
+.right {float:right;}

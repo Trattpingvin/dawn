@@ -20,6 +20,9 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
+    def get_players(self):
+        return Player.objects.filter(team=self)
+
 
 class Tournament(models.Model):
     team1 = models.ForeignKey(Team, related_name="team1", on_delete=models.CASCADE)

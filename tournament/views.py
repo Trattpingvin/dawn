@@ -36,8 +36,8 @@ class PlayerView(View):
 
 class PlayersView(ListView):
     template_name = "players.html"
-    model = Player
-    ordering = ['team']
+    model = Team
+    #ordering = ['team']
     # not sure why i made this class. in case we need something extra I guess?
 
 

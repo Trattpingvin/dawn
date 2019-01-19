@@ -30,7 +30,7 @@
             This page is under construction, please visit us later.
             <hr>
             <div id="player-all">
-                <ul class="alternate">
+                <div class="alternate">
                     <li class="player example">
                         <div class="name-wrapper">
                             <div class="steam-name">Name</div>
@@ -42,7 +42,9 @@
                     </li>
                     <!-- real player list -->
                     <!-- FIXME: sub elements blocking ID click effect -->
-                    {% for player in object_list %}
+                    {% for team in object_list %}
+                        <div class="teamname" style="line-height: 1.25; margin: 0 0 10px; font-size: 40px; font-weight: bold;">{{ team.name }} </div>
+                        {% for player in team.get_players %}
                     <li class="player" id="{{ player.pk }}">
                         <div class="name-wrapper" id="{{ player.pk }}">
                             <div class="steam-name" id="{{ player.pk }}">{{ player.name }}</div>
@@ -63,6 +65,7 @@
                         </div>
                     </li>
                     {% endfor %}
+                {% endfor %}
                 </ul>
             </div>
             <div id="player-detail">

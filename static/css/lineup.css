@@ -61,7 +61,6 @@ div.match-arrow {
     flex-grow: 1;
     margin: 5px -4px 5px 0;
     min-width: 110px;
-    max-width: 118px;
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
 }
@@ -69,7 +68,7 @@ div.match-arrow {
 div.match-arrow {
 	position: relative;
     margin-bottom: -4px;
-    display:none; /* overwrite this to reveal arrow */
+    /* overwrite this to reveal arrow */
 }
 div.match-arrow:after, div.match-arrow:before {
 	bottom: 100%;
@@ -102,7 +101,7 @@ div.match-details {
     background-color: rgba(54, 57, 63, 0.2);
     width: 972px;
     display:flex;
-    display:none; /* overwrite this to reveal details */
+    /* overwrite this to reveal details */
 }
 div.match-details > div.match-title {
     text-align:right;

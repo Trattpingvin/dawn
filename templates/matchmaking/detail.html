@@ -1,11 +1,45 @@
-{% extends 'base.html' %}
-
-{% block main %}
-this is a detailed match
-fill me with stuff please
-
-{% for x in object_list %}
-{{x.player1.name}}
-{% endfor %}
-
-{% endblock main %}
+<!--
+    Each round should have these information:
+        round location 
+        players > score awards winner-highlight
+-->
+<div class="match-title">
+        <span class="match-num">Round {{round}}</span><br />
+        <span class="location">{{match.get_location_display}}</span>
+    </div>
+    <div class="match-content">
+        {% for player in match.get_players %}
+        <div>
+            <div class="match-player">
+                <span class="name team{{forloop.counter}}">{{player.name}}</span>
+                {% if player.discordname %}
+                <span class="discord-name">({{player.discordname}})</span>
+                {% endif %}
+                <span class="score right">SCORE_THIS_MATCH</span>
+            </div>
+            <div class="match-stats">
+                <div class="match-stats-text">
+                    <div>Bracket:</div>
+                    <div>Star:</div>
+                </div>
+                <div class="match-stats-num">
+                    <!-- player's stat at the time and their stat changes -->
+                    <!-- ^ requires change in model. Maybe just use current stats? -->
+                    <div>BRACKET_NUM (DIFF)</div>
+                    <!-- fancy star using *** will require another hack -->
+                    <div>STAR_NUM (DIFF)</div>
+                </div>
+                <div class="match-stats-awards right">
+                    {% if match.winner == player %}
+                    <div>Victorious: 1.0</div>
+                    {% endif %}
+                    {% for a in award %}
+                        {% if a.player == player %}
+                        <div>{{a.get_award_display}}: 0.2</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>

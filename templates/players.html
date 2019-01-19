@@ -14,63 +14,62 @@
         });
     });
 </script>
-    <div class="inner title small robot">
-        <div class="notice">
-            <h1><span class="highlight">Players</span></h1>
-        </div>
-        <nav class="linear-menu">
-            <a href="{% url 'rules' %}" role="button">Rules</a>
-            <a href="{% url 'schedule' %}" role="button">Schedule</a>
-            <a href="{% url 'players' %}" role="button" class="self">Players</a>
-        </nav>
+<div class="inner title small robot">
+    <div class="notice">
+        <h1><span class="highlight">Players</span></h1>
     </div>
-    <div class="inner article">
-        <article>
-            <h3>501: Not Implemented!</h3>
-            This page is under construction, please visit us later.
-            <hr>
-            <div id="player-all">
-                <ul class="alternate">
-                    <li class="player example">
-                        <div class="name-wrapper">
-                            <div class="steam-name">Name</div>
-                            <div class="discord-name">(discord name)</div>
-                        </div>
-                        <div class="score">Score</div>
-                        <div class="bracket">Bracket</div>
-                        <div class="stars">Stars</div>
-                    </li>
-                    <!-- real player list -->
-                    <!-- FIXME: sub elements blocking ID click effect -->
-                    {% for team in object_list %}
-                        <div class="teamname" style="line-height: 1.25; margin: 0 0 10px; font-size: 40px; font-weight: bold;">{{ team.name }} </div>
-                        {% for player in team.get_players %}
-                    <li class="player" id="{{ player.pk }}">
-                        <div class="name-wrapper" id="{{ player.pk }}">
-                            <div class="steam-name" id="{{ player.pk }}">{{ player.name }}</div>
-                            {% if player.discordname %}
-                            <div class="discord-name" id="{{ player.pk }}">({{ player.discordname}})</div>
-                            {% endif %}
-                        </div>
-                        <div class="score" id="{{ player.pk }}">{{ player.get_wins.0|add:player.format_awards.0  }}</div>
-                        <div class="bracket" id="{{ player.pk }}">{{ player.bracket}}</div>
-                        <div class="stars stars-text" id="{{ player.pk }}">
-                            <!-- hack -->
-                            {% with ''|center:3 as range %}
-                            <span class="full-stars" id="{{ player.pk }}">
-                                {% for _ in range %}{% if forloop.counter0 == player.stars %}</span><span class="empty-stars">{% endif %}*{% endfor %}
-                            {% endwith %}
-                            </span>
-                            <!-- endhack; had to remove newlines due to space between stars-->
-                        </div>
-                    </li>
-                    {% endfor %}
+    <nav class="linear-menu">
+        <a href="{% url 'rules' %}" role="button">Rules</a>
+        <a href="{% url 'schedule' %}" role="button">Schedule</a>
+        <a href="{% url 'players' %}" role="button" class="self">Players</a>
+    </nav>
+</div>
+<div class="inner article">
+    <article>
+        <h3>501: Not Implemented!</h3>
+        This page is under construction, please visit us later.
+        <hr>
+        <div id="player-all">
+            <ul class="alternate">
+                <li class="player example">
+                    <div class="name-wrapper">
+                        <div class="steam-name">Name</div>
+                        <div class="discord-name">(discord name)</div>
+                    </div>
+                    <div class="score">Score</div>
+                    <div class="bracket">Bracket</div>
+                    <div class="stars">Stars</div>
+                </li>
+                <!-- real player list -->
+                {% for team in object_list %}
+                <li class="player team{{forloop.counter}} teamname">
+                    {{ team.name }}
+                </li>
+                {% for player in team.get_players %}
+                <li class="player" id="{{ player.pk }}">
+                    <div class="name-wrapper" id="{{ player.pk }}">
+                        <div class="steam-name" id="{{ player.pk }}">{{ player.name }}</div>
+                        {% if player.discordname %}
+                        <div class="discord-name" id="{{ player.pk }}">({{ player.discordname}})</div>
+                        {% endif %}
+                    </div>
+                    <div class="score" id="{{ player.pk }}">{{ player.get_wins.0|add:player.format_awards.0  }}</div>
+                    <div class="bracket" id="{{ player.pk }}">{{ player.bracket}}</div>
+                    <div class="stars stars-text" id="{{ player.pk }}">
+                        <!-- hack -->
+                        {% with ''|center:3 as range %}
+                        <span class="full-stars" id="{{ player.pk }}">
+                            {% for _ in range %}{% if forloop.counter0 == player.stars %}</span><span class="empty-stars">{% endif %}*{% endfor %}
+                        {% endwith %}
+                        </span>
+                        <!-- endhack; had to remove newlines due to space between stars-->
+                    </div>
+                </li>
                 {% endfor %}
-                </ul>
-            </div>
-            <div id="player-detail">
-                
-            </div>
-        </article>
-    </div>
+            {% endfor %}
+            </ul>
+        </div>
+        <div id="player-detail"></div>
+    </article>
+</div>
 {% endblock %}

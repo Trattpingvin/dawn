@@ -100,10 +100,11 @@ class RemoveMatch(View):
 
 
 class MatchView(View):
-    def get(self, request, match_id=None):
-
+    def get(self, request, match_id=None, rnd=0):
+        r = rnd
         if match_id:
-            ans = get_object_or_404(FFaMatch, id=match_id);
+            ans = get_object_or_404(FFaMatch, id=match_id)
+            awd = ans.get_awards()
         else:
             dummy_t1 = Team(name="Alpacas")
             dummy_t2 = Team(name="Beltalawda")
@@ -116,7 +117,7 @@ class MatchView(View):
             dummy_ffa_match = FFaMatch(player1=dummy_p1, player2=dummy_p2, player3=dummy_p3, player4=dummy_p4, location="M", winner=dummy_p2)
             dummy_1v1_match = OvOMatch(player1=dummy_p1, player2=dummy_p2, location="M", winner=dummy_p2)
             ans = dummy_ffa_match
-        return render(request, "matchmaking/detail.html", {"object_list": [ans]})
+        return render(request, "matchmaking/detail.html", {"match": ans, "round": r, "award": awd})
 
     def post(self, request):
         return HttpResponse("how did this happen?")

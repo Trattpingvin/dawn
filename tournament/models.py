@@ -125,6 +125,9 @@ class OvOMatch(Match):
         ans += self.player1.name+", "+self.player2.name
         return ans
 
+    def get_players(self):
+        return [self.player1, self.player2]
+
 
 class FFaMatch(Match):
     player1 = models.ForeignKey(Player, related_name="player1", on_delete=models.CASCADE)
@@ -139,6 +142,9 @@ class FFaMatch(Match):
         ans = super().__str__()
         ans += self.player1.name+", "+self.player2.name+", "+self.player3.name+", "+self.player4.name
         return ans
+
+    def get_players(self):
+        return [self.player1, self.player2, self.player3, self.player4]
 
 
 class Award(models.Model):

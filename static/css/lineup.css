@@ -51,8 +51,8 @@ div.match ul li {
 
 .winner {font-weight:bold;}
 .team1 {color:#3498DB;}
-.team2 {color:#1F8B4C;}
-.team3 {color:#E67E22;}   
+.team2 {color:#E67E22;}
+.team3 {color:#1F8B4C;}   
 .team4 {color:#9B59B6;}
 .team1, .team2, .team3, .team4 {text-shadow: 0px 0px 2px #36393F;}
 

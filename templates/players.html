@@ -4,6 +4,7 @@
     $(document).ready(function(){
         $(".player").click(function(event) {
             let url = "{% url 'inspectplayer' %}/"+event.target.id;
+            console.log(url);
             $.get(url, function(data){
 
                 //update .player_detail with data

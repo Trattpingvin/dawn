@@ -23,14 +23,14 @@ class DayView(TemplateView):
 
 
 class PlayerView(View):
-    def get(self, request, player_name=None):
+    def get(self, request, player_id=None):
         def format_awards():
             pass
             # it should return total score as first parameter,
             # followed by awards details using name-value pair.
             # for getting the rest, should use mylist|slice"1:"
-        if player_name:
-            player = get_object_or_404(Player, name=player_name)
+        if player_id:
+            player = get_object_or_404(Player, id=player_id)
         else:
             return HttpResponse("Player not chosen")
 

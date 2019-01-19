@@ -15,7 +15,7 @@ def validate_availability(val):
 
 
 class Team(models.Model):
-    name = models.CharField(max_length = 128)
+    name = models.CharField(max_length=128)
 
     def __str__(self):
         return self.name
@@ -29,13 +29,16 @@ class Tournament(models.Model):
 
 
 class Player(models.Model):
-    name = models.CharField(primary_key=True, max_length=60)
+    name = models.CharField(max_length=60)  # steam name
     discordname = models.CharField(max_length=60, null=True)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     bracket = models.IntegerField()
     stars = models.IntegerField()
     preference = models.IntegerField(validators = [validate_preference])
     availability = models.IntegerField(validators = [validate_availability])
+    will_ffa = models.BooleanField()
+    will_1v1 = models.BooleanField()
+    id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return self.name

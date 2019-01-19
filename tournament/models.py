@@ -69,21 +69,28 @@ class Player(models.Model):
     def get_num_matches(self):
         return len(self.get_matches())
 
-    # this code is untested
+
     def get_wins(self):
         qs = self.get_matches()
         wins = 0
         losses = 0
         for m in qs:
-            if m.winner == self: wins += 1
-            else: losses += 1
+            if m.winner == self:
+                wins += 1
+            else:
+                losses += 1  # this code is wrong. an unplayed match will count as a loss
 
         assert(wins + losses == len(qs))
         return wins, losses 
 
     def get_awards(self):
         return Award.objects.filter(player=self)
-        
+
+    def format_awards(self):
+        awardsdict = {"A": 0, "B": 0, "C": 0, "D": 0, "E": 0, "F": 0}
+        for award in self.get_awards():
+            awardsdict[award.award] += 1
+        return sum(0.2*n for n in awardsdict.values()), awardsdict
 
 
 class Match(models.Model):

@@ -24,24 +24,20 @@ class DayView(TemplateView):
 
 class PlayerView(View):
     def get(self, request, player_id=None):
-        def format_awards():
-            pass
-            # it should return total score as first parameter,
-            # followed by awards details using name-value pair.
-            # for getting the rest, should use mylist|slice"1:"
+
         if player_id:
             player = get_object_or_404(Player, id=player_id)
         else:
             return HttpResponse("Player not chosen")
 
-        awards = format_awards()
 
-        return render(request, "playerdetail.html", {"player": player, "awards": awards})
+        return render(request, "playerdetail.html", {"player": player})
 
 
 class PlayersView(ListView):
     template_name = "players.html"
     model = Player
+    ordering = ['team']
     # not sure why i made this class. in case we need something extra I guess?
 
 

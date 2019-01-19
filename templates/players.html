@@ -42,7 +42,6 @@
                         <div class="stars">Stars</div>
                     </li>
                     <!-- real player list -->
-                    <!-- TODO: sort using team -->
                     <!-- FIXME: sub elements blocking ID click effect -->
                     {% for player in object_list %}
                     <li class="player" id="{{ player.pk }}">
@@ -52,8 +51,7 @@
                             <div class="discord-name">({{ player.discordname}})</div>
                             {% endif %}
                         </div>
-                        <!-- TODO: implement get_awards -->
-                        <div class="score"><!--player.get_wins.0|add:player.get_awards.0--></div>
+                        <div class="score">{{ player.get_wins.0|add:player.format_awards.0  }}</div>
                         <div class="bracket">{{ player.bracket}}</div>
                         <div class="stars stars-text">
                             <!-- hack -->

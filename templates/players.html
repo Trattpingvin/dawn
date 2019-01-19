@@ -8,7 +8,7 @@
             $.get(url, function(data){
 
                 //update .player_detail with data
-                $("#player-detail").text(data);
+                $("#player-detail").html(data);
                 
             });
         });
@@ -31,7 +31,6 @@
             <hr>
             <div id="player-all">
                 <ul class="alternate">
-                    <!-- head line -->
                     <li class="player example">
                         <div class="name-wrapper">
                             <div class="steam-name">Name</div>
@@ -45,18 +44,18 @@
                     <!-- FIXME: sub elements blocking ID click effect -->
                     {% for player in object_list %}
                     <li class="player" id="{{ player.pk }}">
-                        <div class="name-wrapper">
-                            <div class="steam-name">{{ player.name }}</div>
+                        <div class="name-wrapper" id="{{ player.pk }}">
+                            <div class="steam-name" id="{{ player.pk }}">{{ player.name }}</div>
                             {% if player.discordname %}
-                            <div class="discord-name">({{ player.discordname}})</div>
+                            <div class="discord-name" id="{{ player.pk }}">({{ player.discordname}})</div>
                             {% endif %}
                         </div>
-                        <div class="score">{{ player.get_wins.0|add:player.format_awards.0  }}</div>
-                        <div class="bracket">{{ player.bracket}}</div>
-                        <div class="stars stars-text">
+                        <div class="score" id="{{ player.pk }}">{{ player.get_wins.0|add:player.format_awards.0  }}</div>
+                        <div class="bracket" id="{{ player.pk }}">{{ player.bracket}}</div>
+                        <div class="stars stars-text" id="{{ player.pk }}">
                             <!-- hack -->
                             {% with ''|center:3 as range %}
-                            <span class="full-stars">
+                            <span class="full-stars" id="{{ player.pk }}">
                                 {% for _ in range %}{% if forloop.counter0 == player.stars %}</span><span class="empty-stars">{% endif %}*{% endfor %}
                             {% endwith %}
                             </span>

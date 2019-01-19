@@ -1,2 +1,22 @@
-This is a detailed player view for {{player.name}}
-He has {{player.get_num_matches}} matches
+<div>
+    <span class="name">{{player.name}}</span>
+    <!-- team color -->
+    <span class="team">{{player.team.name}}</span>
+</div>
+<div>
+    <span>is available for</span>
+</div>
+<div>
+    <div>Matches Played: {{player.get_num_matches}}</div>
+    <!-- match detail list view, clickable -->
+</div>
+
+<div>
+    <div>Score: {{ player.get_wins.0|add:player.format_awards.0 }}</div>
+    <ul>
+        <li>Victorious: {{player.get_wins.0}}</li>
+        {% for awards in player.get_awards %}
+        <li><!-- implement after testing awards --></li>
+        {% endfor %}
+    </ul>
+</div>

@@ -78,13 +78,6 @@ div#player-all {
     width: 45%;
 }
 
-div#player-detail {
-    float: right;
-    background-color: gold;
-    width: 54%;
-    min-height: 50px;
-}
-
 div#player-all > ul {padding-left: 0;}
 div#player-all > ul > li.example {background-color: rgba(255, 255, 255, 0.5);}
 li.player {
@@ -127,3 +120,27 @@ li.player > div.stars-text {
 }
 div.stars span.full-stars {color: #790805;}
 div.stars span.empty-stars {color: #ffffff85;}
+
+/* Player Detail View*/
+div#player-detail {
+    float: right;
+    width: 52%;
+    min-height: 50px;
+    padding: 5px;
+    border: solid 4px rgba(0, 0, 0, 0.5);
+}
+div#player-detail > div {overflow: auto;}
+div#player-detail span.name {
+    color: #790805;
+    font-family:Staatliches;
+    font-size: 30px;
+}
+div#player-detail span.team {
+    font-family:Staatliches;
+    font-size: 24px;
+    float: right;
+}
+div#player-detail ul {
+    padding-left: 0;
+    list-style-type: none;
+}

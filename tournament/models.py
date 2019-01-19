@@ -21,7 +21,7 @@ class Team(models.Model):
         return self.name
 
     def get_players(self):
-        return Player.objects.filter(team=self)
+        return Player.objects.filter(team=self).order_by('-bracket')
 
 
 class Tournament(models.Model):

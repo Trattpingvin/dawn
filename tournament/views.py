@@ -1,5 +1,6 @@
 
 from django.views import View
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
 from django.views.generic import DeleteView, ListView
@@ -95,8 +96,11 @@ class GenMatchesView(View):
         return HttpResponse("How did this happen?")
 
 
-class RemoveMatch(DeleteView):
-    model = FFaMatch
+class RemoveMatch(View):
+    def post(self, request, match_id=None):
+        match = get_object_or_404(FFaMatch, id=match_id)
+        match.delete()
+        return HttpResponse("OK")
 
 
 class MatchView(View):

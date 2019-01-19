@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.db.models.functions import Lower
 
 def validate_preference(val):
     # preference is 3 bit value. bit order 0x1 = mars, 0x10 = ceres, 0x100 = io
@@ -21,7 +22,7 @@ class Team(models.Model):
         return self.name
 
     def get_players(self):
-        return Player.objects.filter(team=self).order_by('-bracket')
+        return Player.objects.filter(team=self).order_by('-bracket', 'stars', Lower('name').asc())
 
 
 class Tournament(models.Model):

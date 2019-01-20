@@ -9,6 +9,10 @@
 
                 //update .player_detail with data
                 $("#player-detail").html(data);
+                let ele =  document.getElementById(event.target.id);
+                $("#player-detail").offset({"left":ele.offsetLeft+ele.width ,"top": ele.offsetTop});
+                console.log(document.getElementById(event.target.id).offsetTop
+                );
                 
             });
         });

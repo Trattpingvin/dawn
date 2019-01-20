@@ -51,7 +51,6 @@ class GenMatchesView(View):
         # matchmaking method was designed with a different format in mind. let's convert to that format before
         # using it
         # TODO implement 1v1 matchmaking
-        # TODO implement location choosing in matchmaking
         day = 1
         dawnplayers = {}
         db_players = Player.objects.all()

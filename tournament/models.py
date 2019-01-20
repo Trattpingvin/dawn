@@ -32,6 +32,8 @@ class Tournament(models.Model):
     team4 = models.ForeignKey(Team, related_name="team4", on_delete=models.CASCADE)
 
 
+
+
 class Player(models.Model):
     name = models.CharField(max_length=60)  # steam name
     discordname = models.CharField(max_length=60, null=True)
@@ -97,10 +99,18 @@ class Player(models.Model):
         return sum(0.2*n for n in awardsdict.values()), awardsdict
 
 
+#class NewMatch(models.Model):
+#    players = models.ManyToManyField(Player)
+#    winner = models.ForeignKey(Player, on_delete=models.CASCADE)
+#    LOCATIONS = [("M", "Mars"), ("C", "Ceres"), ("I", "Io")]
+#    location = models.CharField(choices=LOCATIONS, max_length=6)
+#    notes = models.CharField(max_length=1024, default="")
+
+
 class Match(models.Model):
     day = models.IntegerField()
     LOCATIONS = [("M", "Mars"), ("C", "Ceres"), ("I", "Io")]
-    location = models.CharField(choices=LOCATIONS, max_length = 6)
+    location = models.CharField(choices=LOCATIONS, max_length=6)
     winner = models.ForeignKey(Player, null=True, on_delete=models.CASCADE)
     notes = models.CharField(max_length=1024, default="")
 

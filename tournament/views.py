@@ -116,6 +116,11 @@ class MatchView(View):
             dummy_ffa_match = FFaMatch(player1=dummy_p1, player2=dummy_p2, player3=dummy_p3, player4=dummy_p4, location="M", winner=dummy_p2)
             dummy_1v1_match = OvOMatch(player1=dummy_p1, player2=dummy_p2, location="M", winner=dummy_p2)
             ans = dummy_ffa_match
+        ans.player1.totalscore = len(ans.get_awards().filter(player=ans.player1)) * 0.2 + int(ans.winner == ans.player1)
+        ans.player2.totalscore = len(ans.get_awards().filter(player=ans.player2)) * 0.2 + int(ans.winner == ans.player2)
+        ans.player3.totalscore = len(ans.get_awards().filter(player=ans.player3)) * 0.2 + int(ans.winner == ans.player3)
+        ans.player4.totalscore = len(ans.get_awards().filter(player=ans.player4)) * 0.2 + int(ans.winner == ans.player4)
+
         return render(request, "matchmaking/detail.html", {"match": ans, "round": r, "award": awd})
 
     def post(self, request):

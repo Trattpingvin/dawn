@@ -99,6 +99,8 @@ class Player(models.Model):
         return sum(0.2*n for n in awardsdict.values()), awardsdict
 
 
+
+
 #class NewMatch(models.Model):
 #    players = models.ManyToManyField(Player)
 #    winner = models.ForeignKey(Player, on_delete=models.CASCADE)

@@ -11,7 +11,7 @@
         {% for player in match.get_players %}
         <div>
             <div class="match-player">
-                <span class="name team{{forloop.counter}}">{{player.name}}</span>
+                <span class="name team{{player.team.id}}">{{player.name}}</span>
                 {% if player.discordname %}
                 <span class="discord-name">({{player.discordname}})</span>
                 {% endif %}

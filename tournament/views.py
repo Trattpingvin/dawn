@@ -16,8 +16,9 @@ class DayView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["FFA"] = FFaMatch.objects.filter(day = self.day)
-        context["1v1"] = OvOMatch.objects.filter(day = self.day)
+
+        context["FFA"] = Match.objects.filter(day=self.day, mode="F")
+        context["1v1"] = Match.objects.filter(day=self.day, mode="O")
 
         return context
 
@@ -29,7 +30,6 @@ class PlayerView(View):
             player = get_object_or_404(Player, id=player_id)
         else:
             return HttpResponse("Player not chosen")
-
 
         return render(request, "playerdetail.html", {"player": player})
 
@@ -43,7 +43,7 @@ class PlayersView(ListView):
 
 class MainView(View):
     def get(self, request):
-        return render(request, 'matchmaking/matchmaking.html', {"object_list":FFaMatch.objects.all()})
+        return render(request, 'matchmaking/matchmaking.html', {"object_list": Match.objects.all()})
 
 
 class GenMatchesView(View):
@@ -54,14 +54,15 @@ class GenMatchesView(View):
         day = 1
         dawnplayers = {}
         db_players = Player.objects.all()
-        if len(db_players)<4: return HttpResponse("Not enough players in the database to generate a match")
+        if len(db_players) < 4:
+            return HttpResponse("Not enough players in the database to generate a match")
         for p in db_players:
             dmp = dc.Player(p.name, p.bracket, 0, p.team.id)
             dmp.availability = p.availability
             dmp.matches_played = len(p.get_matches())
             pref = []
             for i in range(3):
-                pref.append(bool(p.preference&1<<i))
+                pref.append(bool(p.preference & 1 << i))
             dmp.preference = pref
             
             dawnplayers[p.name] = dmp
@@ -72,13 +73,10 @@ class GenMatchesView(View):
             djangoplayers = []
             for p in match.players:
                 djangoplayers.append(get_object_or_404(Player, name=p.name))
-            m = FFaMatch(day=day, location=match.location)
-            m.player1 = djangoplayers[0]
-            m.player2 = djangoplayers[1]
-            m.player3 = djangoplayers[2]
-            m.player4 = djangoplayers[3]
-            m.notes = "\n".join(match.notes)
+            m = Match(day=day, location=match.location, notes=match.notes, mode="F")
             m.save()
+            for p in djangoplayers:
+                m.players.add(p)
 
         return HttpResponse("OK")
         return redirect('matchmaking-root')
@@ -93,7 +91,7 @@ class GenMatchesView(View):
 
 class RemoveMatch(View):
     def post(self, request, match_id=None):
-        match = get_object_or_404(FFaMatch, id=match_id)
+        match = get_object_or_404(Match, id=match_id)
         match.delete()
         return HttpResponse("OK")
 
@@ -102,25 +100,13 @@ class MatchView(View):
     def get(self, request, match_id=None, rnd=0):
         r = rnd
         if match_id:
-            ans = get_object_or_404(FFaMatch, id=match_id)
+            ans = get_object_or_404(Match, id=match_id)
             awd = ans.get_awards()
         else:
-            dummy_t1 = Team(name="Alpacas")
-            dummy_t2 = Team(name="Beltalawda")
-            dummy_t3 = Team(name="Circus")
-            dummy_t4 = Team(name="Donkeys")
-            dummy_p1 = Player(name="Asimov", team=dummy_t1, bracket=2, stars=2, preference=7, availability=15)
-            dummy_p2 = Player(name="Bradbury", team=dummy_t2, bracket=2, stars=2, preference=7, availability=15)
-            dummy_p3 = Player(name="Clarke", team=dummy_t3, bracket=2, stars=2, preference=7, availability=15)
-            dummy_p4 = Player(name="Heinlein", team=dummy_t4, bracket=2, stars=2, preference=7, availability=15)
-            dummy_ffa_match = FFaMatch(player1=dummy_p1, player2=dummy_p2, player3=dummy_p3, player4=dummy_p4, location="M", winner=dummy_p2)
-            dummy_1v1_match = OvOMatch(player1=dummy_p1, player2=dummy_p2, location="M", winner=dummy_p2)
-            ans = dummy_ffa_match
-        ans.player1.totalscore = len(ans.get_awards().filter(player=ans.player1)) * 0.2 + int(ans.winner == ans.player1)
-        ans.player2.totalscore = len(ans.get_awards().filter(player=ans.player2)) * 0.2 + int(ans.winner == ans.player2)
-        ans.player3.totalscore = len(ans.get_awards().filter(player=ans.player3)) * 0.2 + int(ans.winner == ans.player3)
-        ans.player4.totalscore = len(ans.get_awards().filter(player=ans.player4)) * 0.2 + int(ans.winner == ans.player4)
-
+            return HttpResponse("shouldn't happen")
+        if ans.result:
+            for p in ans.players.all():
+                p.totalscore = len(ans.get_awards().filter(player=p)) * 0.2 + int(ans.result.winner == p)
         return render(request, "matchmaking/detail.html", {"match": ans, "round": r, "award": awd})
 
     def post(self, request):

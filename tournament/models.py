@@ -2,11 +2,13 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.db.models.functions import Lower
 
+
 def validate_preference(val):
     # preference is 3 bit value. bit order 0x1 = mars, 0x10 = ceres, 0x100 = io
     # bit 0 means veto
     if val < 0 or val > 7:
         raise ValidationError("%(val)s is not a valid preference", params={'value':val})
+
 
 def validate_availability(val):
     # availability is 4 bit value(one per day) bit order 0x1 = day 1, 0x10 = day 2, 0x100 = day 3, 0x1000 = day 4
@@ -32,8 +34,6 @@ class Tournament(models.Model):
     team4 = models.ForeignKey(Team, related_name="team4", on_delete=models.CASCADE)
 
 
-
-
 class Player(models.Model):
     name = models.CharField(max_length=60)  # steam name
     discordname = models.CharField(max_length=60, null=True)
@@ -55,38 +55,22 @@ class Player(models.Model):
         return bool(self.availability & flags[day])
 
     def get_matches(self):  # i'm not sure i'm happy with this
-        qs = FFaMatch.objects.filter(
-            player1=self
-        ).union(FFaMatch.objects.filter(
-            player2=self
-        )).union(FFaMatch.objects.filter(
-            player3=self
-        )).union(FFaMatch.objects.filter(
-            player4=self
-        ))
-        qs.union(OvOMatch.objects.filter(
-            player1=self
-        ).union(OvOMatch.objects.filter(
-            player2=self
-        )))
-
-        return qs
+        return self.match_set.all()
 
     def get_num_matches(self):
         return len(self.get_matches())
-
 
     def get_wins(self):
         qs = self.get_matches()
         wins = 0
         losses = 0
         for m in qs:
-            if m.winner == self:
-                wins += 1
-            else:
-                losses += 1  # this code is wrong. an unplayed match will count as a loss
+            if m.result:
+                if m.result.winner == self:
+                    wins += 1
+                else:
+                    losses += 1
 
-        assert(wins + losses == len(qs))
         return wins, losses 
 
     def get_awards(self):
@@ -99,74 +83,56 @@ class Player(models.Model):
         return sum(0.2*n for n in awardsdict.values()), awardsdict
 
 
+class MatchResult(models.Model):
+    winner = models.ForeignKey(Player, on_delete=models.CASCADE)
 
 
-#class NewMatch(models.Model):
-#    players = models.ManyToManyField(Player)
-#    winner = models.ForeignKey(Player, on_delete=models.CASCADE)
-#    LOCATIONS = [("M", "Mars"), ("C", "Ceres"), ("I", "Io")]
-#    location = models.CharField(choices=LOCATIONS, max_length=6)
-#    notes = models.CharField(max_length=1024, default="")
+class RatingChange(models.Model):
+    matchresult = models.ForeignKey(MatchResult, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    bracket_before = models.IntegerField()
+    bracket_after = models.IntegerField()
+    stars_before = models.IntegerField()
+    stars_after = models.IntegerField()
+
+    def get_bracket_diff(self):
+        return self.bracket_after-self.bracket_before
+
+    def get_stars_diff(self):
+        return self.stars_after-self.stars_before
 
 
 class Match(models.Model):
     day = models.IntegerField()
     LOCATIONS = [("M", "Mars"), ("C", "Ceres"), ("I", "Io")]
     location = models.CharField(choices=LOCATIONS, max_length=6)
-    winner = models.ForeignKey(Player, null=True, on_delete=models.CASCADE)
+    result = models.OneToOneField(MatchResult, null=True, on_delete=models.CASCADE)
     notes = models.CharField(max_length=1024, default="")
+    players = models.ManyToManyField(Player)
+    MODES = [("O", "1v1"), ("F", "FFA")]
+    mode = models.CharField(choices=MODES, max_length=1)
 
     def __str__(self):
-        return self.get_location_display()+", day "+str(self.day)+": "
+        ans = self.get_location_display()+", day "+str(self.day)+": ".join(self.players.all())
+        return ans
 
     def get_awards(self):
-        return Award.objects.filter(match=self)
-
-    class Meta:
-        abstract=True
-
-
-class OvOMatch(Match):
-    player1 = models.ForeignKey(Player, related_name="p1", on_delete=models.CASCADE)
-    player2 = models.ForeignKey(Player, related_name="p2", on_delete=models.CASCADE)
+        return Award.objects.filter(match=self.result)
 
     def has_player(self, p):
-        return self.player1 == p or self.player2 == p
-
-    def __str__(self):
-        ans = super().__str__()
-        ans += self.player1.name+", "+self.player2.name
-        return ans
+        return p in self.players
 
     def get_players(self):
-        return [self.player1, self.player2]
-
-
-class FFaMatch(Match):
-    player1 = models.ForeignKey(Player, related_name="player1", on_delete=models.CASCADE)
-    player2 = models.ForeignKey(Player, related_name="player2", on_delete=models.CASCADE)
-    player3 = models.ForeignKey(Player, related_name="player3", on_delete=models.CASCADE)
-    player4 = models.ForeignKey(Player, related_name="player4", on_delete=models.CASCADE)
-
-    def has_player(self, p):
-        return self.player1 == p or self.player2 == p or self.player3 == p or self.player4 == p
-
-    def __str__(self):
-        ans = super().__str__()
-        ans += self.player1.name+", "+self.player2.name+", "+self.player3.name+", "+self.player4.name
-        return ans
-
-    def get_players(self):
-        return [self.player1, self.player2, self.player3, self.player4]
+        return self.players.all()
 
 
 class Award(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    match = models.ForeignKey(FFaMatch, on_delete=models.CASCADE)
+    match = models.ForeignKey(MatchResult, on_delete=models.CASCADE)
     AWARDS = [("A", "Keen eyes on their stuff"), ("B", "Outstanding Performances"),
-    ("C", "Race for the initial markets"), ("D", "Eggs in multiple baskets"),
-    ("E", "Commercial Meteorology Experiment"), ("F", "Mind Games")]
-    award = models.CharField(choices=AWARDS, max_length = 255)
+              ("C", "Race for the initial markets"), ("D", "Eggs in multiple baskets"),
+              ("E", "Commercial Meteorology Experiment"), ("F", "Mind Games")]
+    award = models.CharField(choices=AWARDS, max_length=1)
 
     def __str__(self):
         return self.player.name+": "+self.get_award_display()

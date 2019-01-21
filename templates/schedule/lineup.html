@@ -21,37 +21,18 @@
         <hr>
         <h2>Match Lineups</h2>
         <div class="lineup">
-            {% for x in FFA %}
-            <div class="match" id="{{ x.id }}/{{ forloop.counter }}">
-                <div class="match-title" id="{{ x.id }}/{{ forloop.counter }}">
-                    <span class="match-num" id="{{ x.id }}/{{ forloop.counter }}">Round {{ forloop.counter }}:</span><br />
-                    <span class="location" id="{{ x.id }}/{{ forloop.counter }}">{{ x.get_location_display }}</span>
+            {% for match in FFA %}
+            <div class="match" id="{{ match.id }}/{{ forloop.counter }}">
+                <div class="match-title" id="{{ match.id }}/{{ forloop.counter }}">
+                    <span class="match-num" id="{{ match.id }}/{{ forloop.counter }}">Round {{ forloop.counter }}:</span><br />
+                    <span class="location" id="{{ match.id }}/{{ forloop.counter }}">{{ match.get_location_display }}</span>
                 </div>
                 <hr>
                 <ul>
-                    {% if x.player1 == x.winner %}
-                    <li class="winner team1">{{ x.player1.name }}</li>
-                    {% else %}
-                    <li class="team1">{{ x.player1.name }}</li>
-                    {% endif %}
+                    {% for player in match.players.all %}
+                        <li class="{% if player == match.result.winner %}winner{% endif %} team{{player.team.id}}">{{ player.name }}</li>
+                    {% endfor %}
 
-                    {% if x.player2 == x.winner %}
-                    <li class="winner team2">{{ x.player2.name }}</li>
-                    {% else %}
-                    <li class="team2">{{ x.player2.name }}</li>
-                    {% endif %}
-
-                    {% if x.player3 == x.winner %}
-                    <li class="winner team3">{{ x.player3.name }}</li>
-                    {% else %}
-                    <li class="team3">{{ x.player3.name }}</li>
-                    {% endif %}
-
-                    {% if x.player4 == x.winner %}
-                    <li class="winner team4">{{ x.player4.name }}</li>
-                    {% else %}
-                    <li class="team4">{{ x.player4.name }}</li>
-                    {% endif %}
                 </ul>
             </div>
             {% endfor %}

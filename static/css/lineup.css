@@ -1,8 +1,12 @@
 /* Match lineups */
 div.lineup {
-    width: 980px;
+    width: 976px;
     display: flex;
     flex-direction: row;
+}
+
+div.match div, div.match span, div.match li, div.match ul {
+    pointer-events: none;
 }
 
 div.match div.match-title {
@@ -58,19 +62,15 @@ div.match ul li {
 
 /* arrow pointer */
 div.match-arrow {
-    flex-grow: 1;
     margin: 5px -4px 5px 0;
-    min-width: 110px;
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-}
-
-div.match-arrow {
-	position: relative;
+    width: 0;
     margin-bottom: -4px;
-    display: none;
+    display:none;
     /* overwrite this to reveal arrow */
 }
+
 div.match-arrow:after, div.match-arrow:before {
 	bottom: 100%;
 	left: 50%;
@@ -101,9 +101,8 @@ div.match-details {
     border: 4px solid #362923;
     background-color: rgba(54, 57, 63, 0.2);
     width: 972px;
-    display:flex;
     display:none;
-    /* overwrite this to reveal details */
+    /* overwrite this to flex to reveal details */
 }
 div.match-details > div.match-title {
     text-align:right;

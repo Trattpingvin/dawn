@@ -1,7 +1,11 @@
-<div>
-    <span class="name">{{player.name}}</span>
-    <!-- team color -->
-    <span class="team">{{player.team.name}}</span>
+<div class="title">
+    <div class="name-wrapper">
+        <div class="steam-name team{{player.team.id}}">{{ player.name }}</div>
+        {% if player.discordname %}
+        <div class="discord-name">({{ player.discordname}})</div>
+        {% endif %}
+    </div>
+    <div class="team team{{player.team.id}}">{{player.team.name}}</div>
 </div>
 <div>
     <div>Matches Played: {{player.get_num_matches}}</div>

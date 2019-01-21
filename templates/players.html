@@ -6,13 +6,13 @@
             let url = "{% url 'inspectplayer' %}/"+event.target.id;
             console.log(url);
             $.get(url, function(data){
-
                 //update .player_detail with data
                 $("#player-detail").html(data);
+                document.getElementById("player-detail").style.display = "block";
                 let ele =  document.getElementById(event.target.id);
                 $("#player-detail").offset({"left":ele.offsetLeft+ele.width ,"top": ele.offsetTop});
-                console.log(document.getElementById(event.target.id).offsetTop
-                );
+                $("#player-arrow").offset({"left":ele.offsetLeft+ele.offsetWidth+12 ,"top": ele.offsetTop+26});
+                //console.log(document.getElementById(event.target.id).offsetTop);
                 
             });
         });
@@ -48,18 +48,18 @@
                 </li>
                 {% for player in team.get_players %}
                 <li class="player" id="{{ player.pk }}">
-                    <div class="name-wrapper" id="{{ player.pk }}">
-                        <div class="steam-name" id="{{ player.pk }}">{{ player.name }}</div>
+                    <div class="name-wrapper">
+                        <div class="steam-name">{{ player.name }}</div>
                         {% if player.discordname %}
-                        <div class="discord-name" id="{{ player.pk }}">({{ player.discordname}})</div>
+                        <div class="discord-name">({{ player.discordname}})</div>
                         {% endif %}
                     </div>
-                    <div class="score" id="{{ player.pk }}">{{ player.get_wins.0|add:player.format_awards.0  }}</div>
-                    <div class="bracket" id="{{ player.pk }}">{{ player.bracket}}</div>
-                    <div class="stars stars-text" id="{{ player.pk }}">
+                    <div class="score">{{ player.get_wins.0|add:player.format_awards.0  }}</div>
+                    <div class="bracket">{{ player.bracket}}</div>
+                    <div class="stars stars-text">
                         <!-- hack -->
                         {% with ''|center:3 as range %}
-                        <span class="full-stars" id="{{ player.pk }}">
+                        <span class="full-stars">
                             {% for _ in range %}{% if forloop.counter0 == player.stars %}</span><span class="empty-stars">{% endif %}*{% endfor %}
                         {% endwith %}
                         </span>
@@ -70,6 +70,7 @@
             {% endfor %}
             </ul>
         </div>
+        <div id="player-arrow"></div>
         <div id="player-detail">
             <h3>501: Not Implemented!</h3>
             This page is under construction, please visit us later.

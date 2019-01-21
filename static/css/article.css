@@ -74,7 +74,7 @@ ul.schedule li a {
 /* player tab */
 div#player-all {
     float: left;
-    width: 45%;
+    width: 46%;
     margin-bottom: 100px;
 }
 div#player-all li.teamname {
@@ -88,6 +88,8 @@ li.player {
     flex-direction: row;
     padding: 3px;
 }
+
+li.player div, li.player span {pointer-events: none;}
 
 li.player > div.name-wrapper {
     width: 230px;
@@ -124,24 +126,69 @@ div.stars span.full-stars {color: #790805;}
 div.stars span.empty-stars {color: #ffffff85;}
 
 /* Player Detail View*/
+div#player-detail > div.title {
+    overflow: auto;
+    background-color: #362923;
+    height: 55px;
+}
+div#player-detail > div {padding: 5px;}
 div#player-detail {
     float: right;
     width: 52%;
     min-height: 50px;
-    padding: 5px;
-    border: solid 4px rgba(0, 0, 0, 0.5);
+    border: outset 4px #362923;
+    display: none;
+    background-color: rgba(255, 255, 255, 0.2);
 }
-div#player-detail > div {overflow: auto;}
-div#player-detail span.name {
-    color: #790805;
+div#player-detail div.name-wrapper {
+    float: left;
+}
+div#player-detail div.steam-name {
+    
     font-family:Staatliches;
     font-size: 30px;
 }
-div#player-detail span.team {
+div#player-detail div.discord-name {
+    font-size: 14px;
+    margin-top: -5px;
+    color:grey;
+}
+div#player-detail div.team {
     font-family:Staatliches;
     font-size: 24px;
     float: right;
 }
 div#player-detail ul {
     padding-left: 0;
+}
+
+/* Player Detail Arrow */
+div#player-arrow {
+	position: relative;
+	background: #362923;
+	width: 0;
+}
+div#player-arrow:after, #player-arrow:before {
+	right: 100%;
+    top: 50%;
+    
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+div#player-arrow:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-right-color: #362923;
+	border-width: 13px;
+	margin-top: -13px;
+}
+div#player-arrow:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-right-color: #362923;
+	border-width: 19px;
+	margin-top: -19px;
 }

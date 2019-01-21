@@ -2,9 +2,14 @@
     $(document).ready(function(){
         $(".match").click(function(event) {
             let url = "{% url 'inspectmatch' %}"+event.target.id;
-            console.log(url);
+            
             $.get(url, function(data){
                 $("#match-details").html(data);
+                let ele =  document.getElementById(event.target.id);
+                //console.log(ele);
+                document.getElementById("match-details").style.display = "flex";
+                document.getElementById("match-arrow").style.display = "block";
+                $("#match-arrow").offset({"left":ele.offsetLeft + ele.offsetWidth/2});
             });
         });
     });
@@ -52,11 +57,7 @@
             {% endfor %}
         </div>
         <!-- I will need some kind of javascript to make tab display work -->
-        <div class="lineup">
-            {% for x in FFA %}
-            <div class="match-arrow" id="{{ x.id }}/{{ forloop.counter }}"></div>
-            {% endfor %}
-        </div>
+        <div class="match-arrow" id="match-arrow"></div>
         <div class="match-details" id="match-details"></div>
         <p>
             First round starts at <b>19 GMT</b>.<br />

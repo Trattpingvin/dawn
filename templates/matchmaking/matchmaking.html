@@ -57,6 +57,7 @@ $(document).ready(function() {
     <ul class="alternate" id="matches">
         {% for match in object_list %}
         <li class="match" id="{{ match.id }}"> {% for player in match.players.all %}{{ player.name }} {% endfor %}</li> <button type="button" class="btn-delete" id="{{ match.pk }}">Delete</button>
+            {{ match.notes }}
         {% endfor %}
     </ul>
 

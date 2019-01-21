@@ -5,10 +5,12 @@ def populate_player_database(filename):
 		for line in f:
 			stripline = line.strip()
 			splitline = stripline.split(',')
+
 			try:
+				assert len(splitline)==9
 				p = Player(*splitline)
 				p.save()
-			except ValueError:
+			except:
 				import pdb
 				pdb.set_trace()
 				print("hi")

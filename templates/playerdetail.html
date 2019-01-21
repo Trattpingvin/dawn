@@ -8,16 +8,19 @@
     <div class="team team{{player.team.id}}">{{player.team.name}}</div>
 </div>
 <div>
-    <div>Matches Played: {{player.get_num_matches}}</div>
+    <div>Match History {{player.get_num_matches}}</div>
     <!-- match detail list view, clickable -->
 </div>
 
 <div>
-    <div>Score: {{ player.get_wins.0|add:player.format_awards.0 }}</div>
+    <div>Score: {{ score }}</div>
     <ul>
-        <li>Wins: {{player.get_wins.0}}</li>
-        {% for awards in player.get_awards %}
-        <li><!-- implement after testing awards --></li>
+        <li>Victorious: {{player.get_wins.0}}</li>
+        <li>Awards</li>
+        {% for a in award %}
+        {% if a.1 > 0 %}
+        <li>{{a.0}} ({{a.1}}): {{a.2}}</li>
+        {% endif %}
         {% endfor %}
     </ul>
 </div>

@@ -62,8 +62,8 @@ class Player(models.Model):
 
     def get_wins(self):
         qs = self.get_matches()
-        wins = 0
-        losses = 0
+        wins = 0.0
+        losses = 0.0
         for m in qs:
             if m.result:
                 if m.result.winner == self:
@@ -78,9 +78,11 @@ class Player(models.Model):
 
     def format_awards(self):
         awardsdict = {"A": 0, "B": 0, "C": 0, "D": 0, "E": 0, "F": 0}
+        awardnames = ["Keen Eyes on Their Stuff", "Outstanding Performances", "Race for the Initial Markets", "Eggs in Multiple Baskets", "Commercial Meteorology Experiment", "Mind Games"]
         for award in self.get_awards():
             awardsdict[award.award] += 1
-        return sum(0.2*n for n in awardsdict.values()), awardsdict
+        awardscores = [x/5 for x in awardsdict.values()]
+        return sum(0.2*n for n in awardsdict.values()), zip(awardnames, awardsdict.values(), awardscores)
 
 
 class MatchResult(models.Model):
@@ -113,7 +115,7 @@ class Match(models.Model):
     mode = models.CharField(choices=MODES, max_length=1)
 
     def __str__(self):
-        ans = self.get_location_display()+", day "+str(self.day)+": ".join(self.players.all())
+        ans = self.get_location_display()+", day "+str(self.day)+": "+", ".join((n.name for n in self.players.all()))
         return ans
 
     def get_awards(self):
@@ -129,11 +131,10 @@ class Match(models.Model):
 class Award(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     match = models.ForeignKey(MatchResult, on_delete=models.CASCADE)
-    AWARDS = [("A", "Keen eyes on their stuff"), ("B", "Outstanding Performances"),
-              ("C", "Race for the initial markets"), ("D", "Eggs in multiple baskets"),
-              ("E", "Commercial Meteorology Experiment"), ("F", "Mind Games")]
+    AWARDS = [("A", "Keen Eyes on Their Stuff"), ("B", "Outstanding Performances"),
+        ("C", "Race for the Initial Markets"), ("D", "Eggs in Multiple Baskets"),
+        ("E", "Commercial Meteorology Experiment"), ("F", "Mind Games")]
     award = models.CharField(choices=AWARDS, max_length=1)
 
     def __str__(self):
         return self.player.name+": "+self.get_award_display()
-

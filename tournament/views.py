@@ -31,7 +31,12 @@ class PlayerView(View):
         else:
             return HttpResponse("Player not chosen")
 
-        return render(request, "playerdetail.html", {"player": player})
+        winloss = player.get_wins()
+        awards = player.format_awards()
+        award_score = awards[0]
+        score = winloss[0] + award_score
+
+        return render(request, "playerdetail.html", {"player": player, "score": score, "award": awards[1]})
 
 
 class PlayersView(ListView):

@@ -1,6 +1,6 @@
 from tournament.models import Player, Team
 
-def populate_player_database(filename):
+def populate_player_database(filename="players.csv"):
 	with open(filename) as f:
 		for line in f:
 			stripline = line.strip()

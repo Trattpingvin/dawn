@@ -55,7 +55,7 @@
                 });
             });
             $(".btn-score").click(function (event) {
-                let url = "{% url 'scorematch' %}" + event.target.id;
+                let url = "{% url 'scorematch' %}" + event.target.id + "/4";
                 console.log(url);
                 window.location.href = url;
             });

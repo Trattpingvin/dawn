@@ -5,6 +5,9 @@
 
 
 {% block main %}
-
+<form action="{% url 'scorematch' %}" method="post">
     {{ scoreform }}
+    <input type="submit" value="Submit">
+</form>
+    
 {% endblock main %}

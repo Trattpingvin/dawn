@@ -55,14 +55,20 @@ class PlayersView(ListView):
 
 
 class ScoreMatchView(View):
-    def get(self, request, match_id=None):
+    def get(self, request, match_id=None, num_awards=0):
         if not match_id:
             return HttpResponse("Bad match id")
-        return render(request, 'matchmaking/scorematch.html', {"scoreform": ScoreMatchForm})
+        scoreform = ScoreMatchForm(match_id, num_awards)
+        return render(request, 'matchmaking/scorematch.html', {"scoreform": scoreform})
 
-    def post(self, request, match_id=None):
-        if not match_id:
-            return HttpResponse("Bad match id")
+    def post(self, request):
+        import pdb
+        pdb.set_trace()
+        stuff = request.POST
+        form = ScoreMatchForm(stuff)
+        if form.is_valid():
+            return HttpResponse("Good")    
+        return HttpResponse("Not good")
         # in ffa, winner gets 2 stars. in 1v1, winner gets 1 star
         # everyone else loses one star
         # if i go to -1 star bracket is -1 and star = 3

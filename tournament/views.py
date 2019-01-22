@@ -34,8 +34,17 @@ class PlayerView(View):
         awards = player.format_awards()
         award_score = awards[0]
         score = winloss[0] + award_score
+        availability = []
+        date = ["Jan 26", "Jan 27", "Feb 2", "Feb 3"]
+        for i in range(4):
+            if player.is_available(i+1): availability.append(1)
+            else: availability.append(0)
+        preference = [bool(player.preference&1), bool(player.preference&2), bool(player.preference&4)] #"Mars 1" "Ceres 2" "Io 4"
 
-        return render(request, "playerdetail.html", {"player": player, "score": score, "award": awards[1]})
+        return render(request, "playerdetail.html",{
+            "player": player, "score": score, "award": awards[1],
+            "availability": zip(availability, date), "loc": preference,
+            })
 
 
 class PlayersView(ListView):

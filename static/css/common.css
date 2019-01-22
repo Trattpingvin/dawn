@@ -45,6 +45,7 @@ hr {
     overflow: visible;
     text-align: center;
     height: 5px;
+    pointer-events: none;
 }
 
 /* list styling */

@@ -62,8 +62,8 @@ class Player(models.Model):
 
     def get_wins(self):
         qs = self.get_matches()
-        wins = 0.0
-        losses = 0.0
+        wins = 0
+        losses = 0
         for m in qs:
             if m.result:
                 if m.result.winner == self:

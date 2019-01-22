@@ -24,3 +24,7 @@ def populate_team_database():
 def empty_player_database():
 	for p in Player.objects.all():
 		p.delete()
+
+def reset():
+	empty_player_database()
+	populate_player_database()

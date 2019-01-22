@@ -1,14 +1,13 @@
 
 from django.views import View
-from django.urls import reverse_lazy
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from django.views.generic import DeleteView, ListView
+from django.views.generic import ListView
 import dawnotc.matchmaking as dm
 import dawnotc.classes as dc
 from django.views.generic import TemplateView
 from tournament.models import *
-# Create your views here.
+from tournament.forms import *
 
 
 class DayView(TemplateView):
@@ -39,6 +38,21 @@ class PlayersView(ListView):
     model = Team
     #ordering = ['team']
     # not sure why i made this class. in case we need something extra I guess?
+
+
+class ScoreMatchView(View):
+    def get(self, request, match_id=None):
+        if not match_id:
+            return HttpResponse("Bad match id")
+        return render(request, 'matchmaking/scorematch.html', {"scoreform": ScoreMatchForm})
+
+    def post(self, request, match_id=None):
+        if not match_id:
+            return HttpResponse("Bad match id")
+        # in ffa, winner gets 2 stars. in 1v1, winner gets 1 star
+        # everyone else loses one star
+        # if i go to -1 star bracket is -1 and star = 3
+        # if i to to 4+ stars, bracket is +1 and star = 1
 
 
 class MainView(View):
@@ -79,17 +93,14 @@ class GenMatchesView(View):
                 m.players.add(p)
 
         return HttpResponse("OK")
-        return redirect('matchmaking-root')
-
+        #return redirect('matchmaking-root')
         #return render(request, "matchmaking/matchmaking.html", {"object_list":result})
-
-
 
     def get(self, request):
         return HttpResponse("How did this happen?")
 
 
-class RemoveMatch(View):
+class RemoveMatchView(View):
     def post(self, request, match_id=None):
         match = get_object_or_404(Match, id=match_id)
         match.delete()

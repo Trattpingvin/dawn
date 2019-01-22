@@ -1,6 +1,7 @@
 from django.urls import path, include
 from django.views.generic.base import TemplateView
 from django.contrib.auth.decorators import login_required
+
 from . import views
 
 matchmaking = [
@@ -8,9 +9,12 @@ matchmaking = [
     path('genffa', login_required(views.GenMatchesView.as_view()), name='genffa'),
     path('genffa/<int:amount>', login_required(views.GenMatchesView.as_view()), name='genffa'),
     path('gen1v1', login_required(views.GenMatchesView.as_view()), name='gen1v1'),
-    path('removematch/<int:match_id>', login_required(views.RemoveMatch.as_view()), name='removematch'),
-    path('removematch/', login_required(views.RemoveMatch.as_view()), name='removematch'),
+    path('removematch/<int:match_id>', login_required(views.RemoveMatchView.as_view()), name='removematch'),
+    path('removematch/', login_required(views.RemoveMatchView.as_view()), name='removematch'),
+    path('scorematch/<int:match_id>', login_required(views.ScoreMatchView.as_view()), name='scorematch'),
+    path('scorematch/', login_required(views.ScoreMatchView.as_view()), name='scorematch'),
     path('inspectmatch/<int:match_id>/<int:rnd>', views.MatchView.as_view(), name='inspectmatch'),
+    path('inspectmatch/<int:match_id>', views.MatchView.as_view(), name='inspectmatch'),
     path('inspectmatch/', views.MatchView.as_view(), name='inspectmatch'),
 ]
 

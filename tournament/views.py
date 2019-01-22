@@ -58,6 +58,10 @@ class ScoreMatchView(View):
     def get(self, request, match_id=None, num_awards=0):
         if not match_id:
             return HttpResponse("Bad match id")
+        match = Match.get(id=match_id)
+        if match.result:
+            return HttpResponse("Match already scored!")
+
         scoreform = ScoreMatchForm(match_id, num_awards)
         return render(request, 'matchmaking/scorematch.html', {"scoreform": scoreform})
 

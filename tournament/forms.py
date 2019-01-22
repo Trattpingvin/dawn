@@ -9,11 +9,16 @@ class ScoreMatchForm(forms.Form):
 	match = Match.get(id=self.match_id)
 	players = match.players.all()
 	winner = forms.ModelChoiceField(players)
-	for p in players:
-		bracket_before = forms.IntegerField(label="Bracket before for "+p.name)
-		bracket_after = forms.IntegerField(label="Bracket after for "+p.name)
-		stars_before = forms.IntegerField(label="Stars before for "+p.name)
-		stars_after = forms.IntegerField(label="Stars after for "+p.name)
+
+	self.players = []
+	for i, p in enumerate(players):
+		self.players.append(p)
+		self.fields['bracket_before-' + str(i)] = forms.IntegerField(label="Bracket before for "+p.name)
+		self.fields['bracket_after-' + str(i)] = forms.IntegerField(label="Bracket after for "+p.name)
+		self.fields['stars_before-' + str(i)] = forms.IntegerField(label="Stars before for "+p.name)
+		self.fields['stars_after-' + str(i)] = forms.IntegerField(label="Stars after for "+p.name)
+            
+		
 	for _ in range(num_awards):
 		award_winner = forms.ModelChoiceField(players)
 		award = forms.ModelChoiceField(Award.objects.all())

@@ -6,58 +6,79 @@
 
 {% block main %}
 
-<div id="genmatches"> GENERATE MATCHES </div>
+    <button type="button" id="genmatches">Generate Matches</button>
+    <button type="button" id="toggle">Toggle scored</button>
 
+    <script type="text/javascript">
+        let scored = false;
+        $(document).ready(function () {
 
-<script type="text/javascript">
-$(document).ready(function() {
-  $("#genmatches").click(function(event)
-  {
-      $.post
-    $.post("{% url 'genffa' 1 %}", function(data, textStatus, jqXHR)
-    {
-    if(data=="OK")
-    {
-        let url = "{% url 'matchmaking-root' %}";
-        window.location.replace(url);
-    }
-    else
-    {
-        alert(data)
-    }
-  })});
-  /*
-    $(".match").click(function(event) {
-        let url = "{% url 'inspectmatch' %}"+event.target.id;
-        console.log(url);
+            $("#toggle").click(function (event) {
+                scored = !scored;
+                if (!scored) {
+                    $(".scored").css("display", "none");
+                    $(".notscored").css("display", "block");
+                } else {
+                    $(".scored").css("display", "block");
+                    $(".notscored").css("display", "none");
+                }
 
-       		window.location.href = url;
-    });
-    */
-    $(".btn-delete").click(function(event)
-      {
-        let url = "{% url 'removematch' %}"+event.target.id;
-        console.log(url);
-        $.post(url, function(data, textStatus, jqXHR)
-          {
-            if(data==="OK")
-            {
-                let url = "{% url 'matchmaking-root' %}";
-                window.location.replace(url);
-            }
-            else
-            {
-                alert(data);
-            }
-          });
-      });
-});
-</script>
+            });
+
+            $("#genmatches").click(function (event) {
+                $.post("{% url 'genffa' 1 %}", function (data, textStatus, jqXHR) {
+                    if (data == "OK") {
+                        let url = "{% url 'matchmaking-root' %}";
+                        window.location.replace(url);
+                    } else {
+                        alert(data)
+                    }
+                });
+            });
+
+            $(".matchdetail").click(function (event) {
+                let url = "{% url 'inspectmatch' %}" + event.target.id;
+                console.log(url);
+                window.location.href = url;
+            });
+
+            $(".btn-delete").click(function (event) {
+                let url = "{% url 'removematch' %}" + event.target.id;
+                console.log(url);
+                $.post(url, function (data, textStatus, jqXHR) {
+                    if (data === "OK") {
+                        let url = "{% url 'matchmaking-root' %}";
+                        window.location.replace(url);
+                    } else {
+                        alert(data);
+                    }
+                });
+            });
+            $(".btn-score").click(function (event) {
+                let url = "{% url 'scorematch' %}" + event.target.id;
+                console.log(url);
+                window.location.href = url;
+            });
+        });
+    </script>
 
     <ul class="alternate" id="matches">
         {% for match in object_list %}
-        <li class="match" id="{{ match.id }}"> {% for player in match.players.all %}{{ player.name }} {% endfor %}</li> <button type="button" class="btn-delete" id="{{ match.pk }}">Delete</button>
-            {{ match.notes }}
+
+                <li class="match {% if match.result %}scored{% else %}notscored{% endif %}">
+                    <div class="matchdetail" id="{{ match.id }}">
+                    <b>{{ match.get_location_display }}</b>:
+                    {% for player in match.players.all %}{{ player.name }} {% endfor %}
+                    </div>
+
+
+                <button type="button" class="btn-delete" id="{{ match.pk }}">Delete</button>
+                <button type="button" class="btn-score" id="{{ match.pk }}">Score</button>
+                {{ match.notes }}
+            </li>
+
+
+
         {% endfor %}
     </ul>
 

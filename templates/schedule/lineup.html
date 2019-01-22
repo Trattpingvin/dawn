@@ -23,14 +23,14 @@
         <div class="lineup">
             {% for match in FFA %}
             <div class="match" id="{{ match.id }}/{{ forloop.counter }}">
-                <div class="match-title" id="{{ match.id }}/{{ forloop.counter }}">
-                    <span class="match-num" id="{{ match.id }}/{{ forloop.counter }}">Round {{ forloop.counter }}:</span><br />
-                    <span class="location" id="{{ match.id }}/{{ forloop.counter }}">{{ match.get_location_display }}</span>
+                <div class="match-title">
+                    <span class="match-num">Round {{ forloop.counter }}:</span><br />
+                    <span class="location">{{ match.get_location_display }}</span>
                 </div>
                 <hr>
                 <ul>
                     {% for player in match.players.all %}
-                        <li class="{% if player == match.result.winner %}winner{% endif %} team{{player.team.id}}">{{ player.name }}</li>
+                    <li class="{% if player == match.result.winner %}winner{% endif %} team{{player.team.id}}">{{ player.name }}</li>
                     {% endfor %}
 
                 </ul>

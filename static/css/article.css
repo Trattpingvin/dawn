@@ -21,6 +21,7 @@ article h2 {
 main div.article {
     margin-top: 30px;
     background-color: #C07A54;
+    overflow: auto;
 }
 
 /* schedule list style */
@@ -75,7 +76,6 @@ ul.schedule li a {
 div#player-all {
     float: left;
     width: 46%;
-    margin-bottom: 100px;
 }
 div#player-all li.teamname {
     background-color: #362923;
@@ -115,7 +115,7 @@ li.player > div.stars {
     text-align: center;
 }
 
-li.player > div.stars-text {
+z.player > div.stars-text {
     font-family: Titillium Web;
     font-size: 30px;
     max-height: 30px;
@@ -126,18 +126,28 @@ div.stars span.full-stars {color: #790805;}
 div.stars span.empty-stars {color: #ffffff85;}
 
 /* Player Detail View*/
+div#player-detail {font-size: 14px}
+div#player-detail > div {padding: 5px; overflow:auto;}
+div#player-detail ul {padding-left: 0;}
+div#player-detail p {float:right; clear:right; margin: 1px;}
+div#player-detail hr {clear:both;}
+div#player-detail .headline {
+    background-color:#362923bb;
+    color:white;
+    font-size: 18px;
+    margin-bottom: 3px;
+}
+
+    /* title */
 div#player-detail > div.title {
     overflow: auto;
     background-color: #362923;
     height: 55px;
 }
-div#player-detail > div {padding: 5px;}
 div#player-detail {
     float: right;
     width: 52%;
-    min-height: 50px;
     border: outset 4px #362923;
-    display: none;
     background-color: rgba(255, 255, 255, 0.2);
 }
 div#player-detail div.name-wrapper {
@@ -158,15 +168,44 @@ div#player-detail div.team {
     font-size: 24px;
     float: right;
 }
-div#player-detail ul {
-    padding-left: 0;
+
+    /* availability */
+div.availability > p {font-size: 16px; margin:0px;}
+div.availability > p.extra-info {font-size: 12px;}
+div.availability span.colormark {
+    color:white;
+    padding: 2px;
+    font-size: 12px;
+}
+div.availability span.green {background-color: green;}
+div.availability span.red {background-color: red;}
+
+    /* scores */
+div#player-detail li {
+    font-size: 14px;
+    text-align:right;
+    clear: right;
+}
+div#player-detail li.total {
+    background-color: rgba(0,0,0,0.5);
+    color:white;
 }
 
-/* Player Detail Arrow */
+    /* Match List */
+div#player-detail span.match-info {
+    background-color: rgba(0,0,0,0.3);
+    color:white;
+}
+.winner {
+    background-color: rgba(255,255,255,0.2);
+}
+
+    /* Player Detail Arrow */
 div#player-arrow {
 	position: relative;
 	background: #362923;
-	width: 0;
+    width: 0;
+    display:none;
 }
 div#player-arrow:after, #player-arrow:before {
 	right: 100%;

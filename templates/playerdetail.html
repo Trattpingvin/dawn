@@ -8,16 +8,45 @@
     <div class="team team{{player.team.id}}">{{player.team.name}}</div>
 </div>
 <div>
-    <div>Matches Played: {{player.get_num_matches}}</div>
-    <!-- match detail list view, clickable -->
-</div>
-
-<div>
-    <div>Score: {{ player.get_wins.0|add:player.format_awards.0 }}</div>
-    <ul>
-        <li>Wins: {{player.get_wins.0}}</li>
-        {% for awards in player.get_awards %}
-        <li><!-- implement after testing awards --></li>
+    <div>
+        <span class="headline right">Stats</span>
+    </div>
+    <ul class="alternate">
+        <li>{{player.get_wins.0}} Wins / {{player.get_wins.0}} Losses</li>
+        {% if player.get_wins.0 > 0 %}<li>Victorious: {{player.get_wins.0}}</li>{% endif %}
+        {% for a in award %}
+        {% if a.1 > 0 %}<li>{{a.0}} ({{a.1}}): {{a.2}}</li>{% endif %}
         {% endfor %}
+        <li class="total">Total Score: {{score}}</li>
     </ul>
+</div>
+<div>
+    <div><span class="headline right">Match History</span></div>
+    {% for match in player.get_matches %}
+    <ul>
+        <li>
+            <span class="match-info">Day {{match.day}}, {{match.get_location_display}}</span><br />
+            {% for p in match.get_players %}
+            <span class="team{{p.team.id}}">■</span>
+            <span class="{% if match.winner == p %}winner{% endif %}">{{p.name}}{% if not forloop.last %},{% endif %}</span>
+            {% endfor %}
+        </li>
+    </ul>
+    {% endfor %}
+</div>
+<div class="availability">
+    <hr>
+    <p>Veto:
+        <span class="colormark {% if player.will_ffa %}green{% else %}red{% endif %}">FFA</span>
+        <span class="colormark {% if player.will_1v1 %}green{% else %}red{% endif %}">1v1</span>
+        <span class="colormark {% if loc.0 %}green{% else %}red{% endif %}">Mars</span>
+        <span class="colormark {% if loc.1 %}green{% else %}red{% endif %}">Ceres</span>
+        <span class="colormark {% if loc.2 %}green{% else %}red{% endif %}">Io</span>
+    </p>
+    <p>Availability:
+        {% for a in availability %}
+        <span class="colormark {% if a.0 == 0 %}green{% else %}red{% endif %}">{{a.1}}</span>
+        {% endfor %}
+    </p>
+    <p class="extra-info">*Green means the player is included in the matchmaking pool</p>
 </div>

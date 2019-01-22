@@ -8,6 +8,7 @@ import dawnotc.classes as dc
 from django.views.generic import TemplateView
 from tournament.models import *
 from tournament.forms import *
+from utils import calc_rating_change
 
 
 class DayView(TemplateView):
@@ -58,20 +59,40 @@ class ScoreMatchView(View):
     def get(self, request, match_id=None, num_awards=0):
         if not match_id:
             return HttpResponse("Bad match id")
-        match = Match.get(id=match_id)
+        match = Match.objects.get(id=match_id)
         if match.result:
             return HttpResponse("Match already scored!")
 
         scoreform = ScoreMatchForm(match_id, num_awards)
-        return render(request, 'matchmaking/scorematch.html', {"scoreform": scoreform})
+        return render(request, 'matchmaking/scorematch.html', {"scoreform": scoreform, "match_id":match_id, "num_awards":num_awards})
 
-    def post(self, request):
-        import pdb
-        pdb.set_trace()
-        stuff = request.POST
-        form = ScoreMatchForm(stuff)
+    def post(self, request, match_id=None, num_awards=0):
+        form = ScoreMatchForm(match_id, num_awards, data=request.POST)
+
         if form.is_valid():
-            return HttpResponse("Good")    
+            thematch = Match.objects.get(id=match_id)
+            thewinner = form.cleaned_data['winner']
+            matchresult = MatchResult(winner=thewinner)
+            matchresult.save()
+
+            for p in thematch.players.all():
+                b, s = calc_rating_change(p.bracket, p.stars, p == thewinner, thematch.mode == "F")
+                ratingchange = RatingChange(player=p, matchresult=matchresult, bracket_before=p.bracket, bracket_after=b,
+                                            stars_before=p.stars, stars_after=s)
+                ratingchange.save()
+
+            for key, value in form.cleaned_data.items():
+                if "award_winner" in key:
+                    awardwinner = value
+                    thetype = form.cleaned_data["award_type-" + key[-1]]
+                    award = Award(player=awardwinner, award=thetype, match=matchresult)
+                    award.save()
+
+            thematch.result = matchresult
+            thematch.save()
+
+            return HttpResponse("Good")
+
         return HttpResponse("Not good")
         # in ffa, winner gets 2 stars. in 1v1, winner gets 1 star
         # everyone else loses one star

@@ -8,7 +8,8 @@
 
     <button type="button" id="genmatches">Generate Matches</button>
     <button type="button" id="toggle">Toggle scored</button>
-
+    <h1 class="scored" style="display: none"> SHOWING SCORED MATCHES</h1>
+    <h1 class="notscored"> SHOWING NOT SCORED MATCHES</h1>
     <script type="text/javascript">
         let scored = false;
         $(document).ready(function () {
@@ -55,7 +56,7 @@
                 });
             });
             $(".btn-score").click(function (event) {
-                let url = "{% url 'scorematch' %}" + event.target.id + "/4";
+                let url = "{% url 'scorematch' %}" + event.target.id + "/1";
                 console.log(url);
                 window.location.href = url;
             });

@@ -45,7 +45,7 @@
     </p>
     <p>Availability:
         {% for a in availability %}
-        <span class="colormark {% if a.0 == 0 %}green{% else %}red{% endif %}">{{a.1}}</span>
+        <span class="colormark {% if a.0 == 1 %}green{% else %}red{% endif %}">{{a.1}}</span>
         {% endfor %}
     </p>
     <p class="extra-info">*Green means the player is included in the matchmaking pool</p>

@@ -5,6 +5,9 @@
 
 
 {% block main %}
-
-    {{ scoreform }}
+<form action="{% url 'scorematch' %}{{ match_id }}/{{ num_awards }}" method="post"> {% csrf_token %}
+    {{ scoreform.as_ul }}
+    <input type="submit" value="Submit">
+</form>
+    
 {% endblock main %}

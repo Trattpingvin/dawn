@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.db.models.functions import Lower
-
+from tournament.choices import AWARDS
 
 def validate_preference(val):
     # preference is 3 bit value. bit order 0x1 = mars, 0x10 = ceres, 0x100 = io
@@ -131,9 +131,7 @@ class Match(models.Model):
 class Award(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     match = models.ForeignKey(MatchResult, on_delete=models.CASCADE)
-    AWARDS = [("A", "Keen Eyes on Their Stuff"), ("B", "Outstanding Performances"),
-        ("C", "Race for the Initial Markets"), ("D", "Eggs in Multiple Baskets"),
-        ("E", "Commercial Meteorology Experiment"), ("F", "Mind Games")]
+
     award = models.CharField(choices=AWARDS, max_length=1)
 
     def __str__(self):

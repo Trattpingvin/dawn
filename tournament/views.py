@@ -160,10 +160,11 @@ class MatchView(View):
             awd = ans.get_awards()
         else:
             return HttpResponse("shouldn't happen")
+        players = ans.players.all()
         if ans.result:
-            players = ans.players.all()
             for p in players:
                 p.totalscore = len(ans.get_awards().filter(player=p)) * 0.2 + int(ans.result.winner == p)
+                p.ratingchange = RatingChange.objects.filter(matchresult=ans.result, player=p)[0]
 
         return render(request, "matchmaking/detail.html", {"match": ans, "round": r, "award": awd, "players": players})
 

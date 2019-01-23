@@ -25,11 +25,13 @@
                     <div>Star:</div>
                 </div>
                 <div class="match-stats-num">
+                    {% if match.result %}
                     <!-- player's stat at the time and their stat changes -->
                     <!-- ^ requires change in model. Maybe just use current stats? -->
-                    <div>BRACKET_NUM (DIFF)</div>
+                    <div>{{ player.ratingchange.bracket_before }} DELTA: {{ player.ratingchange.get_bracket_diff }}</div>
                     <!-- fancy star using *** will require another hack -->
-                    <div>STAR_NUM (DIFF)</div>
+                    <div>{{ player.ratingchange.stars_before }} DELTA: {{ player.ratingchange.get_stars_diff }}</div>
+                    {% endif %}
                 </div>
                 <div class="match-stats-awards right">
                     {% if match.winner == player %}

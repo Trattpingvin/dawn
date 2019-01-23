@@ -42,7 +42,7 @@ def calc_rating_change(bracketbefore, starsbefore, winner, ffa):
 
 	STAR_AFTER_UPGRADE = 1
 	STAR_AFTER_DOWNGRADE = 3
-	bracketafter, starsafter = 0, 0
+	bracketafter, starsafter = bracketbefore, starsbefore
 	if ffa:
 		stars_gained = 2
 	else:

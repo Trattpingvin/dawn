@@ -8,7 +8,7 @@
         <span class="location">{{match.get_location_display}}</span>
     </div>
     <div class="match-content">
-        {% for player in match.get_players %}
+        {% for player in players %}
         <div>
             <div class="match-player">
                 <span class="name team{{player.team.id}}">{{player.name}}</span>

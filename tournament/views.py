@@ -161,9 +161,11 @@ class MatchView(View):
         else:
             return HttpResponse("shouldn't happen")
         if ans.result:
-            for p in ans.players.all():
+            players = ans.players.all()
+            for p in players:
                 p.totalscore = len(ans.get_awards().filter(player=p)) * 0.2 + int(ans.result.winner == p)
-        return render(request, "matchmaking/detail.html", {"match": ans, "round": r, "award": awd})
+
+        return render(request, "matchmaking/detail.html", {"match": ans, "round": r, "award": awd, "players": players})
 
     def post(self, request):
         return HttpResponse("how did this happen?")

@@ -88,6 +88,9 @@ class Player(models.Model):
 class MatchResult(models.Model):
     winner = models.ForeignKey(Player, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.winner.name + " won"
+
 
 class RatingChange(models.Model):
     matchresult = models.ForeignKey(MatchResult, on_delete=models.CASCADE)

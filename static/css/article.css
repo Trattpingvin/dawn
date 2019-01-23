@@ -24,6 +24,18 @@ main div.article {
     overflow: auto;
 }
 
+/* workshop */
+ul.list-workshop li {
+    padding: 3px;
+    width: 300px;
+}
+
+ul.list-workshop > li.headline-workshop, ul.list-workshop > li.headline-workshop:hover {
+    background-color: #362923;
+    color:white;
+    text-align: center;
+}
+
 /* schedule list style */
 
 ul.schedule {

@@ -54,7 +54,7 @@ ul.alternate li:nth-child(even) {background-color:rgba(255,255,255,0.05);}
 ul.alternate li:nth-child(odd) {background-color:rgba(255,255,255,0.10);}
 ul.alternate li:nth-child(even):hover {background-color:rgba(255,255,255,0.15);}
 ul.alternate li:nth-child(odd):hover {background-color:rgba(255,255,255,0.2);}
-
+.none {display:none;}
 
 /* Footer Related */
 footer {

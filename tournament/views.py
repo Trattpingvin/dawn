@@ -16,8 +16,12 @@ class DayView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        db_matches = Match.objects.filter(day=self.day, mode="F")
 
-        context["FFA"] = Match.objects.filter(day=self.day, mode="F")
+        for match in db_matches:
+            match.orderedplayers = match.players.all().order_by('team')
+
+        context["FFA"] = db_matches
         context["1v1"] = Match.objects.filter(day=self.day, mode="O")
 
         return context
@@ -160,7 +164,7 @@ class MatchView(View):
             awd = ans.get_awards()
         else:
             return HttpResponse("shouldn't happen")
-        players = ans.players.all()
+        players = ans.players.all().order_by('team')
         if ans.result:
             for p in players:
                 p.totalscore = len(ans.get_awards().filter(player=p)) * 0.2 + int(ans.result.winner == p)

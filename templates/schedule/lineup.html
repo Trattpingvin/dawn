@@ -16,9 +16,6 @@
 </script>
 <div class="inner article">
     <article>
-        <h3>Example Data</h3>
-        This page is under construction, so information displayed here may not be accurate.<br />
-        <hr>
         <h2>Match Lineups</h2>
         <div class="lineup">
             {% for match in FFA %}
@@ -32,12 +29,10 @@
                     {% for player in match.players.all %}
                     <li class="{% if player == match.result.winner %}winner{% endif %} team{{player.team.id}}">{{ player.name }}</li>
                     {% endfor %}
-
                 </ul>
             </div>
             {% endfor %}
         </div>
-        <!-- I will need some kind of javascript to make tab display work -->
         <div class="match-arrow" id="match-arrow"></div>
         <div class="match-details" id="match-details"></div>
         <p>

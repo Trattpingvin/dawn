@@ -2,9 +2,9 @@
 {% block main %}
     <div class="inner title big mars">
         <div class="notice">
-            <h1><span class="highlight">Upcoming:</span> <a href="{% url 'workshop' %}">Workshop</a></h1>
-            <h2>Jan 23, GMT 20</h2>
-            <h2>Drafting result: <a href="https://docs.google.com/spreadsheets/d/1OeNn012pWXMDYSfHO91g8whs3aFgAqv3zKo8LSs9TSg/edit#gid=0">spreadsheet</a></h2>
+            <h1><span class="highlight">Upcoming:</span> <a href="{% url 'day1' %}">Day 1</a></h1>
+            <h2>Jan 26, GMT 19</h2>
+            <h2>Review Workshop <a href="{% url 'workshop' %}">Video</a></h2>
         </div>
         <nav class="left-menu">
             <a href="{% url 'rules' %}" role="button">Rules</a>
@@ -43,7 +43,7 @@
             They won't get matched in one of those locations if they do. While the number of 1v1 matches will be minimal, players can veto 1v1 format as well for the same reason.</p>
         </article>
     </div>
-    <div class="inner article">
+    <div class="inner article" style="display:none;">
         <article>
             News Page
         </article>

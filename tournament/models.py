@@ -111,8 +111,8 @@ class Match(models.Model):
     day = models.IntegerField()
     LOCATIONS = [("M", "Mars"), ("C", "Ceres"), ("I", "Io")]
     location = models.CharField(choices=LOCATIONS, max_length=6)
-    result = models.OneToOneField(MatchResult, null=True, on_delete=models.CASCADE)
-    notes = models.CharField(max_length=1024, default="")
+    result = models.OneToOneField(MatchResult, blank=True, null=True, on_delete=models.CASCADE)
+    notes = models.CharField(max_length=1024, default="", null=True, blank=True)
     players = models.ManyToManyField(Player)
     MODES = [("O", "1v1"), ("F", "FFA")]
     mode = models.CharField(choices=MODES, max_length=1)

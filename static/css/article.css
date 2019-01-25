@@ -154,7 +154,6 @@ div#player-detail .headline {
 div#player-detail > div.title {
     overflow: auto;
     background-color: #362923;
-    height: 55px;
 }
 div#player-detail {
     float: right;

@@ -2,8 +2,6 @@
 
 {% block title %} Matchmaking {% endblock %}
 
-
-
 {% block main %}
 
     <button type="button" id="genmatches">Generate Matches</button>
@@ -13,6 +11,7 @@
     <script type="text/javascript">
         let scored = false;
         $(document).ready(function () {
+            $(".scored").css("display", "none");
 
             $("#toggle").click(function (event) {
                 scored = !scored;
@@ -32,7 +31,7 @@
                         let url = "{% url 'matchmaking-root' %}";
                         window.location.replace(url);
                     } else {
-                        alert(data)
+                        alert(data);
                     }
                 });
             });
@@ -56,7 +55,11 @@
                 });
             });
             $(".btn-score").click(function (event) {
-                let url = "{% url 'scorematch' %}" + event.target.id + "/1";
+                let target_id = event.target.id;
+
+                let selector = "#"+target_id+".num-awards";
+                let num_awards = $(selector).val();
+                let url = "{% url 'scorematch' %}" + target_id + "/"+num_awards;
                 console.log(url);
                 window.location.href = url;
             });
@@ -68,13 +71,15 @@
 
                 <li class="match {% if match.result %}scored{% else %}notscored{% endif %}">
                     <div class="matchdetail" id="{{ match.id }}">
-                    <b>{{ match.get_location_display }}</b>:
+                    <b>{{ match.get_location_display }}</b> {{ match.get_mode_display }}:
                     {% for player in match.players.all %}{{ player.name }} {% endfor %}
                     </div>
 
 
                 <button type="button" class="btn-delete" id="{{ match.pk }}">Delete</button>
                 <button type="button" class="btn-score" id="{{ match.pk }}">Score</button>
+                <input type="text" size="1" class="num-awards" id="{{ match.pk }}"> awards
+                <br>
                 {{ match.notes }}
             </li>
 

@@ -42,7 +42,6 @@ div.match {
 }
 div.match:hover {background-color: rgba(54, 57, 63, 0.5);}
 
-
 div.match ul {
     padding: 0 0 0 10px;
     margin: 0;
@@ -51,9 +50,12 @@ div.match ul {
 div.match ul li {
     font-size: 18px;
     list-style-type: none;
+    white-space: nowrap;
 }
 
-.winner {font-weight:bold;}
+.winner {
+    font-weight:bold;
+}
 .team1 {color:#3498DB;}
 .team2 {color:#E67E22;}
 .team3 {color:#1F8B4C;}   

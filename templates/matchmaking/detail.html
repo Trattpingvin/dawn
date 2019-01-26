@@ -26,8 +26,6 @@
             </div>
             <div class="match-stats-num">
                 {% if match.result %}
-                <!-- player's stat at the time and their stat changes -->
-                <!-- ^ requires change in model. Maybe just use current stats? -->
                 <div>
                     {{ player.ratingchange.bracket_before }}
                     {% with player.ratingchange.get_bracket_diff as trend %}
@@ -36,7 +34,6 @@
                     {% endif %}
                     {% endwith %}
                 </div>
-                <!-- fancy star using *** will require another hack -->
                 <div>{{ player.ratingchange.stars_before }} → {{ player.ratingchange.stars_after }}</div>
                 {% endif %}
             </div>

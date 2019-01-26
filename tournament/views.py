@@ -84,6 +84,7 @@ class ScoreMatchView(View):
                                             stars_before=p.stars, stars_after=s)
                 ratingchange.save()
 
+
             for key, value in form.cleaned_data.items():
                 if "award_winner" in key:
                     awardwinner = value

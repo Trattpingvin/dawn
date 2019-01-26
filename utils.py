@@ -1,4 +1,4 @@
-from tournament.models import Player, Team
+from tournament.models import Player, Team, Match
 
 
 def populate_player_database(filename="players.csv"):
@@ -27,6 +27,25 @@ def populate_team_database():
 def empty_player_database():
 	for p in Player.objects.all():
 		p.delete()
+
+
+def parse_weeks_matches(day):
+	try:
+		matches = Match.objects.filter(day=day, parsed=False)
+		for match in matches:
+			if not match.result: #should probably have this in the filter but i'm not sure how
+				continue
+			match.parsed = True
+			res = match.result
+			for rc in res.ratingchange_set.all():
+				rc.player.stars = rc.stars_after
+				rc.player.bracket = rc.bracket_after
+				rc.player.save()
+			match.save()
+	except:
+		import pdb
+		pdb.set_trace()
+		raise
 
 
 def reset():

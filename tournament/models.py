@@ -119,6 +119,7 @@ class Match(models.Model):
     url = models.URLField(null=True, blank=True)
     published = models.BooleanField()
     seed = models.IntegerField(blank=True, null=True)
+    parsed = models.BooleanField(default=False)
 
     def __str__(self):
         ans = self.get_location_display()+", day "+str(self.day)+": "+", ".join((n.name for n in self.players.all()))

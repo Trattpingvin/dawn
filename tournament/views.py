@@ -16,13 +16,12 @@ class DayView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        db_matches = Match.objects.filter(day=self.day, mode="F")
+        db_matches = Match.objects.filter(day=self.day, published=True).order_by('id')
 
         for match in db_matches:
             match.orderedplayers = match.players.all().order_by('team')
 
-        context["FFA"] = db_matches
-        context["1v1"] = Match.objects.filter(day=self.day, mode="O")
+        context["matches"] = db_matches
 
         return context
 

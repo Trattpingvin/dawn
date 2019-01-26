@@ -18,7 +18,7 @@
     <article>
         <h2>Match Lineups</h2>
         <div class="lineup">
-            {% for match in FFA %}
+            {% for match in matches %}
             <div class="match" id="{{ match.id }}/{{ forloop.counter }}">
                 <div class="match-title">
                     <span class="match-num">Round {{ forloop.counter }}:</span><br />

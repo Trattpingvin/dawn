@@ -116,6 +116,8 @@ class Match(models.Model):
     players = models.ManyToManyField(Player)
     MODES = [("O", "1v1"), ("F", "FFA")]
     mode = models.CharField(choices=MODES, max_length=1)
+    url = models.URLField(null=True, blank=True)
+    published = models.BooleanField()
 
     def __str__(self):
         ans = self.get_location_display()+", day "+str(self.day)+": "+", ".join((n.name for n in self.players.all()))

@@ -139,7 +139,7 @@ div.stars span.empty-stars {color: #ffffff85;}
 
 /* Player Detail View*/
 div#player-detail {font-size: 14px}
-div#player-detail > div {padding: 5px; overflow:auto;}
+div#player-detail div.player-content-wrapper {padding: 5px; overflow:auto;}
 div#player-detail ul {padding-left: 0;}
 div#player-detail p {float:right; clear:right; margin: 1px;}
 div#player-detail hr {clear:both;}
@@ -159,7 +159,6 @@ div#player-detail {
     float: right;
     width: 52%;
     border: outset 4px #362923;
-    background-color: rgba(255, 255, 255, 0.2);
 }
 div#player-detail div.name-wrapper {
     float: left;
@@ -168,32 +167,35 @@ div#player-detail div.steam-name {
     
     font-family:Staatliches;
     font-size: 30px;
+    margin-left: 4px;
 }
 div#player-detail div.discord-name {
-    font-size: 14px;
+    font-size: 16px;
     margin-top: -5px;
     color:grey;
+    margin-bottom: 5px;
 }
 div#player-detail div.team {
     font-family:Staatliches;
     font-size: 24px;
     float: right;
+    margin-right: 4px;
 }
 
     /* availability */
-div.availability > p {font-size: 16px; margin:0px;}
+div.availability > p {font-size: 15px; margin:0px;}
 div.availability > p.extra-info {font-size: 12px;}
 div.availability span.colormark {
     color:white;
     padding: 2px;
-    font-size: 12px;
+    font-size: 13px;
 }
 div.availability span.green {background-color: green;}
 div.availability span.red {background-color: red;}
 
     /* scores */
 div#player-detail li {
-    font-size: 14px;
+    font-size: 16px;
     text-align:right;
     clear: right;
 }
@@ -207,7 +209,7 @@ div#player-detail span.match-info {
     background-color: rgba(0,0,0,0.3);
     color:white;
 }
-.winner {
+div#player-detail .winner {
     background-color: rgba(255,255,255,0.2);
 }
 
@@ -241,4 +243,29 @@ div#player-arrow:before {
 	border-right-color: #362923;
 	border-width: 19px;
 	margin-top: -19px;
+}
+
+/* custom backgrounds */
+.team1-background {
+    /* background: center no-repeat url("../img/team1.jpg"); */
+    background-color: rgba(255,255,255,0.2);
+    background-size: cover;
+}
+
+.team2-background {
+    /* background: center no-repeat url("../img/team2.jpg"); */
+    background-color: rgba(255,255,255,0.2);
+    background-size: cover;
+}
+
+.team3-background {
+    /* background: center no-repeat url("../img/team3.jpg"); */
+    background-color: rgba(255,255,255,0.2);
+    background-size: cover;
+}
+
+.team4-background {
+    background: no-repeat url("../img/team4.png");
+    background-color: rgba(255,255,255,0.9);
+    background-size: cover;
 }

@@ -6,51 +6,48 @@
 <div class="match-title">
         <span class="match-num">Round {{round}}</span><br />
         <span class="location">{{match.get_location_display}}</span>
-    </div>
-    <div class="match-content">
-        {% for player in players %}
-        <div>
-            <div class="match-player">
-                <span class="name team{{player.team.id}}">{{player.name}}</span>
-                {% if player.discordname %}
-                <span class="discord-name">({{player.discordname}})</span>
-                {% endif %}
-                {% if player.totalscore > 0 %}
-                <span class="score right">{{ player.totalscore }}</span>
+</div>
+<div class="match-content">
+    {% for player in players %}
+    <div>
+        <div class="match-player">
+            <span class="name team{{player.team.id}}">{{player.name}}</span>
+            {% if player.discordname %}
+            <span class="discord-name">({{player.discordname}})</span>
+            {% endif %}
+            {% if player.totalscore > 0 %}
+            <span class="score right">{{ player.totalscore }}</span>
+            {% endif %}
+        </div>
+        <div class="match-stats">
+            <div class="match-stats-text">
+                <div>Bracket:</div>
+                <div>Star:</div>
+            </div>
+            <div class="match-stats-num">
+                {% if match.result %}
+                <div>
+                    {{ player.ratingchange.bracket_before }}
+                    {% with player.ratingchange.get_bracket_diff as trend %}
+                    {% if trend != 0 %}
+                    → {{ player.ratingchange.bracket_after }}
+                    {% endif %}
+                    {% endwith %}
+                </div>
+                <div>{{ player.ratingchange.stars_before }} → {{ player.ratingchange.stars_after }}</div>
                 {% endif %}
             </div>
-            <div class="match-stats">
-                <div class="match-stats-text">
-                    <div>Bracket:</div>
-                    <div>Star:</div>
-                </div>
-                <div class="match-stats-num">
-                    {% if match.result %}
-                    <!-- player's stat at the time and their stat changes -->
-                    <!-- ^ requires change in model. Maybe just use current stats? -->
-                    <div>
-                        {{ player.ratingchange.bracket_before }}
-                        {% with player.ratingchange.get_bracket_diff as trend %}
-                        {% if trend != 0 %}
-                        → {{ player.ratingchange.bracket_after }}
-                        {% endif %}
-                        {% endwith %}
-                    </div>
-                    <!-- fancy star using *** will require another hack -->
-                    <div>{{ player.ratingchange.stars_before }} → {{ player.ratingchange.stars_after }}</div>
+            <div class="match-stats-awards right">
+                {% if match.result.winner == player %}
+                <div>Victorious: 1.0</div>
+                {% endif %}
+                {% for a in award %}
+                    {% if a.player == player %}
+                    <div>{{a.get_award_display}}: 0.2</div>
                     {% endif %}
-                </div>
-                <div class="match-stats-awards right">
-                    {% if match.result.winner == player %}
-                    <div>Victorious: 1.0</div>
-                    {% endif %}
-                    {% for a in award %}
-                        {% if a.player == player %}
-                        <div>{{a.get_award_display}}: 0.2</div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
+</div>

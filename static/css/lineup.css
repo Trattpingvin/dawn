@@ -55,6 +55,7 @@ div.match ul li {
 
 .winner {
     font-weight:bold;
+    text-decoration: underline;
 }
 .team1 {color:#3498DB;}
 .team2 {color:#E67E22;}
@@ -96,6 +97,10 @@ div.match-arrow:before {
 	margin-left: -21px;
 }
 
+.vod {
+    pointer-events: unset;
+    font-size: 20px;
+}
 
 /* detailed match view */
 div.match-details {

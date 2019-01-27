@@ -5,7 +5,10 @@
 -->
 <div class="match-title">
         <span class="match-num">Round {{round}}</span><br />
-        <span class="location">{{match.get_location_display}}</span>
+        <span class="location">{{match.get_location_display}}</span><br />
+        {% if match.url %}
+        <span class="vod"><a href="#">Watch VoD</a></span>
+        {% endif %}
 </div>
 <div class="match-content">
     {% for player in players %}

@@ -60,6 +60,12 @@ class Player(models.Model):
     def get_num_matches(self):
         return len(self.get_matches())
 
+    def get_score(self):
+        score = self.format_awards()[0] + self.get_wins()[0]
+        int_score = int(score)
+        if score == int_score: return int_score
+        else: return score
+
     def get_wins(self):
         qs = self.get_matches()
         wins = 0

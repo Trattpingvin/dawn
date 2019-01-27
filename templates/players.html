@@ -58,7 +58,7 @@
                         <div class="discord-name">({{ player.discordname}})</div>
                         {% endif %}
                     </div>
-                    <div class="score">{{ player.get_wins.0|add:player.format_awards.0  }}</div>
+                    <div class="score">{{ player.get_score }}</div>
                     <div class="bracket">{{ player.bracket}}</div>
                     <div class="stars stars-text">
                         <!-- hack -->

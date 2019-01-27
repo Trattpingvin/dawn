@@ -268,7 +268,7 @@ div#player-arrow:before {
 }
 
 .team3-background {
-    /* background: center no-repeat url("../img/team3.jpg"); */
+    background: bottom center no-repeat url("../img/capitalists2.png");
     background-color: rgba(255,255,255,0.2);
     background-size: cover;
 }

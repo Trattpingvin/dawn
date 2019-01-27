@@ -38,6 +38,9 @@
                     {% endwith %}
                 </div>
                 <div>{{ player.ratingchange.stars_before }} → {{ player.ratingchange.stars_after }}</div>
+                {% else %}
+                <div>{{player.bracket}}</div>
+                <div>{{player.stars}}</div>
                 {% endif %}
             </div>
             <div class="match-stats-awards right">

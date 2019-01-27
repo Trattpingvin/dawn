@@ -91,6 +91,7 @@ div#player-all {
 }
 div#player-all li.teamname {
     background-color: #362923;
+    pointer-events: none;
 }
 div#player-all > ul {padding-left: 0;}
 div#player-all > ul > li.example {background-color: rgba(255, 255, 255, 0.5);}
@@ -127,7 +128,7 @@ li.player > div.stars {
     text-align: center;
 }
 
-z.player > div.stars-text {
+li.player > div.stars-text {
     font-family: Titillium Web;
     font-size: 30px;
     max-height: 30px;
@@ -136,6 +137,14 @@ z.player > div.stars-text {
 }
 div.stars span.full-stars {color: #790805;}
 div.stars span.empty-stars {color: #ffffff85;}
+div#player-all ul li.teamscore {
+    background-color: rgba(0,0,0,0.5);
+    color:white;
+    padding-left: 310px;
+    margin-top: -5px;
+    font-size: 16px;
+    pointer-events: none;
+}
 
 /* Player Detail View*/
 div#player-detail {font-size: 14px}

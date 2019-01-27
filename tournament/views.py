@@ -51,11 +51,17 @@ class PlayerView(View):
             })
 
 
-class PlayersView(ListView):
-    template_name = "players.html"
-    model = Team
-    ordering = ['id']
-    # not sure why i made this class. in case we need something extra I guess?
+
+class PlayersView(View):
+    def get(self, request):
+        teams = Team.objects.all().order_by('id')
+        for t in teams:
+            res = 0
+            for player in t.player_set.all():
+                res += player.get_wins()[0] + player.format_awards()[0]
+            t.teamscore = res
+
+        return render(request, 'players.html', {"teams": teams})
 
 
 class ScoreMatchView(View):

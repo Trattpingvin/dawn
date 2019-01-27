@@ -7,7 +7,7 @@
         <span class="match-num">Round {{round}}</span><br />
         <span class="location">{{match.get_location_display}}</span><br />
         {% if match.url %}
-        <span class="vod"><a href="#">Watch VoD</a></span>
+        <span class="vod"><a href="{{match.url}}">Watch VoD</a></span>
         {% endif %}
 </div>
 <div class="match-content">

@@ -115,7 +115,7 @@ class GenMatchesView(View):
         # matchmaking method was designed with a different format in mind. let's convert to that format before
         # using it
         # TODO implement 1v1 matchmaking
-        day = 1
+        day = 2
         dawnplayers = {}
         db_players = Player.objects.all()
         if len(db_players) < 4:

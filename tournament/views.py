@@ -117,11 +117,11 @@ class GenMatchesView(View):
         # TODO implement 1v1 matchmaking
         day = 2
         dawnplayers = {}
-        db_players = Player.objects.all()
+        db_players = Player.objects.filter(will_ffa=True)
         if len(db_players) < 4:
             return HttpResponse("Not enough players in the database to generate a match")
         for p in db_players:
-            dmp = dc.Player(p.name, p.bracket, 0, p.team.id)
+            dmp = dc.Player(p.name, p.bracket, team=p.team.id)
             dmp.availability = p.availability
             dmp.matches_played = len(p.get_matches())
             pref = []
@@ -137,7 +137,7 @@ class GenMatchesView(View):
             djangoplayers = []
             for p in match.players:
                 djangoplayers.append(get_object_or_404(Player, name=p.name))
-            m = Match(day=day, location=match.location, notes=match.notes, mode="F")
+            m = Match(day=day, location=match.location, notes=match.notes, mode="F", published=False)
             m.save()
             for p in djangoplayers:
                 m.players.add(p)

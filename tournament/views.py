@@ -58,7 +58,7 @@ class PlayersView(View):
         for t in teams:
             res = 0
             for player in t.player_set.all():
-                res += player.get_wins()[0] + player.format_awards()[0]
+                res += player.get_score()
             t.teamscore = res
 
         return render(request, 'players.html', {"teams": teams})

@@ -65,7 +65,6 @@ class ScoreMatchView(View):
         match = Match.objects.get(id=match_id)
         if match.result:
             return HttpResponse("Match already scored!")
-
         scoreform = ScoreMatchForm(match_id, num_awards)
         return render(request, 'matchmaking/scorematch.html', {"scoreform": scoreform, "match_id":match_id, "num_awards":num_awards})
 
@@ -83,7 +82,9 @@ class ScoreMatchView(View):
                 ratingchange = RatingChange(player=p, matchresult=matchresult, bracket_before=p.bracket, bracket_after=b,
                                             stars_before=p.stars, stars_after=s)
                 ratingchange.save()
-
+                p.bracket = ratingchange.bracket_after
+                p.stars = ratingchange.stars_after
+                p.save()
 
             for key, value in form.cleaned_data.items():
                 if "award_winner" in key:

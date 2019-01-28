@@ -20,8 +20,8 @@
                 let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                 // Display the result in the element with id="countdown"
-                document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
-                    + minutes + "m " + seconds + "s ";
+                document.getElementById("countdown").innerHTML = days * 24 + hours + ":"
+                    + minutes + ":" + seconds;
 
                 // If the count down is finished, write some text
                 if (distance < 0) {
@@ -42,9 +42,10 @@
     <div class="inner title big mars">
         <div class="notice">
             <h1><span class="highlight">Upcoming:</span> <a href="{% url 'workshop' %}">Workshop</a></h1>
-            <h2>Jan 30, GMT 20</h2> <div id="countdown">Countdown</div>
+            <h2>Jan 30, GMT 20 -- <span id="countdown">Countdown</span></h2>
             <h2><a href="{% url 'day2' %}">Review Day 2</a></h2>
         </div>
+        
         <nav class="left-menu">
             <a href="{% url 'rules' %}" role="button">Rules</a>
             <a href="{% url 'schedule' %}" role="button">Schedule</a>

@@ -1,9 +1,48 @@
 {% extends "base.html" %}
+
 {% block main %}
+    <script type="text/javascript">
+    $(document).ready(function () {
+        function startCountdown(time)
+        {//mostly taken from w3schools
+            let x = setInterval(function() {
+
+                // Get todays date and time
+                let now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                let distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result in the element with id="countdown"
+                document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown").innerHTML = "Now!";
+                }
+            }, 1000);
+        }
+        let countDownDate = new Date("Jan 30, 2019 20:00:00 GMT").getTime();
+        startCountdown(countDownDate);
+    });
+    // Set the date we're counting down to
+
+
+    // Update the count down every 1 second
+
+</script>
     <div class="inner title big mars">
         <div class="notice">
             <h1><span class="highlight">Upcoming:</span> <a href="{% url 'workshop' %}">Workshop</a></h1>
-            <h2>Jan 30, GMT 20</h2>
+            <h2>Jan 30, GMT 20</h2> <div id="countdown">Countdown</div>
             <h2><a href="{% url 'day2' %}">Review Day 2</a></h2>
         </div>
         <nav class="left-menu">
@@ -20,27 +59,27 @@
         <article>
             <h3>Synopsis</h3>
             <p>With the recent success of Io development, numerous governments and conglomerates are
-            announcing massive investments to build at much bigger scale than ever before.
-            There is big money out there; everybody wants their share of the pie.</p>
+                announcing massive investments to build at much bigger scale than ever before.
+                There is big money out there; everybody wants their share of the pie.</p>
             <p>Several companies have decided to work together to be able to compete against the giants.
-            However, you're not the one who came up with the same idea.
-            Now, we're facing similar-sized groups of allied companies, and you have to surpass before proceeding to the bigger market.
-            With hostile takeovers happening all over the place, not everybody will be able to secure their position in the upcoming business war.</p>
+                However, you're not the one who came up with the same idea.
+                Now, we're facing similar-sized groups of allied companies, and you have to surpass before proceeding to the bigger market.
+                With hostile takeovers happening all over the place, not everybody will be able to secure their position in the upcoming business war.</p>
             <p>Will you be able to secure your company's future and become the leading spacefaring company?
-            The good news is, whether you fail or not, a massive amount of retirement payment is guaranteed.</p>
-            
+                The good news is, whether you fail or not, a massive amount of retirement payment is guaranteed.</p>
+
             <h3>What is this tournament about?</h3>
             <p>This tournament aims to provide learning opportunity for new players, encourage good plays,and a place for people to meet, practice, and play together.
-            Each day, special rules will be applied for certain plays.
-            In the <a href="{% url 'day1' %}">first day</a>, for example, the player who has gained the most amount of money from double-priced markets in the early game will be awarded some <a href="{% url 'rules' %}">additional points</a>.
-            These are designed to encourage good strategy or underutilized plays.</p>
+                Each day, special rules will be applied for certain plays.
+                In the <a href="{% url 'day1' %}">first day</a>, for example, the player who has gained the most amount of money from double-priced markets in the early game will be awarded some <a href="{% url 'rules' %}">additional points</a>.
+                These are designed to encourage good strategy or underutilized plays.</p>
 
             <p>This is a team tournament. Players will be divided into 4 teams, and the team that earned the highest score gets the gold medal.
-            Main match format is 4-player-FFA, but 1v1 games can also be included.
-            This can give team experience where you can meet other community members, practice together, and cheer for your teammates.</p>
-            
+                Main match format is 4-player-FFA, but 1v1 games can also be included.
+                This can give team experience where you can meet other community members, practice together, and cheer for your teammates.</p>
+
             <p>Players can pair up with one friend to sign up together. For those who are not used to DLC locations, they can choose to veto Ceres or Io.
-            They won't get matched in one of those locations if they do. While the number of 1v1 matches will be minimal, players can veto 1v1 format as well for the same reason.</p>
+                They won't get matched in one of those locations if they do. While the number of 1v1 matches will be minimal, players can veto 1v1 format as well for the same reason.</p>
         </article>
     </div>
     <div class="inner article" style="display:none;">

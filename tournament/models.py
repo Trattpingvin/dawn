@@ -128,7 +128,7 @@ class Match(models.Model):
     round = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        ans = self.get_location_display()+", day "+str(self.day)+" round +"+str(self.round)+": "+", ".join((n.name for n in self.players.all()))
+        ans = self.get_location_display()+", day "+str(self.day)+" round "+str(self.round)+": "+", ".join((n.name for n in self.players.all()))
         return ans
 
     def get_awards(self):

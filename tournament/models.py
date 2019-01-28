@@ -95,7 +95,7 @@ class MatchResult(models.Model):
     winner = models.ForeignKey(Player, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.winner.name + " won"
+        return self.winner.name + " won match " + str(self.match)
 
 
 class RatingChange(models.Model):
@@ -125,10 +125,10 @@ class Match(models.Model):
     url = models.URLField(null=True, blank=True)
     published = models.BooleanField()
     seed = models.IntegerField(blank=True, null=True)
-    parsed = models.BooleanField(default=False)
+    round = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        ans = self.get_location_display()+", day "+str(self.day)+": "+", ".join((n.name for n in self.players.all()))
+        ans = self.get_location_display()+", day "+str(self.day)+" round +"+str(self.round)+": "+", ".join((n.name for n in self.players.all()))
         return ans
 
     def get_awards(self):

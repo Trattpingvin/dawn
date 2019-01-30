@@ -43,18 +43,22 @@ class PlayerView(View):
         date = ["Jan 26", "Jan 27", "Feb 2", "Feb 3"]
         for i in range(4):
             if player.is_available(i+1): availability.append(1)
-            else: availability.append(0)
-        preference = [bool(player.preference&1), bool(player.preference&2), bool(player.preference&4)] #"Mars 1" "Ceres 2" "Io 4"
+            else:
+                availability.append(0)
+
+        # "Mars 1" "Ceres 2" "Io 4"
+        preference = [bool(player.preference&1), bool(player.preference&2), bool(player.preference&4)]
 
         return render(request, "playerdetail.html",{
-            "player": player, "score": score, "award": awards[1],
-            "availability": zip(availability, date), "loc": preference,
+            "player": player, "score": score, "award": awards[1], "availability": zip(availability, date),
+            "loc": preference,
             })
 
 
 class MatchStagingView(View):
     def get(self, request):
-        return render(request, 'matchmaking/staging.html', {"days": range(1, 1+constants.days)})
+        return render(request, 'matchmaking/staging.html', {"days": range(1, 1 + constants.days),
+                                                            "matches": range(1, 1 + constants.matches)})
 
 
 class PlayersView(View):

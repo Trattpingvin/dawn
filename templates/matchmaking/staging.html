@@ -10,7 +10,7 @@
         let chooseDay = function(day){
             $(".dayselect").each(function(index)
             {
-                this.removeClass("selected");
+                $(this).removeClass("selected");
             });
             $("#"+day).addClass("selected");
         };
@@ -19,8 +19,8 @@
             $(".dayselect").click(function (event) {
                 chooseDay(event.target.id);
             });
-           setupDragAndDrop();
-           console.log("setup done");
+            setupDragAndDrop();
+            console.log("setup done");
         });
 
         let setupDragAndDrop = function()
@@ -30,8 +30,6 @@
             $(".draggable").mousedown(function(event) {
                 let currentObj = document.getElementById(event.target.id);
                 //if has class source, make a non-source copy instead
-                console.log("onmousedown");
-                console.log(currentObj);
                 let shiftX = event.clientX - currentObj.getBoundingClientRect().left;
                 let shiftY = event.clientY - currentObj.getBoundingClientRect().top;
 
@@ -72,21 +70,22 @@
 
                 currentObj.onmouseup = function() {
                     document.removeEventListener('mousemove', onMouseMove);
+                    leaveDroppable(currentDroppable);
                     currentObj.onmouseup = null;
                 };
 
                 currentObj.ondragstart = function() {
-                return false;
-            };
+                    return false;
+                };
 
             });
 
             function enterDroppable(elem) {
-                elem.style.background = 'pink';
+                elem.style.background = '#d8d8d8';
             }
 
             function leaveDroppable(elem) {
-                elem.style.background = '';
+                if(elem) elem.style.background = '';
             }
 
 
@@ -99,14 +98,18 @@
     </div>
     <div class="big">
         <div class="matches">
-            <div class="droptarget" id="drop21"></div>
+            {% for match in matches %}
+                <div class="droptarget" id="match{{ match }}"></div>
+            {% endfor %}
         </div>
         <div class="stats">
             <button class="draggable" id="drag21">Drag me</button>
+            <img src="{% static 'img/trashbin.png' %}" class="droptarget" id="trashcan" width="50" height="50">
 
         </div>
 
     </div>
+    <button id="makematches">Add these matches to database</button>
 
 
 

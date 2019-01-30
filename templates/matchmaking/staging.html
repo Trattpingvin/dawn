@@ -7,24 +7,107 @@
 
 {% block main %}
     <script type="text/javascript">
-    let chooseDay = function(day){
-        $(".dayselect").each(function(index)
-        {
-            $(this).removeClass("selected");
-        });
-        $("#"+day).addClass("selected");
-    };
-
-    $(document).ready(function () {
-        $(".dayselect").click(function (event) {
-            chooseDay(event.target.id);
+        let chooseDay = function(day){
+            $(".dayselect").each(function(index)
+            {
+                this.removeClass("selected");
             });
-        })
+            $("#"+day).addClass("selected");
+        };
+
+        $(document).ready(function () {
+            $(".dayselect").click(function (event) {
+                chooseDay(event.target.id);
+            });
+           setupDragAndDrop();
+           console.log("setup done");
+        });
+
+        let setupDragAndDrop = function()
+        {
+            let currentDroppable = null;
+
+            $(".draggable").mousedown(function(event) {
+                let currentObj = document.getElementById(event.target.id);
+                //if has class source, make a non-source copy instead
+                console.log("onmousedown");
+                console.log(currentObj);
+                let shiftX = event.clientX - currentObj.getBoundingClientRect().left;
+                let shiftY = event.clientY - currentObj.getBoundingClientRect().top;
+
+                currentObj.style.position = 'absolute';
+                currentObj.style.zIndex = 1000;
+                document.body.append(currentObj);
+
+                moveAt(event.pageX, event.pageY);
+
+                function moveAt(pageX, pageY) {
+                    currentObj.style.left = pageX - shiftX + 'px';
+                    currentObj.style.top = pageY - shiftY + 'px';
+                }
+
+                function onMouseMove(event) {
+                    moveAt(event.pageX, event.pageY);
+
+                    currentObj.hidden = true;
+                    let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+                    currentObj.hidden = false;
+
+                    if (!elemBelow) return;
+
+                    let droppableBelow = elemBelow.closest('.droptarget');
+                    if (currentDroppable != droppableBelow) {
+                        if (currentDroppable) { // null when we were not over a droppable before $(this )event
+                            leaveDroppable(currentDroppable);
+                        }
+                        currentDroppable = droppableBelow;
+                        if (currentDroppable) { // null if we're not coming over a droppable now
+                            // (maybe just left the droppable)
+                            enterDroppable(currentDroppable);
+                        }
+                    }
+                }
+
+                document.addEventListener('mousemove', onMouseMove);
+
+                currentObj.onmouseup = function() {
+                    document.removeEventListener('mousemove', onMouseMove);
+                    currentObj.onmouseup = null;
+                };
+
+                currentObj.ondragstart = function() {
+                return false;
+            };
+
+            });
+
+            function enterDroppable(elem) {
+                elem.style.background = 'pink';
+            }
+
+            function leaveDroppable(elem) {
+                elem.style.background = '';
+            }
+
+
+        }
     </script>
 
-<div id="dayselectors">{% for day in days %}
-    <button class="dayselect" id="{{ day }}">Day {{ day }}</button>
-{% endfor %}
-</div>
+    <div id="dayselectors">{% for day in days %}
+        <button class="dayselect" id="{{ day }}">Day {{ day }}</button>
+    {% endfor %}
+    </div>
+    <div class="big">
+        <div class="matches">
+            <div class="droptarget" id="drop21"></div>
+        </div>
+        <div class="stats">
+            <button class="draggable" id="drag21">Drag me</button>
+
+        </div>
+
+    </div>
+
+
 
 {% endblock %}

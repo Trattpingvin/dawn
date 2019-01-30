@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block CSS %}
+    <link href="{% static 'css/matchmaking.css' %}" rel="stylesheet">
+{% endblock CSS %}
+{% block title %} Match Staging {% endblock %}
+
+{% block main %}
+    <script type="text/javascript">
+    let chooseDay = function(day){
+        $(".dayselect").each(function(index)
+        {
+            $(this).removeClass("selected");
+        });
+        $("#"+day).addClass("selected");
+    };
+
+    $(document).ready(function () {
+        $(".dayselect").click(function (event) {
+            chooseDay(event.target.id);
+            });
+        })
+    </script>
+
+<div id="dayselectors">{% for day in days %}
+    <button class="dayselect" id="{{ day }}">Day {{ day }}</button>
+{% endfor %}
+</div>
+
+{% endblock %}

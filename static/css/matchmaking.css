@@ -1,0 +1,13 @@
+div#dayselectors{
+    border: solid #4B367C 5px;
+    width: fit-content;
+}
+button.dayselect{
+    background: red;
+}
+button.dayselect:hover{
+    color: white;
+}
+button.selected{
+    background: forestgreen;
+}

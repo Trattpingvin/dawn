@@ -8,6 +8,7 @@ import dawnotc.classes as dc
 from django.views.generic import TemplateView
 from tournament.models import *
 from tournament.forms import *
+from . import constants
 from utils import calc_rating_change
 
 
@@ -50,6 +51,10 @@ class PlayerView(View):
             "availability": zip(availability, date), "loc": preference,
             })
 
+
+class MatchStagingView(View):
+    def get(self, request):
+        return render(request, 'matchmaking/staging.html', {"days": range(1, 1+constants.days)})
 
 
 class PlayersView(View):

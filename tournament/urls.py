@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from . import views
 
 matchmaking = [
-    path('', login_required(views.MainView.as_view()), name='matchmaking-root'),
+    path('', login_required(views.MatchStagingView.as_view()), name='matchmaking-root'),
+    path('scoring', login_required(views.MainView.as_view()), name='matchmaking-root'),
     path('genffa', login_required(views.GenMatchesView.as_view()), name='genffa'),
     path('genffa/<int:amount>', login_required(views.GenMatchesView.as_view()), name='genffa'),
     path('gen1v1', login_required(views.GenMatchesView.as_view()), name='gen1v1'),

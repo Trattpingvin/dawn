@@ -19,13 +19,13 @@ body{
 div.big{
     min-width: 100%;
 }
-div.matches{
+div#matches{
     width: 50%;
     float: left;
     height: 100%;
     background: darkgrey;
 }
-div.stats{
+div#stats{
     width: 50%;
     float:right;
     height: 100%;

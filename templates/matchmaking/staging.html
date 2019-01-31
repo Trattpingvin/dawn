@@ -8,7 +8,8 @@
 {% block main %}
     <script type="text/javascript">
         let trattsGlobals = {
-            idCount : 0
+            idCount : 0,
+            day : -1
         }
         
         let chooseDay = function(day){
@@ -17,10 +18,21 @@
                 $(this).removeClass("selected");
             });
             $("#"+day).addClass("selected");
+            sendMatchesToDb(day);
+            trattsGlobals['day'] = day;
+            getMatchesFromDb(day);
         }
 
-        function addPlayerToMatch(player, match)
+        function sendMatchesToDb(day)
         {
+            //parse the DOM for matches I guess?
+            console.log("sending to Db")
+        }
+        function getMatchesFromDb(day)
+        {
+            let stats = $("#stats").html('');
+            let matches = $("#matches").html('');
+            console.log(stats);
 
         }
 
@@ -41,6 +53,12 @@
                 droppable.style.position = 'relative';
                 droppable.style.left = 0;
                 droppable.style.top = 0;
+            });
+
+            $("#makematches").click(sendMatchesToDb);
+
+            $(".dayselect").click(function (event) {
+                chooseDay(event.target.id);
             });
         }
 
@@ -124,9 +142,7 @@
 
         $(document).ready(function () {
             
-            $(".dayselect").click(function (event) {
-                chooseDay(event.target.id);
-            });
+
 
             setupDragAndDrop();
             setupHandlers();
@@ -138,15 +154,16 @@
         <button class="dayselect" id="{{ day }}">Day {{ day }}</button>
     {% endfor %}
     </div>
+    <img src="{% static 'img/trashbin.png' %}" class="droptarget" id="trashcan" width="50" height="50">
     <div class="big">
-        <div class="matches">
+        <div id="matches">
             {% for match in matches %}
                 <div class="droptarget stagingmatch" id="match{{ match }}"></div>
             {% endfor %}
         </div>
-        <div class="stats">
+        <div id="stats">
             <button class="draggable dragsource" id="drag21">Drag me</button>
-            <img src="{% static 'img/trashbin.png' %}" class="droptarget" id="trashcan" width="50" height="50">
+            
 
         </div>
 

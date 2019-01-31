@@ -26,6 +26,13 @@
         let setupDragAndDrop = function()
         {
             let currentDroppable = null;
+            let dropped = new Event('dropped');
+            console.log($("#trashcan").get()[0]);
+            $("#trashcan").get()[0].addEventListener('dropped', function(e)
+            {
+                console.log("trashed");
+                console.log(e);
+            }, false);
 
             $(".draggable").mousedown(function(event) {
                 let currentObj = document.getElementById(event.target.id);
@@ -71,6 +78,7 @@
                 currentObj.onmouseup = function() {
                     document.removeEventListener('mousemove', onMouseMove);
                     leaveDroppable(currentDroppable);
+                    currentDroppable.dispatchEvent(dropped);
                     currentObj.onmouseup = null;
                 };
 

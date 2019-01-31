@@ -3,8 +3,6 @@ from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import ListView
-import dawnotc.matchmaking as dm
-import dawnotc.classes as dc
 from django.views.generic import TemplateView
 from tournament.models import *
 from tournament.forms import *
@@ -123,46 +121,6 @@ class ScoreMatchView(View):
 class MainView(View):
     def get(self, request):
         return render(request, 'matchmaking/matchmaking.html', {"object_list": Match.objects.all()})
-
-
-class GenMatchesView(View):
-    def post(self, request, amount=2):
-        # matchmaking method was designed with a different format in mind. let's convert to that format before
-        # using it
-        # TODO implement 1v1 matchmaking
-        day = 2
-        dawnplayers = {}
-        db_players = Player.objects.filter(will_ffa=True)
-        if len(db_players) < 4:
-            return HttpResponse("Not enough players in the database to generate a match")
-        for p in db_players:
-            dmp = dc.Player(p.name, p.bracket, team=p.team.id)
-            dmp.availability = p.availability
-            dmp.matches_played = len(p.get_matches())
-            pref = []
-            for i in range(3):
-                pref.append(bool(p.preference & 1 << i))
-            dmp.preference = pref
-            
-            dawnplayers[p.name] = dmp
-        
-        result = dm.generate_matches(dawnplayers, amount, day) 
-
-        for match in result:
-            djangoplayers = []
-            for p in match.players:
-                djangoplayers.append(get_object_or_404(Player, name=p.name))
-            m = Match(day=day, location=match.location, notes=match.notes, mode="F", published=False)
-            m.save()
-            for p in djangoplayers:
-                m.players.add(p)
-
-        return HttpResponse("OK")
-        #return redirect('matchmaking-root')
-        #return render(request, "matchmaking/matchmaking.html", {"object_list":result})
-
-    def get(self, request):
-        return HttpResponse("How did this happen?")
 
 
 class RemoveMatchView(View):

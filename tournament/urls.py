@@ -7,9 +7,6 @@ from . import views
 matchmaking = [
     path('', login_required(views.MatchStagingView.as_view()), name='matchmaking-root'),
     path('scoring', login_required(views.MainView.as_view()), name='matchmaking-root'),
-    path('genffa', login_required(views.GenMatchesView.as_view()), name='genffa'),
-    path('genffa/<int:amount>', login_required(views.GenMatchesView.as_view()), name='genffa'),
-    path('gen1v1', login_required(views.GenMatchesView.as_view()), name='gen1v1'),
     path('removematch/<int:match_id>', login_required(views.RemoveMatchView.as_view()), name='removematch'),
     path('removematch/', login_required(views.RemoveMatchView.as_view()), name='removematch'),
     path('scorematch/<int:match_id>/<int:num_awards>', login_required(views.ScoreMatchView.as_view()), name='scorematch'),

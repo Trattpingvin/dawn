@@ -41,3 +41,8 @@ div.stats{
     min-height: 20px;
     cursor: pointer;
 }
+.stagingmatch{
+    background: purple;
+    position: relative;
+    text-align: left;
+}

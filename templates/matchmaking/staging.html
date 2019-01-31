@@ -7,63 +7,63 @@
 
 {% block main %}
     <script type="text/javascript">
-        let globalIdCount = 0;
+        let trattsGlobals = {
+            idCount : 0
+        }
+        
         let chooseDay = function(day){
             $(".dayselect").each(function(index)
             {
                 $(this).removeClass("selected");
             });
             $("#"+day).addClass("selected");
-        };
+        }
+
+        function addPlayerToMatch(player, match)
+        {
+
+        }
 
         function Match(){
             this.players = new Array();
-        };
+        }
 
-        $(document).ready(function () {
-
-            
-            
-            $(".dayselect").click(function (event) {
-                chooseDay(event.target.id);
+        function setupHandlers()
+        {
+            $("#trashcan").on('dropped', function(e, droppable)
+            {
+                droppable.remove();
             });
 
-            setupDragAndDrop();
-            console.log("setup done");
-        });
+            $(".stagingmatch").on('dropped', function(e, droppable)
+            {
+                $(this).append(droppable);
+                droppable.style.position = 'relative';
+                droppable.style.left = 0;
+                droppable.style.top = 0;
+            });
+        }
 
         let setupDragAndDrop = function()
         {
             let currentDropTarget = null;
             
-            $("#trashcan").on('dropped', function(e, droppable)
-            {
-                console.log("trashed "+droppable);
-                droppable.remove();
-            });
-
             $(".draggable").mousedown(function(event) {
                 let currentObj = $("#"+(event.target.id));
                 if(currentObj.hasClass('dragsource'))
                 {
                     currentObj = currentObj.clone(true, true);
                     currentObj.removeClass('dragsource');
-                    currentObj.attr('id', event.target.id+"__"+globalIdCount);
-                    globalIdCount++;
-                    
-                    $('body').append(currentObj);
+                    currentObj.attr('id', event.target.id+"__"+trattsGlobals['idCount']);
+                    trattsGlobals['idCount']++;
 
                 }
-                console.log(currentObj);
-                console.log(event.clientX);
-                
-                
+                $('body').append(currentObj);
                 let shiftX = currentObj.width()/2;
                 let shiftY = currentObj.height()/2;
 
+                currentObj.parent()
                 currentObj.css({position : 'absolute'});
-                
-                
 
                 moveAt(event.pageX, event.pageY);
 
@@ -71,11 +71,10 @@
                     currentObj.css({
                         "left" : pageX - shiftX + 'px',
                         "top" : pageY - shiftY + 'px'
-                    });
+                    })
+                       
                 }
                     
-                
-
                 function onMouseMove(event) {
                     moveAt(event.pageX, event.pageY);
 
@@ -121,9 +120,18 @@
             function leaveDroppable(elem) {
                 elem.style.background = '';
             }
-
-
         }
+
+        $(document).ready(function () {
+            
+            $(".dayselect").click(function (event) {
+                chooseDay(event.target.id);
+            });
+
+            setupDragAndDrop();
+            setupHandlers();
+            console.log("setup done");
+        });
     </script>
 
     <div id="dayselectors">{% for day in days %}
@@ -133,7 +141,7 @@
     <div class="big">
         <div class="matches">
             {% for match in matches %}
-                <div class="droptarget" id="match{{ match }}"></div>
+                <div class="droptarget stagingmatch" id="match{{ match }}"></div>
             {% endfor %}
         </div>
         <div class="stats">

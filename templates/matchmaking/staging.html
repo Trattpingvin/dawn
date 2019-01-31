@@ -15,76 +15,85 @@
             $("#"+day).addClass("selected");
         };
 
+        function Match(){
+            this.players = new Array();
+        };
+
         $(document).ready(function () {
+            
             $(".dayselect").click(function (event) {
                 chooseDay(event.target.id);
             });
+
             setupDragAndDrop();
             console.log("setup done");
         });
 
         let setupDragAndDrop = function()
         {
-            let currentDroppable = null;
-            let dropped = new Event('dropped');
-            console.log($("#trashcan").get()[0]);
-            $("#trashcan").get()[0].addEventListener('dropped', function(e)
+            let currentDropTarget = null;
+            
+            $("#trashcan").on('dropped', function(e, player)
             {
-                console.log("trashed");
-                console.log(e);
-            }, false);
+                player.remove();
+            });
 
             $(".draggable").mousedown(function(event) {
-                let currentObj = document.getElementById(event.target.id);
+                let currentObj = $("#"+(event.target.id));
                 //if has class source, make a non-source copy instead
-                let shiftX = event.clientX - currentObj.getBoundingClientRect().left;
-                let shiftY = event.clientY - currentObj.getBoundingClientRect().top;
+                let shiftX = event.clientX - currentObj.get(0).getBoundingClientRect().left;
+                let shiftY = event.clientY - currentObj.get(0).getBoundingClientRect().top;
 
-                currentObj.style.position = 'absolute';
-                currentObj.style.zIndex = 1000;
-                document.body.append(currentObj);
+                currentObj.css({position : 'absolute'});
+                
+                document.body.append(currentObj); //what's the point of this line??
 
                 moveAt(event.pageX, event.pageY);
 
                 function moveAt(pageX, pageY) {
-                    currentObj.style.left = pageX - shiftX + 'px';
-                    currentObj.style.top = pageY - shiftY + 'px';
+                    currentObj.css({
+                        "left" : pageX - shiftX + 'px',
+                        "top" : pageY - shiftY + 'px'
+                    });
                 }
+                    
+                
 
                 function onMouseMove(event) {
                     moveAt(event.pageX, event.pageY);
 
-                    currentObj.hidden = true;
+                    currentObj.get(0).hidden = true;
                     let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-                    currentObj.hidden = false;
+                    currentObj.get(0).hidden = false;
 
                     if (!elemBelow) return;
 
-                    let droppableBelow = elemBelow.closest('.droptarget');
-                    if (currentDroppable != droppableBelow) {
-                        if (currentDroppable) { // null when we were not over a droppable before $(this )event
-                            leaveDroppable(currentDroppable);
+                    let dropTargetBelow = elemBelow.closest('.droptarget');
+                    if (currentDropTarget != dropTargetBelow) {
+                        if (currentDropTarget) { // null when we were not over a droppable before this event
+                            leaveDroppable(currentDropTarget);
                         }
-                        currentDroppable = droppableBelow;
-                        if (currentDroppable) { // null if we're not coming over a droppable now
+                        currentDropTarget = dropTargetBelow;
+                        if (currentDropTarget) { // null if we're not coming over a droppable now
                             // (maybe just left the droppable)
-                            enterDroppable(currentDroppable);
+                            enterDroppable(currentDropTarget);
                         }
                     }
                 }
 
                 document.addEventListener('mousemove', onMouseMove);
 
-                currentObj.onmouseup = function() {
+                currentObj.mouseup(function() {
                     document.removeEventListener('mousemove', onMouseMove);
-                    leaveDroppable(currentDroppable);
-                    currentDroppable.dispatchEvent(dropped);
                     currentObj.onmouseup = null;
-                };
-
-                currentObj.ondragstart = function() {
-                    return false;
-                };
+                    if(currentDropTarget)
+                    {
+                        leaveDroppable(currentDropTarget);
+                        $("#"+currentDropTarget.id).triggerHandler('dropped', currentObj);
+                    }
+                    
+                    
+                });
 
             });
 
@@ -93,7 +102,7 @@
             }
 
             function leaveDroppable(elem) {
-                if(elem) elem.style.background = '';
+                elem.style.background = '';
             }
 
 

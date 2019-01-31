@@ -7,6 +7,7 @@
 
 {% block main %}
     <script type="text/javascript">
+        let globalIdCount = 0;
         let chooseDay = function(day){
             $(".dayselect").each(function(index)
             {
@@ -20,6 +21,8 @@
         };
 
         $(document).ready(function () {
+
+            
             
             $(".dayselect").click(function (event) {
                 chooseDay(event.target.id);
@@ -33,20 +36,34 @@
         {
             let currentDropTarget = null;
             
-            $("#trashcan").on('dropped', function(e, player)
+            $("#trashcan").on('dropped', function(e, droppable)
             {
-                player.remove();
+                console.log("trashed "+droppable);
+                droppable.remove();
             });
 
             $(".draggable").mousedown(function(event) {
                 let currentObj = $("#"+(event.target.id));
-                //if has class source, make a non-source copy instead
-                let shiftX = event.clientX - currentObj.get(0).getBoundingClientRect().left;
-                let shiftY = event.clientY - currentObj.get(0).getBoundingClientRect().top;
+                if(currentObj.hasClass('dragsource'))
+                {
+                    currentObj = currentObj.clone(true, true);
+                    currentObj.removeClass('dragsource');
+                    currentObj.attr('id', event.target.id+"__"+globalIdCount);
+                    globalIdCount++;
+                    
+                    $('body').append(currentObj);
+
+                }
+                console.log(currentObj);
+                console.log(event.clientX);
+                
+                
+                let shiftX = currentObj.width()/2;
+                let shiftY = currentObj.height()/2;
 
                 currentObj.css({position : 'absolute'});
                 
-                document.body.append(currentObj); //what's the point of this line??
+                
 
                 moveAt(event.pageX, event.pageY);
 
@@ -120,7 +137,7 @@
             {% endfor %}
         </div>
         <div class="stats">
-            <button class="draggable" id="drag21">Drag me</button>
+            <button class="draggable dragsource" id="drag21">Drag me</button>
             <img src="{% static 'img/trashbin.png' %}" class="droptarget" id="trashcan" width="50" height="50">
 
         </div>

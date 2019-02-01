@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from tournament.models import *
 from tournament.forms import *
 from . import constants
-from utils import calc_rating_change
+from utils import calc_rating_change, parse_ajax_to_json, assign_location
 
 
 class DayView(TemplateView):
@@ -59,6 +59,7 @@ class MatchStagingView(View):
             players = [{'id': p.id, 'name': p.name, 'bracket': p.bracket, 'team': p.team.id}
                        for p in Player.objects.all() if p.is_available(day)]
             matches = Match.objects.filter(day=day, published=False)
+            print(list(matches.values()))
             return JsonResponse({'players': players, "matches": list(matches.values())})
         else:
             return render(request, 'matchmaking/staging.html', {"days": range(1, 1 + constants.days),
@@ -66,22 +67,23 @@ class MatchStagingView(View):
 
     def post(self, request, day=None):
         Match.objects.filter(day=day, published=False).delete()
-        print(request.body)
         if not request.POST:
             return HttpResponse("Found no matches")
-        import json
-        decoded_str = request.body.decode('utf8')
-        print(decoded_str)
-        matches = json.loads(decoded_str)
-        print(matches)
-        for match in matches:
+
+        json_response = parse_ajax_to_json(request.body)
+        matches = json_response['matches']
+        for i, match in enumerate(matches):
             players = match['players']
             if players:
-                m = Match(day=day, published=False, mode="F")
+                m = Match(day=day, published=False, mode="F", round=i)
                 m.save()
                 for p in players:
-                    player = Player.objects.get(id=p.id)
+                    #parse through the weird transofmration i did in javascript
+                    parsed_id = p['id'][p['id'].find('-')+1:]
+                    parsed_id = parsed_id[:parsed_id.find('-')]
+                    player = Player.objects.get(id=parsed_id)
                     m.players.add(player)
+                assign_location(m)
 
 
         return HttpResponse("Done")

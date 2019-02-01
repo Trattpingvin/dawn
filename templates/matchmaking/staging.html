@@ -34,22 +34,24 @@
         function sendMatchesToDb(day)
         {
             let postUrl = '{% url 'matchmaking-root' %}'+day;
-            let matchesDOM = $(".stagingmatch > .draggable");
-
+            let matchesDOM = $(".stagingmatch");
             let matches = [];
             for (let i=0; i<matchesDOM.length; i++)
             {
+                let currentDom = matchesDOM[i];
                 let players = [];
-                for (let j=0; j<matchesDOM.length; j++)
+                let currentDomChildren = currentDom.children;
+                for (let j=0; j<currentDomChildren.length; j++)
                 {
-                    players.push({"id": matchesDOM[j].id});
+                    players.push({"id": currentDomChildren[j].id});
                 }
                 matches.push({"players": players});
             }
 
-            let payload = {"matches": matches}
+            let payload = {"matches": matches};
+            let jsonpayload = JSON.stringify(payload);
 
-            $.post(postUrl, payload, function(r)
+            $.post(postUrl, jsonpayload, function(r)
             {
                console.log("Post response recieved: "+r);
             });
@@ -70,6 +72,7 @@
                {
                    let m = matches[i];
                    let divcontent = "";
+                   console.log(m);
                    for (let j=0; j<m.players.length; j++)
                    {
                        let p = m.players[j];
@@ -124,7 +127,7 @@
                 droppable.style.top = 0;
             });
             $("#makematches").unbind();
-            $("#makematches").click(function(){
+            $("#makematches").click(function(event){
                 sendMatchesToDb(trattsGlobals['day']);
             });
             $(".dayselect").unbind();
@@ -138,12 +141,13 @@
             let currentDropTarget = null;
             
             $(".draggable").mousedown(function(event) {
+                if(event.which!==1) return;
                 let currentObj = $("#"+(event.target.id));
                 if(currentObj.hasClass('dragsource'))
                 {
                     currentObj = currentObj.clone(true, true);
                     currentObj.removeClass('dragsource');
-                    currentObj.attr('id', event.target.id+"__"+trattsGlobals['idCount']());
+                    currentObj.attr('id', event.target.id+trattsGlobals['idCount']());
                 }
                 $('body').append(currentObj);
                 let shiftX = currentObj.width()/2;

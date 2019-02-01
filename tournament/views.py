@@ -1,7 +1,7 @@
 
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from tournament.models import *
@@ -54,9 +54,37 @@ class PlayerView(View):
 
 
 class MatchStagingView(View):
-    def get(self, request):
-        return render(request, 'matchmaking/staging.html', {"days": range(1, 1 + constants.days),
-                                                            "matches": range(1, 1 + constants.matches)})
+    def get(self, request, day=None):
+        if day:   # TODO change p.name to anonmyous name
+            players = [{'id': p.id, 'name': p.name, 'bracket': p.bracket, 'team': p.team.id}
+                       for p in Player.objects.all() if p.is_available(day)]
+            matches = Match.objects.filter(day=day, published=False)
+            return JsonResponse({'players': players, "matches": list(matches.values())})
+        else:
+            return render(request, 'matchmaking/staging.html', {"days": range(1, 1 + constants.days),
+                                                                "num_matches": constants.matches})
+
+    def post(self, request, day=None):
+        Match.objects.filter(day=day, published=False).delete()
+        print(request.body)
+        if not request.POST:
+            return HttpResponse("Found no matches")
+        import json
+        decoded_str = request.body.decode('utf8')
+        print(decoded_str)
+        matches = json.loads(decoded_str)
+        print(matches)
+        for match in matches:
+            players = match['players']
+            if players:
+                m = Match(day=day, published=False, mode="F")
+                m.save()
+                for p in players:
+                    player = Player.objects.get(id=p.id)
+                    m.players.add(player)
+
+
+        return HttpResponse("Done")
 
 
 class PlayersView(View):
@@ -79,7 +107,9 @@ class ScoreMatchView(View):
         if match.result:
             return HttpResponse("Match already scored!")
         scoreform = ScoreMatchForm(match_id, num_awards)
-        return render(request, 'matchmaking/scorematch.html', {"scoreform": scoreform, "match_id":match_id, "num_awards":num_awards})
+        return render(request, 'matchmaking/scorematch.html', {"scoreform": scoreform,
+                                                               "match_id": match_id,
+                                                               "num_awards":num_awards})
 
     def post(self, request, match_id=None, num_awards=0):
         form = ScoreMatchForm(match_id, num_awards, data=request.POST)
@@ -109,7 +139,7 @@ class ScoreMatchView(View):
             thematch.result = matchresult
             thematch.save()
 
-            return HttpResponse("Good")
+            return redirect(self)
 
         return HttpResponse("Not good")
         # in ffa, winner gets 2 stars. in 1v1, winner gets 1 star

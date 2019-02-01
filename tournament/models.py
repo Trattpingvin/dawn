@@ -121,7 +121,7 @@ class Match(models.Model):
     notes = models.CharField(max_length=1024, default="", blank=True, null=True)
     players = models.ManyToManyField(Player)
     MODES = [("O", "1v1"), ("F", "FFA")]
-    mode = models.CharField(choices=MODES, max_length=1)
+    mode = models.CharField(choices=MODES, max_length=1, default="F") #i don't think this is used anymore but i'm not brave enough to remove it
     url = models.URLField(null=True, blank=True)
     published = models.BooleanField()
     seed = models.IntegerField(blank=True, null=True)

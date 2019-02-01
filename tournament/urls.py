@@ -6,7 +6,8 @@ from . import views
 
 matchmaking = [
     path('', login_required(views.MatchStagingView.as_view()), name='matchmaking-root'),
-    path('scoring', login_required(views.MainView.as_view()), name='matchmaking-root'),
+    path('<int:day>', login_required(views.MatchStagingView.as_view()), name='matchmaking-root'),
+    #path('scoring', login_required(views.MainView.as_view()), name='matchmaking-root'),  what's this?
     path('removematch/<int:match_id>', login_required(views.RemoveMatchView.as_view()), name='removematch'),
     path('removematch/', login_required(views.RemoveMatchView.as_view()), name='removematch'),
     path('scorematch/<int:match_id>/<int:num_awards>', login_required(views.ScoreMatchView.as_view()), name='scorematch'),

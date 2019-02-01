@@ -8,11 +8,19 @@
 {% block main %}
     <script type="text/javascript">
         let trattsGlobals = {
-            idCount : 0,
+            "idCount": function()
+            {
+                var idCount = 0;
+                return function()
+                {
+                    idCount++;
+                    return idCount;
+                }
+            }(),
             day : -1
-        }
+        };
         
-        let chooseDay = function(day){
+        function chooseDay (day){
             $(".dayselect").each(function(index)
             {
                 $(this).removeClass("selected");
@@ -20,33 +28,94 @@
             $("#"+day).addClass("selected");
             sendMatchesToDb(day);
             trattsGlobals['day'] = day;
-            getMatchesFromDb(day);
+            getDataFromDb(day);
         }
 
         function sendMatchesToDb(day)
         {
-            //parse the DOM for matches I guess?
-            console.log("sending to Db")
+            let postUrl = '{% url 'matchmaking-root' %}'+day;
+            let matchesDOM = $(".stagingmatch > .draggable");
+
+            let matches = [];
+            for (let i=0; i<matchesDOM.length; i++)
+            {
+                let players = [];
+                for (let j=0; j<matchesDOM.length; j++)
+                {
+                    players.push({"id": matchesDOM[j].id});
+                }
+                matches.push({"players": players});
+            }
+
+            let payload = {"matches": matches}
+
+            $.post(postUrl, payload, function(r)
+            {
+               console.log("Post response recieved: "+r);
+            });
         }
-        function getMatchesFromDb(day)
+
+        function makePlayerHTML(p, source = false)
         {
-            let stats = $("#stats").html('');
-            let matches = $("#matches").html('');
-            console.log(stats);
-
+            let sourcetext = "";
+            if(source) sourcetext = "dragsource";
+            return '<button class="draggable '+sourcetext+'" id="player-'+p.id+'-">'+p.name+'</button>';
         }
 
-        function Match(){
-            this.players = new Array();
+        function addMatchesToDOM(matches)
+        {
+            let matchDOM = $("#matches").html('');
+            let totalMatches = {{ num_matches }};
+            for(let i=0; i<matches.length;i++)
+               {
+                   let m = matches[i];
+                   let divcontent = "";
+                   for (let j=0; j<m.players.length; j++)
+                   {
+                       let p = m.players[j];
+                       divcontent+=makePlayerHTML(p);
+                   }
+
+                   matchDOM.append('<div class="droptarget stagingmatch" id="matcharea'+trattsGlobals["idCount"]()+'">'+m+'</day>')
+               }
+            while(matchDOM.get(0).childElementCount<totalMatches)
+            {
+                matchDOM.append('<div class="droptarget stagingmatch" id="matcharea'+trattsGlobals["idCount"]()+'"></div>');
+            }
+        }
+
+        function addPlayersToDom(players)
+        {
+            let playersDOM = $("#stats").html('');
+            for(let i=0; i<players.length;i++)
+               {
+                   let p = players[i];
+                   p.bracket
+
+                   playersDOM.append(makePlayerHTML(p, true));
+               }
+        }
+
+        function getDataFromDb(day)
+        {
+            let getUrl = '{% url 'matchmaking-root' %}'+day;
+            $.get(getUrl, function(r)
+            {
+                addPlayersToDom(r['players']);
+                addMatchesToDOM(r['matches']);
+                setupDragAndDrop();
+                setupHandlers();
+            });
         }
 
         function setupHandlers()
         {
+            $("#trashcan").unbind();
             $("#trashcan").on('dropped', function(e, droppable)
             {
                 droppable.remove();
             });
-
+            $(".stagingmatch").unbind();
             $(".stagingmatch").on('dropped', function(e, droppable)
             {
                 $(this).append(droppable);
@@ -54,15 +123,17 @@
                 droppable.style.left = 0;
                 droppable.style.top = 0;
             });
-
-            $("#makematches").click(sendMatchesToDb);
-
+            $("#makematches").unbind();
+            $("#makematches").click(function(){
+                sendMatchesToDb(trattsGlobals['day']);
+            });
+            $(".dayselect").unbind();
             $(".dayselect").click(function (event) {
                 chooseDay(event.target.id);
             });
         }
 
-        let setupDragAndDrop = function()
+        function setupDragAndDrop ()
         {
             let currentDropTarget = null;
             
@@ -72,15 +143,12 @@
                 {
                     currentObj = currentObj.clone(true, true);
                     currentObj.removeClass('dragsource');
-                    currentObj.attr('id', event.target.id+"__"+trattsGlobals['idCount']);
-                    trattsGlobals['idCount']++;
-
+                    currentObj.attr('id', event.target.id+"__"+trattsGlobals['idCount']());
                 }
                 $('body').append(currentObj);
                 let shiftX = currentObj.width()/2;
                 let shiftY = currentObj.height()/2;
 
-                currentObj.parent()
                 currentObj.css({position : 'absolute'});
 
                 moveAt(event.pageX, event.pageY);
@@ -103,7 +171,7 @@
                     if (!elemBelow) return;
 
                     let dropTargetBelow = elemBelow.closest('.droptarget');
-                    if (currentDropTarget != dropTargetBelow) {
+                    if (currentDropTarget !== dropTargetBelow) {
                         if (currentDropTarget) { // null when we were not over a droppable before this event
                             leaveDroppable(currentDropTarget);
                         }
@@ -157,9 +225,6 @@
     <img src="{% static 'img/trashbin.png' %}" class="droptarget" id="trashcan" width="50" height="50">
     <div class="big">
         <div id="matches">
-            {% for match in matches %}
-                <div class="droptarget stagingmatch" id="match{{ match }}"></div>
-            {% endfor %}
         </div>
         <div id="stats">
             <button class="draggable dragsource" id="drag21">Drag me</button>

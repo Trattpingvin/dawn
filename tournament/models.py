@@ -138,7 +138,7 @@ class Match(models.Model):
         return p in self.players
 
     def get_players(self):
-        return self.players.all()
+        return self.players.all().order_by('team')
 
 
 class Award(models.Model):

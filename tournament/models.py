@@ -83,8 +83,11 @@ class Player(models.Model):
         return Award.objects.filter(player=self)
 
     def format_awards(self):
-        awardsdict = {"A": 0, "B": 0, "C": 0, "D": 0, "E": 0, "F": 0}
-        awardnames = ["Keen Eyes on Their Stuff", "Outstanding Performances", "Race for the Initial Markets", "Eggs in Multiple Baskets", "Commercial Meteorology Experiment", "Mind Games"]
+        awardsdict = {}
+        awardnames = []
+        for letter, fullname in AWARDS:
+            awardsdict[letter] = 0
+            awardnames.append(fullname)
         for award in self.get_awards():
             awardsdict[award.award] += 1
         awardscores = [x/5 for x in awardsdict.values()]

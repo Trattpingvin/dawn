@@ -58,9 +58,10 @@ class MatchStagingView(View):
         if day:   # TODO change p.name to anonmyous name
             players = [{'id': p.id, 'name': p.name + ' ({})'.format(p.bracket), 'bracket': p.bracket, 'team': p.team.id, 'played': p.get_num_matches()}
                        for p in Player.objects.all() if p.is_available(day)]
-            matches = Match.objects.filter(day=day, published=False)
-            print(list(matches.values()))
-            return JsonResponse({'players': players, "matches": list(matches.values())})
+            response_matches = [[{'id': p.id, 'name': p.name + ' ({})'.format(p.bracket), 'bracket': p.bracket, 'team': p.team.id, 'played': p.get_num_matches()}
+                       for p in m.get_players()] #SORRY!!!!!!!!!! CLOSE YOUR EYES!!! DONT READ THIS LINE!!!
+                                for m in Match.objects.filter(day=day, published=False)]
+            return JsonResponse({'players': players, "matches": response_matches})
         else:
             return render(request, 'matchmaking/staging.html', {"days": range(1, 1 + constants.days),
                                                                 "num_matches": constants.matches})
@@ -75,7 +76,7 @@ class MatchStagingView(View):
         for i, match in enumerate(matches):
             players = match['players']
             if players:
-                m = Match(day=day, published=False, mode="F", round=i)
+                m = Match(day=day, published=False, mode="F", round=i+1)
                 m.save()
                 for p in players:
                     #parse through the weird transofmration i did in javascript
@@ -84,6 +85,7 @@ class MatchStagingView(View):
                     player = Player.objects.get(id=parsed_id)
                     m.players.add(player)
                 assign_location(m)
+                m.save()
 
 
         return HttpResponse("Done")

@@ -17,7 +17,7 @@
                     return idCount;
                 }
             }(),
-            day : -1
+            day : 1
         };
         
         function chooseDay (day){
@@ -27,12 +27,13 @@
             });
             $("#"+day).addClass("selected");
             sendMatchesToDb(day);
-            trattsGlobals['day'] = day;
-            getDataFromDb(day);
+
+
         }
 
-        function sendMatchesToDb(day)
+        function sendMatchesToDb(day_to_get)
         {
+            let day = trattsGlobals['day'];
             let postUrl = '{% url 'matchmaking-root' %}'+day;
             let matchesDOM = $(".stagingmatch");
             let matches = [];
@@ -53,7 +54,8 @@
 
             $.post(postUrl, jsonpayload, function(r)
             {
-               console.log("Post response recieved: "+r);
+               trattsGlobals['day'] = day_to_get;
+               getDataFromDb(day_to_get);
             });
         }
 
@@ -61,7 +63,7 @@
         {
             let sourcetext = "";
             if(source) sourcetext = "dragsource";
-            op = Math.min(p.played, 5);
+            let op = Math.min(p.played, 5);
             return '<button class="op' + op + ' t' + p.team + ' draggable '+sourcetext+'" id="player-'+p.id+'-">'+p.name+'</button>';
         }
 
@@ -73,14 +75,13 @@
                {
                    let m = matches[i];
                    let divcontent = "";
-                   console.log(m);
-                   for (let j=0; j<m.players.length; j++)
+                   for (let j=0; j<m.length; j++)
                    {
-                       let p = m.players[j];
+                       let p = m[j];
                        divcontent+=makePlayerHTML(p);
                    }
 
-                   matchDOM.append('<div class="droptarget stagingmatch" id="matcharea'+trattsGlobals["idCount"]()+'">'+m+'</day>')
+                   matchDOM.append('<div class="droptarget stagingmatch" id="matcharea'+trattsGlobals["idCount"]()+'">'+divcontent+'</day>')
                }
             while(matchDOM.get(0).childElementCount<totalMatches)
             {
@@ -91,11 +92,10 @@
         function addPlayersToDom(players)
         {
             let playersDOM = [$("#stats-1").html(''), $("#stats-2").html(''), $("#stats-3").html(''), $("#stats-4").html('')];
-            console.log(playersDOM)
             for(let i=0; i<players.length;i++)
                {
                    let p = players[i];
-                   let t = p.team - 1
+                   let t = p.team - 1;
                    playersDOM[t].append(makePlayerHTML(p, true));
                }
         }
@@ -129,7 +129,7 @@
             });
             $("#makematches").unbind();
             $("#makematches").click(function(event){
-                sendMatchesToDb(trattsGlobals['day']);
+                sendMatchesToDb();
             });
             $(".dayselect").unbind();
             $(".dayselect").click(function (event) {
@@ -219,7 +219,6 @@
 
             setupDragAndDrop();
             setupHandlers();
-            console.log("setup done");
         });
     </script>
 
@@ -237,7 +236,6 @@
             <div id="stats-4" class="stats"><button class="draggable dragsource" id="drag21">Drag me</button></div>
         </div>
     </div>
-    <button id="makematches">Add these matches to database</button>
 
 
 

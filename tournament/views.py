@@ -15,7 +15,7 @@ class DayView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        db_matches = Match.objects.filter(day=self.day, published=True).order_by('id')
+        db_matches = Match.objects.filter(day=self.day, published=True).order_by('round')
 
         for match in db_matches:
             match.orderedplayers = match.players.all().order_by('team')

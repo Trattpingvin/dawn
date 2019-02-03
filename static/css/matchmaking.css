@@ -23,18 +23,18 @@ div#matches{
     width: 50%;
     float: left;
     height: 100%;
-    background: darkgrey;
+    background: rgb(200,200,200);
 }
-div#stats{
+div.stats-wrapper{
     width: 50%;
     float:right;
     height: 100%;
-    background: darkkhaki;
+    background: white;
 }
 .droptarget{
     min-width: 20px;
     min-height: 20px;
-    border: solid cornsilk 5px;
+    border: solid white 5px;
 }
 .draggable{
     min-width: 20px;
@@ -42,7 +42,38 @@ div#stats{
     cursor: pointer;
 }
 .stagingmatch{
-    background: purple;
+    background: rgba(255,255,255,0.1);
     position: relative;
     text-align: left;
 }
+
+.big .stats {
+    margin: 10px 0 10px 0;
+}
+
+.t1 {
+    color: white;
+    background-color: blue;
+}
+
+.t2 {
+    color: white;
+    background-color: orange;
+}
+
+.t3 {
+    color: white;
+    background-color: green;
+}
+
+.t4 {
+    color: white;
+    background-color: purple;
+}
+
+.op0 {opacity: 0.3;}
+.op1 {opacity: 0.4.5;}
+.op2 {opacity: 0.6;}
+.op3 {opacity: 0.7.5;}
+.op4 {opacity: 0.9;}
+.op5 {opacity: 1;}

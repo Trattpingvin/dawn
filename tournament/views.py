@@ -56,7 +56,7 @@ class PlayerView(View):
 class MatchStagingView(View):
     def get(self, request, day=None):
         if day:   # TODO change p.name to anonmyous name
-            players = [{'id': p.id, 'name': p.name, 'bracket': p.bracket, 'team': p.team.id}
+            players = [{'id': p.id, 'name': p.name + ' ({})'.format(p.bracket), 'bracket': p.bracket, 'team': p.team.id, 'played': p.get_num_matches()}
                        for p in Player.objects.all() if p.is_available(day)]
             matches = Match.objects.filter(day=day, published=False)
             print(list(matches.values()))

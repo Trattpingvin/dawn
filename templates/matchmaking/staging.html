@@ -61,7 +61,8 @@
         {
             let sourcetext = "";
             if(source) sourcetext = "dragsource";
-            return '<button class="draggable '+sourcetext+'" id="player-'+p.id+'-">'+p.name+'</button>';
+            op = Math.min(p.played, 5);
+            return '<button class="op' + op + ' t' + p.team + ' draggable '+sourcetext+'" id="player-'+p.id+'-">'+p.name+'</button>';
         }
 
         function addMatchesToDOM(matches)
@@ -89,13 +90,13 @@
 
         function addPlayersToDom(players)
         {
-            let playersDOM = $("#stats").html('');
+            let playersDOM = [$("#stats-1").html(''), $("#stats-2").html(''), $("#stats-3").html(''), $("#stats-4").html('')];
+            console.log(playersDOM)
             for(let i=0; i<players.length;i++)
                {
                    let p = players[i];
-                   p.bracket
-
-                   playersDOM.append(makePlayerHTML(p, true));
+                   let t = p.team - 1
+                   playersDOM[t].append(makePlayerHTML(p, true));
                }
         }
 
@@ -228,14 +229,13 @@
     </div>
     <img src="{% static 'img/trashbin.png' %}" class="droptarget" id="trashcan" width="50" height="50">
     <div class="big">
-        <div id="matches">
+        <div id="matches"></div>
+        <div class="stats-wrapper">
+            <div id="stats-1" class="stats"><button class="draggable dragsource" id="drag21">Drag me</button></div>
+            <div id="stats-2" class="stats"><button class="draggable dragsource" id="drag21">Drag me</button></div>
+            <div id="stats-3" class="stats"><button class="draggable dragsource" id="drag21">Drag me</button></div>
+            <div id="stats-4" class="stats"><button class="draggable dragsource" id="drag21">Drag me</button></div>
         </div>
-        <div id="stats">
-            <button class="draggable dragsource" id="drag21">Drag me</button>
-            
-
-        </div>
-
     </div>
     <button id="makematches">Add these matches to database</button>
 

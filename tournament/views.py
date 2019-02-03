@@ -54,6 +54,14 @@ class PlayerView(View):
 
 
 class MatchStagingView(View):
+    # TODO:
+    #   Hovering over a player highlights all their occurances
+    #   Automatically sort matches
+    #   Multi select. When I click match frame, select all players in it.
+    #   Prevent veto'd locations
+    #
+    #
+    #
     def get(self, request, day=None):
         if day:   # TODO change p.name to anonmyous name
             players = [{'id': p.id, 'name': p.name + ' ({})'.format(p.bracket), 'bracket': p.bracket, 'team': p.team.id, 'played': p.get_num_matches()}

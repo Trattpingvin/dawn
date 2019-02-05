@@ -112,6 +112,7 @@ class PlayersView(View):
 
 
 class ScoreMatchView(View):
+    # TODO: stop taking num_awards as argument. instead add button to add or remove award forms at will in the template
     def get(self, request, match_id=None, num_awards=0):
         if not match_id:
             return HttpResponse("Bad match id")

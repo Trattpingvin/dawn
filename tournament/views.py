@@ -1,8 +1,6 @@
-
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
-from django.views.generic import ListView
 from django.views.generic import TemplateView
 from tournament.models import *
 from tournament.forms import *
@@ -113,28 +111,42 @@ class PlayersView(View):
 
 class ScoreMatchView(View):
     # TODO: stop taking num_awards as argument. instead add button to add or remove award forms at will in the template
-    def get(self, request, match_id=None, num_awards=0):
+    def get(self, request, match_id=None):
         if not match_id:
             return HttpResponse("Bad match id")
         match = Match.objects.get(id=match_id)
         if match.result:
             return HttpResponse("Match already scored!")
-        scoreform = ScoreMatchForm(match_id, num_awards)
+        players = match.get_players()
+        scoreform = get_scorematch_form(players)(prefix='matchresult')
+        awardform = get_award_formset(players)(prefix='award')
         return render(request, 'matchmaking/scorematch.html', {"scoreform": scoreform,
-                                                               "match_id": match_id,
-                                                               "num_awards":num_awards})
+                                                               "awardformset": awardform,
+                                                               "match_id": match_id})
 
-    def post(self, request, match_id=None, num_awards=0):
-        form = ScoreMatchForm(match_id, num_awards, data=request.POST)
+    def post(self, request, match_id=None):
+        if not match_id:
+            return HttpResponse("Didn't get a match id in POST")
+        match = Match.objects.get(id=match_id)
+        if match.result:
+            return HttpResponse("Match already scored? from POST")
+        players = match.get_players()
+        score_form = get_scorematch_form(players)(request.POST, prefix='matchresult')
+        award_form = get_award_formset(players)(request.POST, prefix='award')
 
-        if form.is_valid():
-            thematch = Match.objects.get(id=match_id)
-            thewinner = form.cleaned_data['winner']
-            matchresult = MatchResult(winner=thewinner)
+        if score_form.is_valid():
+            print(score_form)
+
+        if score_form.is_valid() and award_form.is_valid():
+            if len(score_form.cleaned_data) > 1:
+                return HttpResponse("Multiple score forms sent to ScoreMatchView - not supported")
+            score_form = score_form[0]
+            matchwinner = score_form.cleaned_data['matchwinner']
+            matchresult = MatchResult(winner=matchwinner)
             matchresult.save()
 
-            for p in thematch.players.all():
-                b, s = calc_rating_change(p.bracket, p.stars, p == thewinner, thematch.mode == "F")
+            for p in players:
+                b, s = calc_rating_change(p.bracket, p.stars, p == matchwinner, len(match.get_players()))
                 ratingchange = RatingChange(player=p, matchresult=matchresult, bracket_before=p.bracket, bracket_after=b,
                                             stars_before=p.stars, stars_after=s)
                 ratingchange.save()
@@ -142,17 +154,16 @@ class ScoreMatchView(View):
                 p.stars = ratingchange.stars_after
                 p.save()
 
-            for key, value in form.cleaned_data.items():
-                if "award_winner" in key:
-                    awardwinner = value
-                    thetype = form.cleaned_data["award_type-" + key[-1]]
-                    award = Award(player=awardwinner, award=thetype, match=matchresult)
-                    award.save()
+            for award in award_form.cleaned_data:
+                Award(player=award['winner'], award=award['award'], match=matchresult).save()
 
-            thematch.result = matchresult
-            thematch.save()
+            match.result = matchresult
+            match.save()
 
-            return redirect(self)
+            if 'from' in request.GET:
+                return redirect(request.GET['from'])
+
+            return redirect('admin:index')
 
         return HttpResponse("Not good")
         # in ffa, winner gets 2 stars. in 1v1, winner gets 1 star

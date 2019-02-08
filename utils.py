@@ -40,7 +40,13 @@ def parse_ajax_to_json(text):
 	return ans
 
 
-def calc_rating_change(bracketbefore, starsbefore, winner, ffa):
+def calc_rating_change(bracketbefore, starsbefore, winner, players):
+	if players == 4:
+		ffa = True
+	elif players == 2:
+		ffa = False
+	else:
+		raise ValueError("calc_rating_change doesn't know how to score a game with "+str(players)+" players.")
 	MAX_STAR = 3
 	MIN_STAR = 0
 	MAX_BRACKET = 5

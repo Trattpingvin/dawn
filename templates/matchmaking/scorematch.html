@@ -1,13 +1,40 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %} Score match {% endblock %}
 
-
-
 {% block main %}
-<form action="{% url 'scorematch' %}{{ match_id }}/{{ num_awards }}" method="post"> {% csrf_token %}
-    {{ scoreform.as_ul }}
-    <input type="submit" value="Submit">
-</form>
-    
+    <script type="text/javascript">
+
+        var globalFormCount = 0;
+
+        $(document).ready(function(){
+            function getNewForm()
+            {
+                let baseFormHtml = `{{ awardformset.empty_form }}`;
+                let ans = baseFormHtml.replace(/__prefix__/g, globalFormCount);
+                globalFormCount++;
+                return ans;
+            }
+
+            $("#addform").click(function(){
+                $("#awardtable").append(getNewForm());
+                $("#awardtable > #id_award-TOTAL_FORMS").attr("value", globalFormCount); // django needs this hidden input updated
+            });
+        });
+
+    </script>
+
+    <form id="awardform" method="post" action="{% url 'scorematch' %}{{ match_id }}?from={{ request.META.HTTP_REFERER }}">
+        {% csrf_token %}
+        <table>
+            {{ scoreform }}
+        </table>
+        <table id="awardtable" style="margin-top: 15px">
+            {{ awardformset }}
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+    <img id="addform" style="cursor: pointer" src="{% static 'img/addnew.png' %}">
+
 {% endblock main %}

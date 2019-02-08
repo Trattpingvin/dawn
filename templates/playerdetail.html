@@ -2,7 +2,7 @@
     <div class="name-wrapper">
         <div class="steam-name team{{player.team.id}}">{{ player.name }}</div>
         {% if player.discordname %}
-        <div class="discord-name">({{ player.discordname}})</div>
+            <div class="discord-name">({{ player.discordname}})</div>
         {% endif %}
     </div>
     <div class="team team{{player.team.id}}">{{player.team.name}}</div>
@@ -15,23 +15,29 @@
             <li>{{player.get_wins.0}} Wins / {{player.get_wins.1}} Losses: {{player.get_wins.0}}.0</li>
             <!--{% if player.get_wins.0 > 0 %}<li>Victorious: {{player.get_wins.0}}</li>{% endif %}-->
             {% for a in award %}
-            {% if a.1 > 0 %}<li>{{a.0}} ({{a.1}}): {{a.2}}</li>{% endif %}
+                {% if a.1 > 0 %}<li>{{a.0}} ({{a.1}}): {{a.2}}</li>{% endif %}
             {% endfor %}
-            
+
         </ul>
     </div>
     <div class="player-content-wrapper">
         <div><span class="headline right">Match History</span></div>
         {% for match in player.get_matches %}
-        <ul>
-            <li>
-                <span class="match-info">Day {{match.day}}, {{match.get_location_display}}</span><br />
-                {% for p in match.get_players %}
-                <span class="team{{p.team.id}}">■</span>
-                <span class="{% if match.result.winner == p %}winner{% endif %}">{{p.name}}{% if not forloop.last %},{% endif %}</span>
-                {% endfor %}
-            </li>
-        </ul>
+            <a href="{% url 'day' match.day match.id %}#lineup">
+                <ul>
+                    <li>
+
+                        <span class="match-info">Day {{match.day}}, {{match.get_location_display}}</span><br />
+                        {% for p in match.get_players %}
+                            <span class="team{{p.team.id}}">■</span>
+                            <span class="{% if match.result.winner == p %}winner{% endif %}">{{p.name}}{% if not forloop.last %},{% endif %}</span>
+
+                        {% endfor %}
+
+                    </li>
+                </ul>
+            </a>
+
         {% endfor %}
     </div>
     <div class="availability player-content-wrapper">
@@ -45,7 +51,7 @@
         </p>
         <p>Availability:
             {% for a in availability %}
-            <span class="colormark {% if a.0 == 1 %}green{% else %}red{% endif %}">{{a.1}}</span>
+                <span class="colormark {% if a.0 == 1 %}green{% else %}red{% endif %}">{{a.1}}</span>
             {% endfor %}
         </p>
         <p class="extra-info">*Green means the player is included in the matchmaking pool</p>

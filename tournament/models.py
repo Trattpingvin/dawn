@@ -1,7 +1,8 @@
 from django.db import models
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db.models.functions import Lower
 from tournament.choices import AWARDS
+
 
 def validate_preference(val):
     # preference is 3 bit value. bit order 0x1 = mars, 0x10 = ceres, 0x100 = io
@@ -98,7 +99,11 @@ class MatchResult(models.Model):
     winner = models.ForeignKey(Player, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.winner.name + " won match " + str(self.match)
+
+        try:
+            return self.winner.name + " won match " + str(self.match)
+        except ObjectDoesNotExist:
+            return "ERROR: Matchresult without a match. "
 
 
 class RatingChange(models.Model):

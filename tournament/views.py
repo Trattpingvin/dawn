@@ -8,19 +8,20 @@ from . import constants
 from utils import calc_rating_change, parse_ajax_to_json, assign_location
 
 
-class DayView(TemplateView):
-    day = None
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        db_matches = Match.objects.filter(day=self.day, published=True).order_by('round')
+class DayView(View):
+    def get(self, request, day=None, start_match=-1):
+        if not day:
+            return HttpResponse("Invalid day")
+        context = {}
+        db_matches = Match.objects.filter(day=day, published=True).order_by('round')
 
         for match in db_matches:
             match.orderedplayers = match.players.all().order_by('team')
 
+        context['start_match'] = start_match
         context["matches"] = db_matches
 
-        return context
+        return render(request, "schedule/day"+str(day)+".html", context)
 
 
 class PlayerView(View):

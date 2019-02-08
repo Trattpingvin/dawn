@@ -1,37 +1,47 @@
 <script type="text/javascript">
+
+    function showMatch(match_id){
+        let url = "{% url 'inspectmatch' %}"+match_id;
+
+        $.get(url, function(data){
+            $("#match-details").html(data);
+            let ele =  document.getElementById(match_id);
+            document.getElementById("match-details").style.display = "flex";
+            document.getElementById("match-arrow").style.display = "block";
+            $("#match-arrow").offset({"left":ele.offsetLeft + ele.offsetWidth/2});
+        });
+    }
+
     $(document).ready(function(){
+        let start_match = {{ start_match }};
+        if(start_match>0)
+        {
+            showMatch(start_match);
+        }
         $(".match").click(function(event) {
-            let url = "{% url 'inspectmatch' %}"+event.target.id;
-            
-            $.get(url, function(data){
-                $("#match-details").html(data);
-                let ele =  document.getElementById(event.target.id);
-                //console.log(ele);
-                document.getElementById("match-details").style.display = "flex";
-                document.getElementById("match-arrow").style.display = "block";
-                $("#match-arrow").offset({"left":ele.offsetLeft + ele.offsetWidth/2});
-            });
+            showMatch(event.target.id);
         });
     });
+
 </script>
 <div class="inner article">
-    <article>
+    <article id="lineup">
         <h2>Match Lineups</h2>
         Click each match to check players stats or VoDs after match is done!
         <div class="lineup">
             {% for match in matches %}
-            <div class="match" id="{{ match.id }}/{{ forloop.counter }}">
-                <div class="match-title">
-                    <span class="match-num">Round {{ forloop.counter }}:</span><br />
-                    <span class="location">{{ match.get_location_display }}</span>
+                <div class="match" id="{{ match.id }}">
+                    <div class="match-title">
+                        <span class="match-num">Round {{ forloop.counter }}:</span><br/>
+                        <span class="location">{{ match.get_location_display }}</span>
+                    </div>
+                    <hr>
+                    <ul>
+                        {% for player in match.orderedplayers %}
+                            <li class="{% if player == match.result.winner %}winner{% endif %} team{{player.team.id}}">{{ player.name }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
-                <hr>
-                <ul>
-                    {% for player in match.orderedplayers %}
-                    <li class="{% if player == match.result.winner %}winner{% endif %} team{{player.team.id}}">{{ player.name }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
             {% endfor %}
         </div>
         <div class="match-arrow" id="match-arrow"></div>

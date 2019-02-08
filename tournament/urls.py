@@ -24,10 +24,9 @@ martian_enterprise = [
     path('players', views.PlayersView.as_view(), name="players"),
     path('inspectplayer', views.PlayerView.as_view(), name="inspectplayer"),
     path('inspectplayer/<int:player_id>', views.PlayerView.as_view(), name="inspectplayer"),
-    path('schedule/day1', views.DayView.as_view(template_name='schedule/day1.html', day = 1) , name='day1'),
-    path('schedule/day2', views.DayView.as_view(template_name='schedule/day2.html', day = 2) , name='day2'),
-    path('schedule/day3', views.DayView.as_view(template_name='schedule/day3.html', day = 3) , name='day3'),
-    path('schedule/day4', views.DayView.as_view(template_name='schedule/day4.html', day = 4) , name='day4'),
+    path('schedule/day', views.DayView.as_view(), name='day'),
+    path('schedule/day/<int:day>', views.DayView.as_view(), name='day'),
+    path('schedule/day/<int:day>/<int:start_match>', views.DayView.as_view(), name='day'),
     path('schedule/workshop', TemplateView.as_view(template_name='schedule/workshop.html'), name='workshop'),
     path('schedule/drafting', TemplateView.as_view(template_name='schedule/drafting.html'), name='drafting'),
 ]

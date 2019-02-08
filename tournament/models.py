@@ -54,8 +54,8 @@ class Player(models.Model):
         flags = [None, 0b1, 0b10, 0b100, 0b1000]
         return bool(self.availability & flags[day])
 
-    def get_matches(self):  # i'm not sure i'm happy with this
-        return self.match_set.all()
+    def get_matches(self):
+        return self.match_set.all().order_by('-day', 'round')
 
     def get_num_matches(self):
         return len(self.get_matches())

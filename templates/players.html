@@ -13,7 +13,6 @@
                 let adjust1 = document.getElementById("player-all").scrollHeight + 355;
                 let adjust2 = document.getElementById("player-detail").scrollHeight + ele.offsetTop;
                 let adjust  = Math.min(0, adjust1 - adjust2);
-                console.log(adjust);
                 document.getElementById("player-arrow").style.display = "block";
                 $("#player-detail").offset({"left":ele.offsetLeft+ele.width ,"top": ele.offsetTop-20+adjust});
                 $("#player-arrow").offset({"left":ele.offsetLeft+ele.offsetWidth+12 ,"top": ele.offsetTop+15});

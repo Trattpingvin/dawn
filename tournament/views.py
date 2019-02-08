@@ -45,7 +45,7 @@ class PlayerView(View):
         # "Mars 1" "Ceres 2" "Io 4"
         preference = [bool(player.preference&1), bool(player.preference&2), bool(player.preference&4)]
 
-        return render(request, "playerdetail.html",{
+        return render(request, "playerdetail.html", {
             "player": player, "score": score, "award": awards[1], "availability": zip(availability, date),
             "loc": preference,
             })

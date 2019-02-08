@@ -32,7 +32,7 @@
             {% for match in matches %}
                 <div class="match" id="{{ match.id }}">
                     <div class="match-title">
-                        <span class="match-num">Round {{ forloop.counter }}:</span><br/>
+                        <span class="match-num">Round {{ match.round }}:</span><br/>
                         <span class="location">{{ match.get_location_display }}</span>
                     </div>
                     <hr>

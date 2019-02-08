@@ -28,7 +28,7 @@
                 <span class="match-info">Day {{match.day}}, {{match.get_location_display}}</span><br />
                 {% for p in match.get_players %}
                 <span class="team{{p.team.id}}">■</span>
-                <span class="{% if match.winner == p %}winner{% endif %}">{{p.name}}{% if not forloop.last %},{% endif %}</span>
+                <span class="{% if match.result.winner == p %}winner{% endif %}">{{p.name}}{% if not forloop.last %},{% endif %}</span>
                 {% endfor %}
             </li>
         </ul>

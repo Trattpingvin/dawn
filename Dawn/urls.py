@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', include('tournament.urls')),
-    path('admin/', admin.site.urls),
-    path('accounts/login/', auth_views.LoginView.as_view())
+    path('martian-enterprise/admin/', admin.site.urls),
+    path('martian-enterprise/accounts/login/', auth_views.LoginView.as_view())
 ]
 
